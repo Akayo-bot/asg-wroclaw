@@ -1,13 +1,20 @@
 import { useState } from 'react';
-import { Menu, X, Target } from 'lucide-react';
+import { Menu, X, Target, User, LogOut } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useTranslation } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { AuthModal } from '@/components/auth/AuthModal';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const location = useLocation();
   const t = useTranslation();
+  const { user, profile, signOut } = useAuth();
 
   const navItems = [
     { label: t.nav.games, path: '/games' },
@@ -16,6 +23,10 @@ const Header = () => {
     { label: t.nav.articles, path: '/articles' },
     { label: t.nav.contacts, path: '/contacts' },
   ];
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   const isActive = (path: string) => {
     if (path === '/' && location.pathname === '/') return true;
@@ -55,6 +66,54 @@ const Header = () => {
               </Link>
             ))}
             <LanguageSwitcher />
+            
+            {/* Auth Section */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={profile?.avatar_url || ''} alt={profile?.display_name || ''} />
+                      <AvatarFallback>
+                        {profile?.display_name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex flex-col space-y-1 leading-none">
+                      <p className="font-medium">{profile?.display_name || user.email}</p>
+                      <p className="w-[200px] truncate text-sm text-muted-foreground">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="flex items-center">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>{t.profile.title}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/games" className="flex items-center">
+                      <Target className="mr-2 h-4 w-4" />
+                      <span>{t.nav.games}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>{t.auth.logout}</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button onClick={() => setIsAuthModalOpen(true)} size="sm">
+                {t.auth.login}
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -82,13 +141,48 @@ const Header = () => {
                   {item.label.toUpperCase()}
                 </Link>
               ))}
-              <div className="pt-2 border-t border-glass-border">
+              <div className="pt-2 border-t border-glass-border space-y-2">
                 <LanguageSwitcher />
+                {user ? (
+                  <div className="flex flex-col space-y-2">
+                    <Link 
+                      to="/profile" 
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
+                    >
+                      <User className="h-4 w-4" />
+                      {t.profile.title}
+                    </Link>
+                    <button 
+                      onClick={() => {
+                        handleSignOut();
+                        setIsMenuOpen(false);
+                      }}
+                      className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      {t.auth.logout}
+                    </button>
+                  </div>
+                ) : (
+                  <Button 
+                    onClick={() => {
+                      setIsAuthModalOpen(true);
+                      setIsMenuOpen(false);
+                    }} 
+                    size="sm"
+                    className="w-full"
+                  >
+                    {t.auth.login}
+                  </Button>
+                )}
               </div>
             </div>
           </div>
         )}
       </div>
+      
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </header>
   );
 };

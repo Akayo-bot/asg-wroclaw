@@ -31,7 +31,8 @@ export const translations: Record<Language, Translations> = {
       delete: 'Видалити',
       view: 'Переглянути',
       share: 'Поділитися',
-      download: 'Завантажити'
+      download: 'Завантажити',
+      success: 'Успіх'
     },
     hero: {
       title: 'RAVEN STRIKE FORCE',
@@ -122,6 +123,69 @@ export const translations: Record<Language, Translations> = {
         success: 'Підписка оформлена успішно!',
         error: 'Помилка оформлення підписки'
       }
+    },
+    auth: {
+      login: 'Увійти',
+      register: 'Реєстрація',
+      logout: 'Вийти',
+      email: 'Email',
+      password: 'Пароль',
+      confirmPassword: 'Підтвердити пароль',
+      displayName: 'Ім\'я для відображення',
+      resetPassword: 'Відновити пароль',
+      forgotPassword: 'Забули пароль?',
+      googleLogin: 'Увійти через Google',
+      or: 'або',
+      loginSuccess: 'Успішний вхід!',
+      registerSuccess: 'Реєстрація успішна! Перевірте email для підтвердження.',
+      resetPasswordSuccess: 'Лист для відновлення надіслано!',
+      emailPlaceholder: 'Введіть ваш email',
+      passwordPlaceholder: 'Введіть пароль',
+      displayNamePlaceholder: 'Ваше ім\'я',
+      confirmPasswordPlaceholder: 'Підтвердіть пароль',
+      passwordMismatch: 'Паролі не співпадають',
+      error: 'Помилка автентифікації',
+      success: 'Успіх'
+    },
+    profile: {
+      title: 'Профіль',
+      notLoggedIn: 'Ви не увійшли в систему',
+      settings: 'Налаштування',
+      displayName: 'Ім\'я для відображення',
+      bio: 'Про себе',
+      language: 'Мова',
+      notifications: 'Сповіщення',
+      updateProfile: 'Оновити профіль',
+      updateSuccess: 'Профіль оновлено успішно!',
+      updateError: 'Помилка оновлення профілю',
+      memberSince: 'Учасник з',
+      favoriteItems: 'Улюблене',
+      testResults: 'Результати тестів',
+      gameHistory: 'Історія ігор',
+      noFavorites: 'У вас немає улюблених елементів',
+      noTestResults: 'У вас немає результатів тестів',
+      noGameHistory: 'У вас немає історії участі в іграх',
+      displayNamePlaceholder: 'Введіть ваше ім\'я',
+      bioPlaceholder: 'Розкажіть про себе...',
+      notificationsDescription: 'Отримувати сповіщення про нові ігри та події',
+      score: 'Бали',
+      tabs: {
+        info: 'Інформація',
+        favorites: 'Улюблене',
+        tests: 'Тести',
+        games: 'Ігри'
+      },
+      roles: {
+        admin: 'Адміністратор',
+        editor: 'Редактор',
+        user: 'Користувач'
+      },
+      statuses: {
+        pending: 'Очікує',
+        approved: 'Схвалено',
+        rejected: 'Відхилено',
+        cancelled: 'Скасовано'
+      }
     }
   },
   ru: {
@@ -154,7 +218,8 @@ export const translations: Record<Language, Translations> = {
       delete: 'Удалить',
       view: 'Просмотреть',
       share: 'Поделиться',
-      download: 'Скачать'
+      download: 'Скачать',
+      success: 'Успех'
     },
     hero: {
       title: 'RAVEN STRIKE FORCE',
@@ -245,6 +310,69 @@ export const translations: Record<Language, Translations> = {
         success: 'Подписка оформлена успешно!',
         error: 'Ошибка оформления подписки'
       }
+    },
+    auth: {
+      login: 'Войти',
+      register: 'Регистрация',
+      logout: 'Выйти',
+      email: 'Email',
+      password: 'Пароль',
+      confirmPassword: 'Подтвердить пароль',
+      displayName: 'Имя для отображения',
+      resetPassword: 'Восстановить пароль',
+      forgotPassword: 'Забыли пароль?',
+      googleLogin: 'Войти через Google',
+      or: 'или',
+      loginSuccess: 'Успешный вход!',
+      registerSuccess: 'Регистрация успешна! Проверьте email для подтверждения.',
+      resetPasswordSuccess: 'Письмо для восстановления отправлено!',
+      emailPlaceholder: 'Введите ваш email',
+      passwordPlaceholder: 'Введите пароль',
+      displayNamePlaceholder: 'Ваше имя',
+      confirmPasswordPlaceholder: 'Подтвердите пароль',
+      passwordMismatch: 'Пароли не совпадают',
+      error: 'Ошибка аутентификации',
+      success: 'Успех'
+    },
+    profile: {
+      title: 'Профиль',
+      notLoggedIn: 'Вы не вошли в систему',
+      settings: 'Настройки',
+      displayName: 'Имя для отображения',
+      bio: 'О себе',
+      language: 'Язык',
+      notifications: 'Уведомления',
+      updateProfile: 'Обновить профиль',
+      updateSuccess: 'Профиль обновлен успешно!',
+      updateError: 'Ошибка обновления профиля',
+      memberSince: 'Участник с',
+      favoriteItems: 'Избранное',
+      testResults: 'Результаты тестов',
+      gameHistory: 'История игр',
+      noFavorites: 'У вас нет избранных элементов',
+      noTestResults: 'У вас нет результатов тестов',
+      noGameHistory: 'У вас нет истории участия в играх',
+      displayNamePlaceholder: 'Введите ваше имя',
+      bioPlaceholder: 'Расскажите о себе...',
+      notificationsDescription: 'Получать уведомления о новых играх и событиях',
+      score: 'Баллы',
+      tabs: {
+        info: 'Информация',
+        favorites: 'Избранное',
+        tests: 'Тесты',
+        games: 'Игры'
+      },
+      roles: {
+        admin: 'Администратор',
+        editor: 'Редактор',
+        user: 'Пользователь'
+      },
+      statuses: {
+        pending: 'Ожидает',
+        approved: 'Одобрено',
+        rejected: 'Отклонено',
+        cancelled: 'Отменено'
+      }
     }
   },
   pl: {
@@ -277,7 +405,8 @@ export const translations: Record<Language, Translations> = {
       delete: 'Usuń',
       view: 'Zobacz',
       share: 'Udostępnij',
-      download: 'Pobierz'
+      download: 'Pobierz',
+      success: 'Sukces'
     },
     hero: {
       title: 'RAVEN STRIKE FORCE',
@@ -367,6 +496,69 @@ export const translations: Record<Language, Translations> = {
         submit: 'Subskrybuj',
         success: 'Subskrypcja została pomyślnie utworzona!',
         error: 'Błąd tworzenia subskrypcji'
+      }
+    },
+    auth: {
+      login: 'Zaloguj',
+      register: 'Rejestracja',
+      logout: 'Wyloguj',
+      email: 'Email',
+      password: 'Hasło',
+      confirmPassword: 'Potwierdź hasło',
+      displayName: 'Nazwa wyświetlana',
+      resetPassword: 'Resetuj hasło',
+      forgotPassword: 'Zapomniałeś hasła?',
+      googleLogin: 'Zaloguj przez Google',
+      or: 'lub',
+      loginSuccess: 'Pomyślne logowanie!',
+      registerSuccess: 'Rejestracja pomyślna! Sprawdź email w celu potwierdzenia.',
+      resetPasswordSuccess: 'Email resetujący został wysłany!',
+      emailPlaceholder: 'Wprowadź swój email',
+      passwordPlaceholder: 'Wprowadź hasło',
+      displayNamePlaceholder: 'Twoje imię',
+      confirmPasswordPlaceholder: 'Potwierdź hasło',
+      passwordMismatch: 'Hasła nie pasują do siebie',
+      error: 'Błąd uwierzytelnienia',
+      success: 'Sukces'
+    },
+    profile: {
+      title: 'Profil',
+      notLoggedIn: 'Nie jesteś zalogowany',
+      settings: 'Ustawienia',
+      displayName: 'Nazwa wyświetlana',
+      bio: 'O mnie',
+      language: 'Język',
+      notifications: 'Powiadomienia',
+      updateProfile: 'Aktualizuj profil',
+      updateSuccess: 'Profil zaktualizowany pomyślnie!',
+      updateError: 'Błąd aktualizacji profilu',
+      memberSince: 'Członek od',
+      favoriteItems: 'Ulubione',
+      testResults: 'Wyniki testów',
+      gameHistory: 'Historia gier',
+      noFavorites: 'Nie masz ulubionych elementów',
+      noTestResults: 'Nie masz wyników testów',
+      noGameHistory: 'Nie masz historii uczestnictwa w grach',
+      displayNamePlaceholder: 'Wprowadź swoje imię',
+      bioPlaceholder: 'Opowiedz o sobie...',
+      notificationsDescription: 'Otrzymuj powiadomienia o nowych grach i wydarzeniach',
+      score: 'Punkty',
+      tabs: {
+        info: 'Informacje',
+        favorites: 'Ulubione',
+        tests: 'Testy',
+        games: 'Gry'
+      },
+      roles: {
+        admin: 'Administrator',
+        editor: 'Redaktor',
+        user: 'Użytkownik'
+      },
+      statuses: {
+        pending: 'Oczekuje',
+        approved: 'Zatwierdzono',
+        rejected: 'Odrzucono',
+        cancelled: 'Anulowano'
       }
     }
   }

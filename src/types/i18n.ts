@@ -42,6 +42,7 @@ export interface Translations {
     view: string;
     share: string;
     download: string;
+    success: string;
   };
   hero: {
     title: string;
@@ -51,6 +52,69 @@ export interface Translations {
       players: string;
       gamesPerYear: string;
       yearsExperience: string;
+    };
+  };
+  auth: {
+    login: string;
+    register: string;
+    logout: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    displayName: string;
+    resetPassword: string;
+    forgotPassword: string;
+    googleLogin: string;
+    or: string;
+    loginSuccess: string;
+    registerSuccess: string;
+    resetPasswordSuccess: string;
+    emailPlaceholder: string;
+    passwordPlaceholder: string;
+    displayNamePlaceholder: string;
+    confirmPasswordPlaceholder: string;
+    passwordMismatch: string;
+    error: string;
+    success: string;
+  };
+  profile: {
+    title: string;
+    notLoggedIn: string;
+    settings: string;
+    displayName: string;
+    bio: string;
+    language: string;
+    notifications: string;
+    updateProfile: string;
+    updateSuccess: string;
+    updateError: string;
+    memberSince: string;
+    favoriteItems: string;
+    testResults: string;
+    gameHistory: string;
+    noFavorites: string;
+    noTestResults: string;
+    noGameHistory: string;
+    displayNamePlaceholder: string;
+    bioPlaceholder: string;
+    notificationsDescription: string;
+    score: string;
+    tabs: {
+      info: string;
+      favorites: string;
+      tests: string;
+      games: string;
+    };
+    roles: {
+      admin: string;
+      editor: string;
+      user: string;
+    };
+    statuses: {
+      pending: string;
+      approved: string;
+      rejected: string;
+      cancelled: string;
     };
   };
   pages: {
