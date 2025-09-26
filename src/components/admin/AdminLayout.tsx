@@ -48,7 +48,7 @@ const AdminLayout = () => {
   // Redirect unauthenticated users to auth page with return URL
   if (!user || !profile) {
     const returnUrl = encodeURIComponent(location.pathname + location.search);
-    return <Navigate to={`/auth?returnUrl=${returnUrl}`} replace />;
+    return <Navigate to={`/login?returnUrl=${returnUrl}`} replace />;
   }
 
   // Redirect users without proper role to home with message

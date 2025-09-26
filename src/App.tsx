@@ -49,6 +49,7 @@ const App = () => (
                   </ProtectedRoute>
                 } 
               />
+              <Route path="/login" element={<AuthPage />} />
               <Route path="/auth" element={<AuthPage />} />
               <Route path="/debug/auth" element={<DebugAuthPage />} />
               <Route 

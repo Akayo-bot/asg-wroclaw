@@ -47,38 +47,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Sync user profile after login/signup
-          if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          // Defer Supabase calls to avoid deadlocks
+          setTimeout(async () => {
             try {
-              await supabase.rpc('sync_user_profile', {
-                _user_id: session.user.id,
-                _email: session.user.email || '',
-                _display_name: session.user.user_metadata?.display_name || session.user.user_metadata?.full_name,
-                _avatar_url: session.user.user_metadata?.avatar_url
-              });
+              if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+                await supabase.rpc('sync_user_profile', {
+                  _user_id: session.user.id,
+                  _email: session.user.email || '',
+                  _display_name: session.user.user_metadata?.display_name || session.user.user_metadata?.full_name,
+                  _avatar_url: session.user.user_metadata?.avatar_url
+                });
+              }
+              const { data: profileData } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('user_id', session.user.id)
+                .maybeSingle();
+              setProfile(profileData ?? null);
             } catch (error) {
-              console.error('Error syncing user profile:', error);
+              console.error('Auth state profile sync error:', error);
+              setProfile(null);
+            } finally {
+              setLoading(false);
             }
-          }
-          
-          // Fetch user profile
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('user_id', session.user.id)
-            .single();
-          
-          setProfile(profileData);
+          }, 0);
         } else {
           setProfile(null);
+          setLoading(false);
         }
-        
-        setLoading(false);
       }
     );
 

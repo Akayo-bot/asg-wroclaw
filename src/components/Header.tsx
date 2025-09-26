@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { Menu, X, Target, User, LogOut } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useTranslation } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { AuthModal } from '@/components/auth/AuthModal';
+
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const t = useTranslation();
   const { user, profile, signOut } = useAuth();
 
@@ -26,6 +26,7 @@ const Header = () => {
 
   const handleSignOut = async () => {
     await signOut();
+    navigate('/');
   };
 
   const isActive = (path: string) => {
@@ -118,8 +119,8 @@ const Header = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button onClick={() => setIsAuthModalOpen(true)} size="sm">
-                {t.auth.login}
+              <Button asChild size="sm">
+                <Link to="/login">{t.auth.login}</Link>
               </Button>
             )}
           </div>
@@ -184,14 +185,11 @@ const Header = () => {
                   </div>
                 ) : (
                   <Button 
-                    onClick={() => {
-                      setIsAuthModalOpen(true);
-                      setIsMenuOpen(false);
-                    }} 
+                    asChild 
                     size="sm"
                     className="w-full"
                   >
-                    {t.auth.login}
+                    <Link to="/login">{t.auth.login}</Link>
                   </Button>
                 )}
               </div>
@@ -200,7 +198,6 @@ const Header = () => {
         )}
       </div>
       
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </header>
   );
 };

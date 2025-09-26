@@ -25,7 +25,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   if (requireAuth && !user) {
-    return <Navigate to="/auth" replace state={{ returnUrl: location.pathname }} />;
+    const returnUrl = encodeURIComponent(location.pathname + location.search);
+    return <Navigate to={`/login?returnUrl=${returnUrl}`} replace />;
   }
 
   if (allowedRoles && profile && !allowedRoles.includes(profile.role)) {

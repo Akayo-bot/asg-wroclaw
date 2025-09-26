@@ -206,7 +206,7 @@ const DebugAuthPage = () => {
               <Link to="/admin">Admin Panel</Link>
             </Button>
             <Button asChild variant="outline">
-              <Link to="/auth">Auth Page</Link>
+              <Link to="/login">Auth Page</Link>
             </Button>
           </CardContent>
         </Card>
