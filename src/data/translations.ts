@@ -813,8 +813,17 @@ export const translations: Record<Language, Translations> = {
         pending: 'Oczekuje',
         approved: 'Zatwierdzono',
         rejected: 'Odrzucono',
-        cancelled: 'Anulowano'
+        cancelled: 'Anulowany'
       }
+    },
+    errors: {
+      unauthorized: 'Nieautoryzowany dostęp',
+      serverError: 'Błąd serwera',
+      insufficientPermissions: 'Niewystarczające uprawnienia',
+      adminAccessRequired: 'Wymagany dostęp administratora lub redaktora',
+      passwordMismatch: 'Hasła nie pasują',
+      passwordTooShort: 'Hasło jest za krótkie',
+      passwordChangeError: 'Błąd zmiany hasła',
     }
   }
 };
