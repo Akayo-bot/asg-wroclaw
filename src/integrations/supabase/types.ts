@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      articles: {
+        Row: {
+          author_id: string
+          category: Database["public"]["Enums"]["article_category"]
+          content_pl: string
+          content_ru: string
+          content_uk: string
+          created_at: string
+          id: string
+          main_image_url: string | null
+          preview_pl: string
+          preview_ru: string
+          preview_uk: string
+          status: Database["public"]["Enums"]["article_status"]
+          title_pl: string
+          title_ru: string
+          title_uk: string
+          updated_at: string
+          views_count: number
+        }
+        Insert: {
+          author_id: string
+          category: Database["public"]["Enums"]["article_category"]
+          content_pl: string
+          content_ru: string
+          content_uk: string
+          created_at?: string
+          id?: string
+          main_image_url?: string | null
+          preview_pl: string
+          preview_ru: string
+          preview_uk: string
+          status?: Database["public"]["Enums"]["article_status"]
+          title_pl: string
+          title_ru: string
+          title_uk: string
+          updated_at?: string
+          views_count?: number
+        }
+        Update: {
+          author_id?: string
+          category?: Database["public"]["Enums"]["article_category"]
+          content_pl?: string
+          content_ru?: string
+          content_uk?: string
+          created_at?: string
+          id?: string
+          main_image_url?: string | null
+          preview_pl?: string
+          preview_ru?: string
+          preview_uk?: string
+          status?: Database["public"]["Enums"]["article_status"]
+          title_pl?: string
+          title_ru?: string
+          title_uk?: string
+          updated_at?: string
+          views_count?: number
+        }
+        Relationships: []
+      }
       event_registrations: {
         Row: {
           created_at: string
@@ -41,6 +101,138 @@ export type Database = {
           status?: Database["public"]["Enums"]["registration_status"] | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          created_at: string
+          created_by: string
+          description_pl: string
+          description_ru: string
+          description_uk: string
+          event_date: string
+          id: string
+          location_pl: string
+          location_ru: string
+          location_uk: string
+          main_image_url: string | null
+          max_participants: number | null
+          price: number | null
+          registration_deadline: string | null
+          rules_pl: string | null
+          rules_ru: string | null
+          rules_uk: string | null
+          scenario_pl: string | null
+          scenario_ru: string | null
+          scenario_uk: string | null
+          status: Database["public"]["Enums"]["event_status"]
+          title_pl: string
+          title_ru: string
+          title_uk: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description_pl: string
+          description_ru: string
+          description_uk: string
+          event_date: string
+          id?: string
+          location_pl: string
+          location_ru: string
+          location_uk: string
+          main_image_url?: string | null
+          max_participants?: number | null
+          price?: number | null
+          registration_deadline?: string | null
+          rules_pl?: string | null
+          rules_ru?: string | null
+          rules_uk?: string | null
+          scenario_pl?: string | null
+          scenario_ru?: string | null
+          scenario_uk?: string | null
+          status?: Database["public"]["Enums"]["event_status"]
+          title_pl: string
+          title_ru: string
+          title_uk: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description_pl?: string
+          description_ru?: string
+          description_uk?: string
+          event_date?: string
+          id?: string
+          location_pl?: string
+          location_ru?: string
+          location_uk?: string
+          main_image_url?: string | null
+          max_participants?: number | null
+          price?: number | null
+          registration_deadline?: string | null
+          rules_pl?: string | null
+          rules_ru?: string | null
+          rules_uk?: string | null
+          scenario_pl?: string | null
+          scenario_ru?: string | null
+          scenario_uk?: string | null
+          status?: Database["public"]["Enums"]["event_status"]
+          title_pl?: string
+          title_ru?: string
+          title_uk?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      gallery_items: {
+        Row: {
+          created_at: string
+          description_pl: string | null
+          description_ru: string | null
+          description_uk: string | null
+          file_type: string
+          file_url: string
+          id: string
+          thumbnail_url: string | null
+          title_pl: string | null
+          title_ru: string | null
+          title_uk: string | null
+          updated_at: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          description_pl?: string | null
+          description_ru?: string | null
+          description_uk?: string | null
+          file_type: string
+          file_url: string
+          id?: string
+          thumbnail_url?: string | null
+          title_pl?: string | null
+          title_ru?: string | null
+          title_uk?: string | null
+          updated_at?: string
+          uploaded_by: string
+        }
+        Update: {
+          created_at?: string
+          description_pl?: string | null
+          description_ru?: string | null
+          description_uk?: string | null
+          file_type?: string
+          file_url?: string
+          id?: string
+          thumbnail_url?: string | null
+          title_pl?: string | null
+          title_ru?: string | null
+          title_uk?: string | null
+          updated_at?: string
+          uploaded_by?: string
         }
         Relationships: []
       }
@@ -80,6 +272,60 @@ export type Database = {
           role?: Database["public"]["Enums"]["user_role"] | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          bio_pl: string | null
+          bio_ru: string | null
+          bio_uk: string | null
+          callsign: string
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          photo_url: string | null
+          real_name: string | null
+          role_pl: string
+          role_ru: string
+          role_uk: string
+          social_links: Json | null
+          updated_at: string
+        }
+        Insert: {
+          bio_pl?: string | null
+          bio_ru?: string | null
+          bio_uk?: string | null
+          callsign: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          photo_url?: string | null
+          real_name?: string | null
+          role_pl: string
+          role_ru: string
+          role_uk: string
+          social_links?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          bio_pl?: string | null
+          bio_ru?: string | null
+          bio_uk?: string | null
+          callsign?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          photo_url?: string | null
+          real_name?: string | null
+          role_pl?: string
+          role_ru?: string
+          role_uk?: string
+          social_links?: Json | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -139,13 +385,30 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_admin_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       get_current_user_role: {
         Args: Record<PropertyKey, never>
         Returns: Database["public"]["Enums"]["user_role"]
       }
     }
     Enums: {
+      article_category:
+        | "tactics"
+        | "equipment"
+        | "news"
+        | "game_reports"
+        | "rules"
+      article_status: "draft" | "published"
       entity_type: "article" | "event" | "media" | "test"
+      event_status:
+        | "upcoming"
+        | "registration_open"
+        | "registration_closed"
+        | "completed"
+        | "cancelled"
       registration_status: "pending" | "approved" | "rejected" | "cancelled"
       user_role: "admin" | "editor" | "user"
     }
@@ -275,7 +538,22 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      article_category: [
+        "tactics",
+        "equipment",
+        "news",
+        "game_reports",
+        "rules",
+      ],
+      article_status: ["draft", "published"],
       entity_type: ["article", "event", "media", "test"],
+      event_status: [
+        "upcoming",
+        "registration_open",
+        "registration_closed",
+        "completed",
+        "cancelled",
+      ],
       registration_status: ["pending", "approved", "rejected", "cancelled"],
       user_role: ["admin", "editor", "user"],
     },
