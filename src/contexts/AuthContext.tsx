@@ -52,6 +52,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         
         if (session?.user) {
+          // Sync user profile after login/signup
+          if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+            try {
+              await supabase.rpc('sync_user_profile', {
+                _user_id: session.user.id,
+                _email: session.user.email || '',
+                _display_name: session.user.user_metadata?.display_name || session.user.user_metadata?.full_name,
+                _avatar_url: session.user.user_metadata?.avatar_url
+              });
+            } catch (error) {
+              console.error('Error syncing user profile:', error);
+            }
+          }
+          
           // Fetch user profile
           const { data: profileData } = await supabase
             .from('profiles')
@@ -69,11 +83,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
 
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       
       if (session?.user) {
+        // Sync user profile on initial load
+        try {
+          await supabase.rpc('sync_user_profile', {
+            _user_id: session.user.id,
+            _email: session.user.email || '',
+            _display_name: session.user.user_metadata?.display_name || session.user.user_metadata?.full_name,
+            _avatar_url: session.user.user_metadata?.avatar_url
+          });
+        } catch (error) {
+          console.error('Error syncing user profile:', error);
+        }
+        
         // Fetch user profile
         supabase
           .from('profiles')

@@ -400,6 +400,15 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Database["public"]["Enums"]["user_role"]
       }
+      sync_user_profile: {
+        Args: {
+          _avatar_url?: string
+          _display_name?: string
+          _email: string
+          _user_id: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       article_category:
