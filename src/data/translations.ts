@@ -128,6 +128,8 @@ export const translations: Record<Language, Translations> = {
       login: 'Увійти',
       register: 'Реєстрація',
       logout: 'Вийти',
+      pleaseLogin: 'Будь ласка, увійдіть до системи',
+      loginDescription: 'Увійдіть до свого облікового запису для доступу до панелі адміністрування',
       email: 'Email',
       password: 'Пароль',
       confirmPassword: 'Підтвердити пароль',
@@ -239,8 +241,15 @@ export const translations: Record<Language, Translations> = {
       bioPlaceholder: 'Розкажіть про себе...',
       notificationsDescription: 'Отримувати сповіщення про нові ігри та події',
       score: 'Бали',
+      security: 'Безпека',
+      changePassword: 'Змінити пароль',
+      newPassword: 'Новий пароль',
+      confirmPassword: 'Підтвердити пароль',
+      changePasswordDescription: 'Оновіть пароль свого облікового запису',
+      passwordChanged: 'Пароль змінено',
       tabs: {
         info: 'Інформація',
+        security: 'Безпека',
         favorites: 'Улюблене',
         tests: 'Тести',
         games: 'Ігри'
@@ -256,6 +265,15 @@ export const translations: Record<Language, Translations> = {
         rejected: 'Відхилено',
         cancelled: 'Скасовано'
       }
+    },
+    errors: {
+      unauthorized: 'Несанкціонований доступ',
+      serverError: 'Помилка сервера',
+      insufficientPermissions: 'Недостатньо прав',
+      adminAccessRequired: 'Потрібен доступ адміністратора або редактора',
+      passwordMismatch: 'Паролі не співпадають',
+      passwordTooShort: 'Пароль занадто короткий',
+      passwordChangeError: 'Помилка зміни пароля',
     }
   },
   ru: {
@@ -385,6 +403,8 @@ export const translations: Record<Language, Translations> = {
       login: 'Войти',
       register: 'Регистрация',
       logout: 'Выйти',
+      pleaseLogin: 'Пожалуйста, войдите в систему',
+      loginDescription: 'Войдите в свой аккаунт для доступа к панели администрирования',
       email: 'Email',
       password: 'Пароль',
       confirmPassword: 'Подтвердить пароль',
@@ -496,8 +516,15 @@ export const translations: Record<Language, Translations> = {
       bioPlaceholder: 'Расскажите о себе...',
       notificationsDescription: 'Получать уведомления о новых играх и событиях',
       score: 'Баллы',
+      security: 'Безопасность',
+      changePassword: 'Изменить пароль',
+      newPassword: 'Новый пароль',
+      confirmPassword: 'Подтвердить пароль',
+      changePasswordDescription: 'Обновите пароль своего аккаунта',
+      passwordChanged: 'Пароль изменен',
       tabs: {
         info: 'Информация',
+        security: 'Безопасность',
         favorites: 'Избранное',
         tests: 'Тесты',
         games: 'Игры'
@@ -513,6 +540,15 @@ export const translations: Record<Language, Translations> = {
         rejected: 'Отклонено',
         cancelled: 'Отменено'
       }
+    },
+    errors: {
+      unauthorized: 'Неавторизованный доступ',
+      serverError: 'Ошибка сервера',
+      insufficientPermissions: 'Недостаточно прав',
+      adminAccessRequired: 'Требуется доступ администратора или редактора',
+      passwordMismatch: 'Пароли не совпадают',
+      passwordTooShort: 'Пароль слишком короткий',
+      passwordChangeError: 'Ошибка изменения пароля',
     }
   },
   pl: {
@@ -642,6 +678,8 @@ export const translations: Record<Language, Translations> = {
       login: 'Zaloguj',
       register: 'Rejestracja',
       logout: 'Wyloguj',
+      pleaseLogin: 'Proszę zaloguj się do systemu',
+      loginDescription: 'Zaloguj się do swojego konta, aby uzyskać dostęp do panelu administracyjnego',
       email: 'Email',
       password: 'Hasło',
       confirmPassword: 'Potwierdź hasło',
@@ -753,8 +791,15 @@ export const translations: Record<Language, Translations> = {
       bioPlaceholder: 'Opowiedz o sobie...',
       notificationsDescription: 'Otrzymuj powiadomienia o nowych grach i wydarzeniach',
       score: 'Punkty',
+      security: 'Bezpieczeństwo',
+      changePassword: 'Zmień hasło',
+      newPassword: 'Nowe hasło',
+      confirmPassword: 'Potwierdź hasło',
+      changePasswordDescription: 'Zaktualizuj hasło swojego konta',
+      passwordChanged: 'Hasło zmienione',
       tabs: {
         info: 'Informacje',
+        security: 'Bezpieczeństwo',
         favorites: 'Ulubione',
         tests: 'Testy',
         games: 'Gry'

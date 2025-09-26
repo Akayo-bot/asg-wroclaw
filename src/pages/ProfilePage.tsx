@@ -13,6 +13,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTranslation, useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import PasswordChangeForm from '@/components/auth/PasswordChangeForm';
 import { User, Settings, Heart, Trophy, Calendar, Bell } from 'lucide-react';
 import { languages } from '@/data/translations';
 
@@ -161,10 +162,14 @@ export default function ProfilePage() {
         </Card>
 
         <Tabs defaultValue="info" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="info" className="flex items-center gap-2">
               <User className="h-4 w-4" />
               {t.profile.tabs.info}
+            </TabsTrigger>
+            <TabsTrigger value="security" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              {t.profile.tabs.security}
             </TabsTrigger>
             <TabsTrigger value="favorites" className="flex items-center gap-2">
               <Heart className="h-4 w-4" />
@@ -254,6 +259,10 @@ export default function ProfilePage() {
             </Card>
           </TabsContent>
 
+          <TabsContent value="security" className="space-y-4">
+            <PasswordChangeForm />
+          </TabsContent>
+
           <TabsContent value="favorites" className="space-y-4">
             <Card>
               <CardHeader>
@@ -322,7 +331,7 @@ export default function ProfilePage() {
                       <div key={registration.id} className="flex items-center justify-between p-3 border rounded-lg">
                         <div>
                           <p className="font-medium">{registration.event_id}</p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-muted-foregroup">
                             {new Date(registration.created_at).toLocaleDateString()}
                           </p>
                         </div>

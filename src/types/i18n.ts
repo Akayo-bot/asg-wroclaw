@@ -128,6 +128,8 @@ export interface Translations {
     login: string;
     register: string;
     logout: string;
+    pleaseLogin: string;
+    loginDescription: string;
     email: string;
     password: string;
     confirmPassword: string;
@@ -169,8 +171,15 @@ export interface Translations {
     bioPlaceholder: string;
     notificationsDescription: string;
     score: string;
+    security: string;
+    changePassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    changePasswordDescription: string;
+    passwordChanged: string;
     tabs: {
       info: string;
+      security: string;
       favorites: string;
       tests: string;
       games: string;
@@ -266,5 +275,14 @@ export interface Translations {
       success: string;
       error: string;
     };
+  };
+  errors: {
+    unauthorized: string;
+    serverError: string;
+    insufficientPermissions: string;
+    adminAccessRequired: string;
+    passwordMismatch: string;
+    passwordTooShort: string;
+    passwordChangeError: string;
   };
 }

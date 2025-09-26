@@ -15,15 +15,45 @@ import {
   LogOut
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 const AdminLayout = () => {
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, loading } = useAuth();
   const t = useTranslation();
   const location = useLocation();
+  const { toast } = useToast();
 
-  // Check if user has admin or editor role
-  if (!user || !profile || (profile.role !== 'admin' && profile.role !== 'editor')) {
-    return <Navigate to="/auth" replace />;
+  useEffect(() => {
+    // Show insufficient permissions message
+    if (!loading && user && profile && profile.role !== 'admin' && profile.role !== 'editor') {
+      toast({
+        title: t.errors.insufficientPermissions || 'Insufficient Permissions',
+        description: t.errors.adminAccessRequired || 'Admin or Editor access required',
+        variant: 'destructive'
+      });
+    }
+  }, [loading, user, profile, toast, t]);
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  // Redirect unauthenticated users to auth page with return URL
+  if (!user || !profile) {
+    const returnUrl = encodeURIComponent(location.pathname + location.search);
+    return <Navigate to={`/auth?returnUrl=${returnUrl}`} replace />;
+  }
+
+  // Redirect users without proper role to home with message
+  if (profile.role !== 'admin' && profile.role !== 'editor') {
+    return <Navigate to="/" replace />;
   }
 
   const menuItems = [

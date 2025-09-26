@@ -385,6 +385,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      change_user_role: {
+        Args: {
+          new_role: Database["public"]["Enums"]["user_role"]
+          target_email: string
+        }
+        Returns: Json
+      }
       get_admin_stats: {
         Args: Record<PropertyKey, never>
         Returns: Json
