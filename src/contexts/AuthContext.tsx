@@ -8,7 +8,7 @@ interface Profile {
   display_name: string | null;
   avatar_url: string | null;
   preferred_language: string;
-  role: 'admin' | 'editor' | 'user';
+  role: 'superadmin' | 'admin' | 'editor' | 'user';
   bio: string | null;
   notifications_enabled: boolean;
   created_at: string;

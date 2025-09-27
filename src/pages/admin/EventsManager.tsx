@@ -11,10 +11,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Edit, Trash2, Calendar, MapPin, Users, DollarSign, Search } from 'lucide-react';
+import { Plus, Edit, Trash2, Calendar, MapPin, Users, Coins, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Tables } from '@/integrations/supabase/types';
 import { formatCurrency, formatPlayerLimits } from '@/lib/formatters';
+import EventModal from '@/components/admin/EventModal';
 
 type Event = Tables<'events'>;
 
@@ -39,12 +40,10 @@ interface EventForm {
   scenario_ru: string;
   scenario_pl: string;
   scenario_en: string;
-  event_date: string;
   start_datetime: string;
   registration_deadline: string;
   price_amount: string;
   price_currency: string;
-  max_participants: string;
   min_players: string;
   max_players: string;
   limit_mode: string;
@@ -85,12 +84,10 @@ const EventsManager = () => {
     scenario_ru: '',
     scenario_pl: '',
     scenario_en: '',
-    event_date: '',
     start_datetime: '',
     registration_deadline: '',
     price_amount: '',
     price_currency: 'PLN',
-    max_participants: '',
     min_players: '',
     max_players: '',
     limit_mode: 'unlimited',
@@ -159,21 +156,19 @@ const EventsManager = () => {
         scenario_ru: formData.scenario_ru,
         scenario_pl: formData.scenario_pl,
         scenario_en: formData.scenario_en,
-        event_date: new Date(formData.event_date).toISOString(),
-        start_datetime: new Date(formData.start_datetime || formData.event_date).toISOString(),
         registration_deadline: formData.registration_deadline ? new Date(formData.registration_deadline).toISOString() : null,
         price_amount: formData.price_amount ? parseFloat(formData.price_amount) : null,
         price_currency: formData.price_currency,
-        max_participants: formData.max_participants ? parseInt(formData.max_participants) : null,
         min_players: formData.min_players ? parseInt(formData.min_players) : null,
         max_players: formData.max_players ? parseInt(formData.max_players) : null,
         limit_mode: formData.limit_mode,
-        status: formData.status as 'upcoming' | 'registration_open' | 'completed' | 'cancelled',
+        status: formData.status as 'upcoming' | 'registration_open' | 'registration_closed' | 'completed' | 'cancelled',
         status_registration: formData.status_registration as 'open' | 'closed' | 'waitlist',
         created_by: user?.id || '',
         main_image_url: formData.main_image_url || null,
         cover_url: formData.cover_url || null,
         map_url: formData.map_url || null,
+        event_date: new Date(formData.start_datetime).toISOString(),
       };
 
       if (editingEvent) {
@@ -263,12 +258,10 @@ const EventsManager = () => {
       scenario_ru: '',
       scenario_pl: '',
       scenario_en: '',
-      event_date: '',
       start_datetime: '',
       registration_deadline: '',
       price_amount: '',
       price_currency: 'PLN',
-      max_participants: '',
       min_players: '',
       max_players: '',
       limit_mode: 'unlimited',
@@ -305,12 +298,10 @@ const EventsManager = () => {
       scenario_ru: event.scenario_ru || '',
       scenario_pl: event.scenario_pl || '',
       scenario_en: event.scenario_en || '',
-      event_date: event.event_date ? new Date(event.event_date).toISOString().slice(0, 16) : '',
       start_datetime: event.start_datetime ? new Date(event.start_datetime).toISOString().slice(0, 16) : '',
       registration_deadline: event.registration_deadline ? new Date(event.registration_deadline).toISOString().slice(0, 16) : '',
       price_amount: event.price_amount ? event.price_amount.toString() : '',
       price_currency: event.price_currency || 'PLN',
-      max_participants: event.max_participants ? event.max_participants.toString() : '',
       min_players: event.min_players ? event.min_players.toString() : '',
       max_players: event.max_players ? event.max_players.toString() : '',
       limit_mode: event.limit_mode || 'unlimited',
@@ -358,11 +349,16 @@ const EventsManager = () => {
     const statusMap = {
       upcoming: { variant: 'secondary' as const, label: t('events.status.upcoming', 'Upcoming') },
       registration_open: { variant: 'default' as const, label: t('events.status.registration_open', 'Registration Open') },
+      registration_closed: { variant: 'outline' as const, label: t('events.status.registration_closed', 'Registration Closed') },
       completed: { variant: 'outline' as const, label: t('events.status.completed', 'Completed') },
       cancelled: { variant: 'destructive' as const, label: t('events.status.cancelled', 'Cancelled') },
     };
     const statusInfo = statusMap[status as keyof typeof statusMap] || statusMap.upcoming;
     return <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>;
+  };
+
+  const handleModalSubmit = async (data: EventForm) => {
+    await handleSubmit({ preventDefault: () => {} } as React.FormEvent);
   };
 
   if (loading && events.length === 0) {
@@ -377,275 +373,20 @@ const EventsManager = () => {
           <p className="text-muted-foreground">{t('events.description', 'Manage your airsoft events and games')}</p>
         </div>
         
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={() => { resetForm(); setIsDialogOpen(true); }}>
-              <Plus className="h-4 w-4 mr-2" />
-              {t('events.add_event', 'Add Event')}
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>
-                {editingEvent ? t('events.edit_event', 'Edit Event') : t('events.add_event', 'Add Event')}
-              </DialogTitle>
-            </DialogHeader>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="event_date">{t('events.event_date', 'Event Date')}</Label>
-                  <Input
-                    id="event_date"
-                    type="datetime-local"
-                    value={formData.event_date}
-                    onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="start_datetime">{t('events.start_datetime', 'Start Date & Time')}</Label>
-                  <Input
-                    id="start_datetime"
-                    type="datetime-local"
-                    value={formData.start_datetime}
-                    onChange={(e) => setFormData({ ...formData, start_datetime: e.target.value })}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="registration_deadline">{t('events.registration_deadline', 'Registration Deadline')}</Label>
-                  <Input
-                    id="registration_deadline"
-                    type="datetime-local"
-                    value={formData.registration_deadline}
-                    onChange={(e) => setFormData({ ...formData, registration_deadline: e.target.value })}
-                  />
-                </div>
-                
-                <div className="flex gap-2">
-                  <div className="flex-1">
-                    <Label htmlFor="price_amount">{t('events.price', 'Price')}</Label>
-                    <Input
-                      id="price_amount"
-                      type="number"
-                      step="0.01"
-                      value={formData.price_amount}
-                      onChange={(e) => setFormData({ ...formData, price_amount: e.target.value })}
-                      placeholder="100.00"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="price_currency">{t('events.currency', 'Currency')}</Label>
-                    <Select value={formData.price_currency} onValueChange={(value) => setFormData({ ...formData, price_currency: value })}>
-                      <SelectTrigger className="w-24">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="PLN">PLN</SelectItem>
-                        <SelectItem value="USD">USD</SelectItem>
-                        <SelectItem value="EUR">EUR</SelectItem>
-                        <SelectItem value="UAH">UAH</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                
-                <div>
-                  <Label htmlFor="limit_mode">{t('events.limit_mode', 'Player Limits')}</Label>
-                  <Select value={formData.limit_mode} onValueChange={(value) => setFormData({ ...formData, limit_mode: value })}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="unlimited">{t('events.unlimited', 'Unlimited')}</SelectItem>
-                      <SelectItem value="ranged">{t('events.ranged', 'Set Range')}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                {formData.limit_mode === 'ranged' && (
-                  <>
-                    <div>
-                      <Label htmlFor="min_players">{t('events.min_players', 'Min Players')}</Label>
-                      <Input
-                        id="min_players"
-                        type="number"
-                        value={formData.min_players}
-                        onChange={(e) => setFormData({ ...formData, min_players: e.target.value })}
-                        placeholder="8"
-                      />
-                    </div>
-                    
-                    <div>
-                      <Label htmlFor="max_players">{t('events.max_players', 'Max Players')}</Label>
-                      <Input
-                        id="max_players"
-                        type="number"
-                        value={formData.max_players}
-                        onChange={(e) => setFormData({ ...formData, max_players: e.target.value })}
-                        placeholder="40"
-                      />
-                    </div>
-                  </>
-                )}
-                
-                <div>
-                  <Label htmlFor="status">{t('events.status.label', 'Status')}</Label>
-                  <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value })}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="upcoming">{t('events.status.upcoming', 'Upcoming')}</SelectItem>
-                      <SelectItem value="registration_open">{t('events.status.registration_open', 'Registration Open')}</SelectItem>
-                      <SelectItem value="completed">{t('events.status.completed', 'Completed')}</SelectItem>
-                      <SelectItem value="cancelled">{t('events.status.cancelled', 'Cancelled')}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <Label htmlFor="status_registration">{t('events.registration_status', 'Registration Status')}</Label>
-                  <Select value={formData.status_registration} onValueChange={(value) => setFormData({ ...formData, status_registration: value })}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="open">{t('events.registration.open', 'Open')}</SelectItem>
-                      <SelectItem value="closed">{t('events.registration.closed', 'Closed')}</SelectItem>
-                      <SelectItem value="waitlist">{t('events.registration.waitlist', 'Waitlist')}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <Label htmlFor="main_image_url">{t('events.main_image_url', 'Main Image URL')}</Label>
-                  <Input
-                    id="main_image_url"
-                    value={formData.main_image_url}
-                    onChange={(e) => setFormData({ ...formData, main_image_url: e.target.value })}
-                    placeholder="https://example.com/image.jpg"
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="cover_url">{t('events.cover_url', 'Cover Image URL')}</Label>
-                  <Input
-                    id="cover_url"
-                    value={formData.cover_url}
-                    onChange={(e) => setFormData({ ...formData, cover_url: e.target.value })}
-                    placeholder="https://example.com/cover.jpg"
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="map_url">{t('events.map_url', 'Map URL')}</Label>
-                  <Input
-                    id="map_url"
-                    value={formData.map_url}
-                    onChange={(e) => setFormData({ ...formData, map_url: e.target.value })}
-                    placeholder="https://maps.google.com/..."
-                  />
-                </div>
-              </div>
+        <Button onClick={() => { resetForm(); setIsDialogOpen(true); }}>
+          <Plus className="h-4 w-4 mr-2" />
+          {t('events.add_event', 'Add Event')}
+        </Button>
 
-              <Tabs defaultValue="uk" className="space-y-4">
-                <TabsList>
-                  <TabsTrigger value="uk">🇺🇦 Українська</TabsTrigger>
-                  <TabsTrigger value="ru">🇷🇺 Русский</TabsTrigger>
-                  <TabsTrigger value="pl">🇵🇱 Polski</TabsTrigger>
-                  <TabsTrigger value="en">🇺🇸 English</TabsTrigger>
-                </TabsList>
-
-                {['uk', 'ru', 'pl', 'en'].map((lang) => (
-                  <TabsContent key={lang} value={lang} className="space-y-4">
-                    <div>
-                      <Label htmlFor={`title_${lang}`}>{t('events.title_field', 'Title')}</Label>
-                      <Input
-                        id={`title_${lang}`}
-                        value={formData[`title_${lang}` as keyof EventForm]}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          [`title_${lang}`]: e.target.value 
-                        })}
-                        placeholder={t('events.title_placeholder', 'Enter event title')}
-                        required={lang !== 'en'}
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor={`description_${lang}`}>{t('events.description_field', 'Description')}</Label>
-                      <Textarea
-                        id={`description_${lang}`}
-                        value={formData[`description_${lang}` as keyof EventForm]}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          [`description_${lang}`]: e.target.value 
-                        })}
-                        placeholder={t('events.description_placeholder', 'Enter event description')}
-                        rows={3}
-                        required={lang !== 'en'}
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor={`location_${lang}`}>{t('events.location_field', 'Location')}</Label>
-                      <Input
-                        id={`location_${lang}`}
-                        value={formData[`location_${lang}` as keyof EventForm]}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          [`location_${lang}`]: e.target.value 
-                        })}
-                        placeholder={t('events.location_placeholder', 'Enter event location')}
-                        required={lang !== 'en'}
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor={`rules_${lang}`}>{t('events.rules_field', 'Rules')}</Label>
-                      <Textarea
-                        id={`rules_${lang}`}
-                        value={formData[`rules_${lang}` as keyof EventForm]}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          [`rules_${lang}`]: e.target.value 
-                        })}
-                        placeholder={t('events.rules_placeholder', 'Enter event rules')}
-                        rows={3}
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor={`scenario_${lang}`}>{t('events.scenario_field', 'Scenario')}</Label>
-                      <Textarea
-                        id={`scenario_${lang}`}
-                        value={formData[`scenario_${lang}` as keyof EventForm]}
-                        onChange={(e) => setFormData({ 
-                          ...formData, 
-                          [`scenario_${lang}`]: e.target.value 
-                        })}
-                        placeholder={t('events.scenario_placeholder', 'Enter event scenario')}
-                        rows={3}
-                      />
-                    </div>
-                  </TabsContent>
-                ))}
-              </Tabs>
-
-              <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={resetForm}>
-                  {t('common.cancel', 'Cancel')}
-                </Button>
-                <Button type="submit" disabled={loading}>
-                  {loading ? t('common.loading', 'Loading...') : t('common.save', 'Save')}
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <EventModal
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          onSubmit={handleModalSubmit}
+          editingEvent={editingEvent}
+          formData={formData}
+          setFormData={setFormData}
+          loading={loading}
+        />
       </div>
 
       <div className="flex gap-4">
@@ -667,6 +408,7 @@ const EventsManager = () => {
             <SelectItem value="all">{t('events.all_statuses', 'All Statuses')}</SelectItem>
             <SelectItem value="upcoming">{t('events.status.upcoming', 'Upcoming')}</SelectItem>
             <SelectItem value="registration_open">{t('events.status.registration_open', 'Registration Open')}</SelectItem>
+            <SelectItem value="registration_closed">{t('events.status.registration_closed', 'Registration Closed')}</SelectItem>
             <SelectItem value="completed">{t('events.status.completed', 'Completed')}</SelectItem>
             <SelectItem value="cancelled">{t('events.status.cancelled', 'Cancelled')}</SelectItem>
           </SelectContent>
@@ -700,7 +442,7 @@ const EventsManager = () => {
                     {formatPlayerLimits(event.limit_mode, event.min_players, event.max_players, 0, language)}
                   </div>
                   <div className="flex items-center gap-1">
-                    <DollarSign className="h-4 w-4" />
+                    <Coins className="h-4 w-4" />
                     {formatCurrency(event.price_amount, event.price_currency || 'PLN', language)}
                   </div>
                 </div>

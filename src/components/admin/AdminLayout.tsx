@@ -26,8 +26,8 @@ const AdminLayout = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Show insufficient permissions message
-    if (!loading && user && profile && profile.role !== 'admin' && profile.role !== 'editor') {
+  // Show insufficient permissions message
+    if (!loading && user && profile && profile.role !== 'superadmin' && profile.role !== 'admin' && profile.role !== 'editor') {
       toast({
         title: t('errors.insufficientPermissions', 'Insufficient Permissions'),
         description: t('errors.adminAccessRequired', 'Admin or Editor access required'),
@@ -52,7 +52,7 @@ const AdminLayout = () => {
   }
 
   // Redirect users without proper role to home with message
-  if (profile.role !== 'admin' && profile.role !== 'editor') {
+  if (profile.role !== 'superadmin' && profile.role !== 'admin' && profile.role !== 'editor') {
     return <Navigate to="/" replace />;
   }
 

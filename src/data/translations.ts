@@ -208,6 +208,25 @@ export const translations: Record<Language, Translations> = {
         question: 'Didn\'t find a suitable game? Suggest your own scenario!',
         contact: 'CONTACT ORGANIZERS →'
       },
+      sections: {
+        basic: "Basic Information",
+        datetime: "Date & Time",
+        participants: "Participants", 
+        payment: "Payment",
+        status: "Status",
+        media: "Media",
+        location: "Location",
+        rules: "Rules"
+      },
+      validation: {
+        required: "This field is required",
+        titleRequired: "Title is required in at least one language",
+        deadlineBeforeStart: "Registration deadline must be before event start",
+        minPlayersRequired: "Min players must be greater than 0",
+        maxPlayersRequired: "Max players must be greater than 0", 
+        minLessThanMax: "Min players cannot be greater than max players",
+        invalidUrl: "Please enter a valid URL"
+      },
       status: {
         cancelled: 'Cancelled',
         waitlist: 'Waitlist',
@@ -360,7 +379,26 @@ export const translations: Record<Language, Translations> = {
         question: 'Не знайшли підходящу гру? Запропонуйте свій сценарій!',
         contact: 'ЗВ\'ЯЗАТИСЯ З ОРГАНІЗАТОРАМИ →'
       },
-      status: {
+        },
+        sections: {
+          basic: "Основная информация",
+          datetime: "Дата и время",
+          participants: "Участники",
+          payment: "Оплата",
+          status: "Статус",
+          media: "Медиа",
+          location: "Локация",
+          rules: "Правила"
+        },
+        validation: {
+          required: "Это поле обязательно",
+          titleRequired: "Название обязательно хотя бы на одном языке",
+          deadlineBeforeStart: "Дедлайн регистрации должен быть до начала события",
+          minPlayersRequired: "Минимальное количество игроков должно быть больше 0",
+          maxPlayersRequired: "Максимальное количество игроков должно быть больше 0",
+          minLessThanMax: "Минимальное количество не может быть больше максимального",
+          invalidUrl: "Пожалуйста, введите корректный URL адрес"
+        },
         cancelled: 'Скасовано',
         waitlist: 'Очікування',
         full: 'Повна',
@@ -818,7 +856,26 @@ export const translations: Record<Language, Translations> = {
         question: 'Не нашли подходящую игру? Предложите свой сценарий!',
         contact: 'СВЯЗАТЬСЯ С ОРГАНИЗАТОРАМИ →'
       },
-      status: {
+        },
+        sections: {
+          basic: "Podstawowe informacje",
+          datetime: "Data i czas",
+          participants: "Uczestnicy",
+          payment: "Płatność",
+          status: "Status",
+          media: "Media",
+          location: "Lokalizacja",
+          rules: "Zasady"
+        },
+        validation: {
+          required: "To pole jest wymagane",
+          titleRequired: "Tytuł jest wymagany w co najmniej jednym języku",
+          deadlineBeforeStart: "Termin rejestracji musi być przed rozpoczęciem wydarzenia",
+          minPlayersRequired: "Minimalna liczba graczy musi być większa od 0",
+          maxPlayersRequired: "Maksymalna liczba graczy musi być większa od 0",
+          minLessThanMax: "Minimalna liczba nie może być większa od maksymalnej",
+          invalidUrl: "Proszę wprowadzić poprawny adres URL"
+        },
         cancelled: 'Отменено',
         waitlist: 'Ожидание',
         full: 'Полная',
@@ -1123,7 +1180,26 @@ export const translations: Record<Language, Translations> = {
         question: 'Nie znalazłeś odpowiedniej gry? Zaproponuj swój scenariusz!',
         contact: 'SKONTAKTUJ SIĘ Z ORGANIZATORAMI →'
       },
-      status: {
+        },
+        sections: {
+          basic: "Basic Information",
+          datetime: "Date & Time", 
+          participants: "Participants",
+          payment: "Payment",
+          status: "Status",
+          media: "Media",
+          location: "Location",
+          rules: "Rules"
+        },
+        validation: {
+          required: "This field is required",
+          titleRequired: "Title is required in at least one language",
+          deadlineBeforeStart: "Registration deadline must be before event start",
+          minPlayersRequired: "Min players must be greater than 0",
+          maxPlayersRequired: "Max players must be greater than 0",
+          minLessThanMax: "Min players cannot be greater than max players",
+          invalidUrl: "Please enter a valid URL"
+        },
         cancelled: 'Anulowano',
         waitlist: 'Lista oczekujących',
         full: 'Pełna',

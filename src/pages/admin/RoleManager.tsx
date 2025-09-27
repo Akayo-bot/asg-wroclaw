@@ -16,15 +16,15 @@ const RoleManager = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
-  const [newRole, setNewRole] = useState<'admin' | 'editor' | 'user'>('user');
+  const [newRole, setNewRole] = useState<'superadmin' | 'admin' | 'editor' | 'user'>('user');
 
   const handleChangeRole = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!profile || profile.role !== 'admin') {
+    if (!profile || (profile.role !== 'admin' && profile.role !== 'superadmin')) {
       toast({
         title: t('errors.unauthorized', 'Unauthorized'),
-        description: t('errors.adminAccessRequired', 'Admin access required'),
+        description: t('errors.adminAccessRequired', 'Admin or SuperAdmin access required'),
         variant: 'destructive'
       });
       return;
@@ -70,12 +70,12 @@ const RoleManager = () => {
     }
   };
 
-  if (profile?.role !== 'admin') {
+  if (profile?.role !== 'admin' && profile?.role !== 'superadmin') {
     return (
       <Card>
         <CardContent className="pt-6">
           <div className="text-center text-muted-foreground">
-            {t('errors.adminAccessRequired', 'Admin access required')}
+            {t('errors.adminAccessRequired', 'Admin or SuperAdmin access required')}
           </div>
         </CardContent>
       </Card>
@@ -115,11 +115,14 @@ const RoleManager = () => {
             
             <div className="space-y-2">
               <Label htmlFor="role">New Role</Label>
-              <Select value={newRole} onValueChange={(value: 'admin' | 'editor' | 'user') => setNewRole(value)}>
+              <Select value={newRole} onValueChange={(value: 'superadmin' | 'admin' | 'editor' | 'user') => setNewRole(value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
                 <SelectContent>
+                  {profile?.role === 'superadmin' && (
+                    <SelectItem value="superadmin">SuperAdmin - System access</SelectItem>
+                  )}
                   <SelectItem value="admin">Admin - Full access</SelectItem>
                   <SelectItem value="editor">Editor - Content management</SelectItem>
                   <SelectItem value="user">User - Basic access</SelectItem>
