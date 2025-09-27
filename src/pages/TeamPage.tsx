@@ -1,12 +1,12 @@
 import { Layout } from '@/components/Layout';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Star, Shield, Target, Zap } from 'lucide-react';
 
 const TeamPage = () => {
-  const t = useTranslation();
+  const { t } = useI18n();
 
   const teamMembers = [
     {
@@ -73,10 +73,10 @@ const TeamPage = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="font-rajdhani text-4xl md:text-5xl font-bold mb-4">
-              {t.pages.team.title}
+              {t('nav.team', 'Team')}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t.pages.team.subtitle}
+              {t('team.subtitle', 'Meet our team')}
             </p>
           </div>
 
@@ -84,19 +84,19 @@ const TeamPage = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             <div className="text-center glass-panel p-6 rounded-lg">
               <div className="text-2xl font-rajdhani font-bold text-primary mb-1">12</div>
-              <div className="text-sm text-muted-foreground">Активных членов</div>
+              <div className="text-sm text-muted-foreground">{t('pages.team.stats.active_members', 'Active Members')}</div>
             </div>
             <div className="text-center glass-panel p-6 rounded-lg">
               <div className="text-2xl font-rajdhani font-bold text-primary mb-1">156</div>
-              <div className="text-sm text-muted-foreground">Проведено игр</div>
+              <div className="text-sm text-muted-foreground">{t('pages.team.stats.games_played', 'Games Played')}</div>
             </div>
             <div className="text-center glass-panel p-6 rounded-lg">
               <div className="text-2xl font-rajdhani font-bold text-primary mb-1">89%</div>
-              <div className="text-sm text-muted-foreground">Процент побед</div>
+              <div className="text-sm text-muted-foreground">{t('pages.team.stats.win_rate', 'Win Rate')}</div>
             </div>
             <div className="text-center glass-panel p-6 rounded-lg">
               <div className="text-2xl font-rajdhani font-bold text-primary mb-1">5</div>
-              <div className="text-sm text-muted-foreground">Лет существования</div>
+              <div className="text-sm text-muted-foreground">{t('pages.team.stats.years_active', 'Years Active')}</div>
             </div>
           </div>
 
@@ -127,22 +127,22 @@ const TeamPage = () => {
                   <div className="grid grid-cols-3 gap-2 mb-4 text-center">
                     <div>
                       <div className="text-lg font-rajdhani font-bold text-primary">{member.stats.games}</div>
-                      <div className="text-xs text-muted-foreground">Игр</div>
+                      <div className="text-xs text-muted-foreground">{t('pages.team.stats.games_label', 'Games')}</div>
                     </div>
                     <div>
                       <div className="text-lg font-rajdhani font-bold text-primary">{member.stats.wins}</div>
-                      <div className="text-xs text-muted-foreground">Побед</div>
+                      <div className="text-xs text-muted-foreground">{t('pages.team.stats.wins_label', 'Wins')}</div>
                     </div>
                     <div>
                       <div className="text-lg font-rajdhani font-bold text-primary">{member.stats.accuracy}%</div>
-                      <div className="text-xs text-muted-foreground">Точность</div>
+                      <div className="text-xs text-muted-foreground">{t('pages.team.stats.accuracy_label', 'Accuracy')}</div>
                     </div>
                   </div>
 
                   <p className="text-sm text-muted-foreground mb-3">{member.bio}</p>
                   
                   <div className="flex justify-between items-center text-xs text-muted-foreground">
-                    <span>Опыт: {member.experience}</span>
+                    <span>{t('pages.team.experience_label', 'Experience:')} {member.experience}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -153,13 +153,10 @@ const TeamPage = () => {
           <div className="mt-16 text-center">
             <div className="glass-panel p-8 rounded-lg max-w-4xl mx-auto">
               <h2 className="font-rajdhani text-2xl font-bold mb-4 text-primary">
-                Наша миссия
+                {t('pages.team.mission.title', 'Our Mission')}
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Raven Strike Force - это команда профессионалов, объединенных страстью к тактическому страйкболу. 
-                Мы стремимся к совершенству в каждой операции, развиваем навыки командной работы и продвигаем 
-                культуру безопасного и честного геймплея. Наша цель - не просто побеждать, но и вдохновлять 
-                других игроков на достижение новых высот в мире страйкбола.
+                {t('pages.team.mission.description', 'Raven Strike Force is a team of professionals united by passion for tactical airsoft...')}
               </p>
             </div>
           </div>

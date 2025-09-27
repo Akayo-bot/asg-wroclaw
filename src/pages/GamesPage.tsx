@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar, MapPin, Users, Clock, Filter } from 'lucide-react';
 
 const GamesPage = () => {
-  const t = useTranslation();
+  const { t } = useI18n();
   const [activeFilter, setActiveFilter] = useState('all');
 
   const filters = [
-    { key: 'all', label: t.pages.games.filters.all },
-    { key: 'upcoming', label: t.pages.games.filters.upcoming },
-    { key: 'past', label: t.pages.games.filters.past },
-    { key: 'registration', label: t.pages.games.filters.registration },
+    { key: 'all', label: t('games.all', 'All') },
+    { key: 'upcoming', label: t('games.upcoming', 'Upcoming') },
+    { key: 'past', label: t('games.past', 'Past') },
+    { key: 'registration', label: t('games.register', 'Registration Open') },
   ];
 
   const mockGames = [
@@ -50,12 +50,12 @@ const GamesPage = () => {
 
   const getStatusBadge = (status: string, registrationOpen: boolean) => {
     if (status === 'full') {
-      return <Badge variant="destructive">Набор закрыт</Badge>;
+      return <Badge variant="destructive">{t('pages.games.status.closed', 'Registration Closed')}</Badge>;
     }
     if (registrationOpen) {
-      return <Badge variant="default" className="bg-primary text-primary-foreground">Регистрация открыта</Badge>;
+      return <Badge variant="default" className="bg-primary text-primary-foreground">{t('pages.games.status.open', 'Registration Open')}</Badge>;
     }
-    return <Badge variant="secondary">Ожидание</Badge>;
+    return <Badge variant="secondary">{t('pages.games.status.waitlist', 'Waitlist')}</Badge>;
   };
 
   return (
@@ -65,10 +65,10 @@ const GamesPage = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="font-rajdhani text-4xl md:text-5xl font-bold mb-4">
-              {t.pages.games.title}
+              {t('games.title', 'Games')}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t.pages.games.subtitle}
+              {t('games.subtitle', 'Upcoming games and events')}
             </p>
           </div>
 
@@ -112,7 +112,7 @@ const GamesPage = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <Users className="w-4 h-4" />
-                      {game.players}/{game.maxPlayers} игроков
+                      {game.players}/{game.maxPlayers} {t('pages.games.players_count', 'players')}
                     </div>
                   </div>
                 </CardHeader>
@@ -121,7 +121,7 @@ const GamesPage = () => {
                     {game.description}
                   </p>
                   <div className="mb-4">
-                    <span className="text-xs text-muted-foreground">Сценарий:</span>
+                    <span className="text-xs text-muted-foreground">{t('pages.games.scenario_label', 'Scenario:')}</span>
                     <p className="text-sm font-medium">{game.scenario}</p>
                   </div>
                   <Button 
@@ -129,7 +129,7 @@ const GamesPage = () => {
                     variant={game.registrationOpen ? 'default' : 'secondary'}
                     disabled={!game.registrationOpen}
                   >
-                    {game.registrationOpen ? 'ЗАПИСАТЬСЯ' : 'СПИСОК ОЖИДАНИЯ'}
+                    {game.registrationOpen ? t('pages.games.button.register', 'REGISTER') : t('pages.games.button.waitlist', 'WAITLIST')}
                   </Button>
                 </CardContent>
               </Card>
@@ -139,7 +139,7 @@ const GamesPage = () => {
           {/* Empty State */}
           {mockGames.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">{t.pages.games.noGames}</p>
+              <p className="text-muted-foreground">{t('games.no_games', 'No games available')}</p>
             </div>
           )}
         </div>

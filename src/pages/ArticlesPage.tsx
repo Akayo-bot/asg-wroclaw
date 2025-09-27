@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,15 +9,15 @@ import { Calendar, Clock, User, Filter, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const ArticlesPage = () => {
-  const t = useTranslation();
+  const { t } = useI18n();
   const [activeFilter, setActiveFilter] = useState('all');
 
   const filters = [
-    { key: 'all', label: t.pages.articles.categories.all },
-    { key: 'tactics', label: t.pages.articles.categories.tactics },
-    { key: 'equipment', label: t.pages.articles.categories.equipment },
-    { key: 'news', label: t.pages.articles.categories.news },
-    { key: 'guides', label: t.pages.articles.categories.guides },
+    { key: 'all', label: t('pages.articles.categories.all', 'All') },
+    { key: 'tactics', label: t('pages.articles.categories.tactics', 'Tactics') },
+    { key: 'equipment', label: t('pages.articles.categories.equipment', 'Equipment') },
+    { key: 'news', label: t('pages.articles.categories.news', 'News') },
+    { key: 'guides', label: t('pages.articles.categories.guides', 'Guides') },
   ];
 
   const articles = [
@@ -127,10 +127,10 @@ const ArticlesPage = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="font-rajdhani text-4xl md:text-5xl font-bold mb-4">
-              {t.pages.articles.title}
+              {t('pages.articles.title', 'Articles')}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t.pages.articles.subtitle}
+              {t('pages.articles.subtitle', 'Guides, tactics, and news')}
             </p>
           </div>
 
@@ -154,7 +154,7 @@ const ArticlesPage = () => {
           {featuredArticles.length > 0 && (
             <div className="mb-12">
               <h2 className="font-rajdhani text-2xl font-bold mb-6 text-primary">
-                Рекомендуемые статьи
+                {t('pages.articles.featured', 'Featured Articles')}
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {featuredArticles.map((article) => (
@@ -210,7 +210,7 @@ const ArticlesPage = () => {
                         to={`/article/${article.slug}`}
                         className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors"
                       >
-                        {t.common.readMore}
+                        {t('common.read_more', 'Read More')}
                         <ArrowRight className="w-4 h-4" />
                       </Link>
                     </CardContent>
@@ -277,7 +277,7 @@ const ArticlesPage = () => {
           {/* Empty State */}
           {filteredArticles.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">{t.pages.articles.noArticles}</p>
+              <p className="text-muted-foreground">{t('pages.articles.noArticles', 'No articles available')}</p>
             </div>
           )}
         </div>

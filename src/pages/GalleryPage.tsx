@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,13 +8,13 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Image, Play, Calendar, Filter } from 'lucide-react';
 
 const GalleryPage = () => {
-  const t = useTranslation();
+  const { t } = useI18n();
   const [activeFilter, setActiveFilter] = useState('all');
 
   const filters = [
-    { key: 'all', label: t.pages.gallery.filters.all },
-    { key: 'photos', label: t.pages.gallery.filters.photos },
-    { key: 'videos', label: t.pages.gallery.filters.videos },
+    { key: 'all', label: t('pages.gallery.filters.all', 'All') },
+    { key: 'photos', label: t('pages.gallery.filters.photos', 'Photos') },
+    { key: 'videos', label: t('pages.gallery.filters.videos', 'Videos') },
   ];
 
   const galleryItems = [
@@ -91,10 +91,10 @@ const GalleryPage = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="font-rajdhani text-4xl md:text-5xl font-bold mb-4">
-              {t.pages.gallery.title}
+              {t('pages.gallery.title', 'Gallery')}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t.pages.gallery.subtitle}
+              {t('pages.gallery.subtitle', 'Photos and videos from our missions')}
             </p>
           </div>
 
@@ -135,7 +135,7 @@ const GalleryPage = () => {
                       </div>
                       <div className="absolute top-2 left-2">
                         <Badge variant={item.type === 'video' ? 'destructive' : 'secondary'}>
-                          {item.type === 'video' ? 'ВИДЕО' : 'ФОТО'}
+                          {item.type === 'video' ? t('pages.gallery.badge.video', 'VIDEO') : t('pages.gallery.badge.photo', 'PHOTO')}
                         </Badge>
                       </div>
                     </div>
@@ -144,7 +144,7 @@ const GalleryPage = () => {
                     {item.type === 'video' ? (
                       <div className="aspect-video bg-black rounded-lg flex items-center justify-center">
                         <Play className="w-16 h-16 text-white" />
-                        <span className="ml-2 text-white">Видео будет загружено</span>
+                        <span className="ml-2 text-white">{t('pages.gallery.video_loading', 'Video will be loaded')}</span>
                       </div>
                     ) : (
                       <img
@@ -178,7 +178,7 @@ const GalleryPage = () => {
           {/* Empty State */}
           {filteredItems.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">{t.pages.gallery.noMedia}</p>
+              <p className="text-muted-foreground">{t('pages.gallery.noMedia', 'No media available')}</p>
             </div>
           )}
 
@@ -188,21 +188,21 @@ const GalleryPage = () => {
               <div className="text-2xl font-rajdhani font-bold text-primary mb-1">
                 {galleryItems.filter(item => item.type === 'photo').length}
               </div>
-              <div className="text-sm text-muted-foreground">Фотографий</div>
+              <div className="text-sm text-muted-foreground">{t('pages.gallery.stats.photos', 'Photos')}</div>
             </div>
             <div className="text-center glass-panel p-6 rounded-lg">
               <div className="text-2xl font-rajdhani font-bold text-primary mb-1">
                 {galleryItems.filter(item => item.type === 'video').length}
               </div>
-              <div className="text-sm text-muted-foreground">Видео</div>
+              <div className="text-sm text-muted-foreground">{t('pages.gallery.stats.videos', 'Videos')}</div>
             </div>
             <div className="text-center glass-panel p-6 rounded-lg">
               <div className="text-2xl font-rajdhani font-bold text-primary mb-1">24</div>
-              <div className="text-sm text-muted-foreground">Событий</div>
+              <div className="text-sm text-muted-foreground">{t('pages.gallery.stats.events', 'Events')}</div>
             </div>
             <div className="text-center glass-panel p-6 rounded-lg">
               <div className="text-2xl font-rajdhani font-bold text-primary mb-1">2.5GB</div>
-              <div className="text-sm text-muted-foreground">Контента</div>
+              <div className="text-sm text-muted-foreground">{t('pages.gallery.stats.content', 'Content')}</div>
             </div>
           </div>
         </div>
