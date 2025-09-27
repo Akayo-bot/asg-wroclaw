@@ -212,10 +212,10 @@ const DataSources = () => {
                     <div><strong>Created:</strong> {new Date(article.created_at).toLocaleDateString()}</div>
                     <div><strong>Has i18n:</strong> 
                       <div className="flex gap-1 mt-1">
-                        {article.title_uk && <Badge size="sm" variant="secondary">UK</Badge>}
-                        {article.title_ru && <Badge size="sm" variant="secondary">RU</Badge>}
-                        {article.title_pl && <Badge size="sm" variant="secondary">PL</Badge>}
-                        {article.title_en && <Badge size="sm" variant="secondary">EN</Badge>}
+                        {article.title_uk && <Badge variant="secondary">UK</Badge>}
+                        {article.title_ru && <Badge variant="secondary">RU</Badge>}
+                        {article.title_pl && <Badge variant="secondary">PL</Badge>}
+                        {article.title_en && <Badge variant="secondary">EN</Badge>}
                       </div>
                     </div>
                   </div>

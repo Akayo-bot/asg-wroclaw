@@ -84,6 +84,17 @@ export interface Translations {
     online: string;
     lastBackup: string;
     automated: string;
+    save: string;
+    cancel: string;
+    unpublish: string;
+    free: string;
+    unlimited: string;
+    registrationOpen: string;
+    registrationClosed: string;
+    waitlist: string;
+    currency: string;
+    noArticles: string;
+    noGallery: string;
   };
   categories: {
     tactics: string;
@@ -227,6 +238,7 @@ export interface Translations {
       title: string;
       subtitle: string;
       noArticles: string;
+      featured: string;
       categories: {
         all: string;
         tactics: string;
