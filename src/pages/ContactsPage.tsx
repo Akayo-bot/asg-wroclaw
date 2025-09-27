@@ -1,5 +1,5 @@
 import { Layout } from '@/components/Layout';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,32 +17,32 @@ import {
 } from 'lucide-react';
 
 const ContactsPage = () => {
-  const t = useTranslation();
+  const { t } = useI18n();
 
   const contactInfo = [
     {
       icon: Phone,
-      title: t.pages.contacts.info.phone,
+      title: t('contact.phone', 'Phone'),
       value: '+48 123 456 789',
-      description: 'Доступен ежедневно с 10:00 до 22:00'
+      description: t('pages.contacts.info.phone_desc', 'Available daily from 10:00 to 22:00')
     },
     {
       icon: Mail,
-      title: t.pages.contacts.info.email,
+      title: t('contact.email', 'Email'),
       value: 'info@ravenstrike.pl',
-      description: 'Ответим в течение 24 часов'
+      description: t('pages.contacts.info.email_desc', 'We will respond within 24 hours')
     },
     {
       icon: MapPin,
-      title: t.pages.contacts.info.location,
-      value: 'Вроцлав, Польша',
-      description: 'Основная база операций'
+      title: t('contact.location', 'Location'),
+      value: t('pages.contacts.info.location_value', 'Wrocław, Poland'),
+      description: t('pages.contacts.info.location_desc', 'Main base of operations')
     },
     {
       icon: Clock,
-      title: t.pages.contacts.info.hours,
-      value: 'Пн-Вс: 10:00 - 22:00',
-      description: 'Время для связи и консультаций'
+      title: t('contact.hours', 'Hours'),
+      value: t('pages.contacts.info.hours_value', 'Mon-Sun: 10:00 - 22:00'),
+      description: t('pages.contacts.info.hours_desc', 'Time for contact and consultations')
     }
   ];
 
@@ -68,10 +68,10 @@ const ContactsPage = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="font-rajdhani text-4xl md:text-5xl font-bold mb-4">
-              {t.pages.contacts.title}
+              {t('contact.title', 'Contacts')}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t.pages.contacts.subtitle}
+              {t('contact.subtitle', 'Get in touch with us')}
             </p>
           </div>
 
@@ -79,7 +79,7 @@ const ContactsPage = () => {
             {/* Contact Information */}
             <div>
               <h2 className="font-rajdhani text-2xl font-bold mb-6 text-primary">
-                Контактная информация
+                {t('pages.contacts.info.title', 'Contact Information')}
               </h2>
               
               <div className="grid gap-4 mb-8">
@@ -110,7 +110,7 @@ const ContactsPage = () => {
               {/* Social Media */}
               <div>
                 <h3 className="font-rajdhani text-xl font-bold mb-4 text-primary">
-                  Социальные сети
+                  {t('pages.contacts.social.title', 'Social Media')}
                 </h3>
                 <div className="flex gap-4">
                   {socialLinks.map((social, index) => (
@@ -132,16 +132,16 @@ const ContactsPage = () => {
               {/* Quick Actions */}
               <div className="mt-8">
                 <h3 className="font-rajdhani text-xl font-bold mb-4 text-primary">
-                  Быстрые действия
+                  {t('pages.contacts.actions.title', 'Quick Actions')}
                 </h3>
                 <div className="grid gap-3">
                   <Button className="justify-start gap-3 cursor-tactical" variant="outline">
                     <MessageCircle className="w-5 h-5" />
-                    Написать в Telegram
+                    {t('pages.contacts.actions.telegram', 'Write to Telegram')}
                   </Button>
                   <Button className="justify-start gap-3 cursor-tactical" variant="outline">
                     <Phone className="w-5 h-5" />
-                    Заказать звонок
+                    {t('pages.contacts.actions.callback', 'Request a call')}
                   </Button>
                 </div>
               </div>
@@ -153,56 +153,56 @@ const ContactsPage = () => {
                 <CardHeader>
                   <CardTitle className="font-rajdhani text-2xl flex items-center gap-2">
                     <Send className="w-6 h-6 text-primary" />
-                    Связаться с нами
+                    {t('pages.contacts.form.title', 'Contact Us')}
                   </CardTitle>
                   <p className="text-muted-foreground">
-                    Заполните форму, и мы свяжемся с вами в ближайшее время
+                    {t('pages.contacts.form.description', 'Fill out the form and we will contact you shortly')}
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="name">{t.pages.contacts.form.name}</Label>
+                      <Label htmlFor="name">{t('contact.form.name', 'Name')}</Label>
                       <Input 
                         id="name"
-                        placeholder="Ваше имя"
+                        placeholder={t('pages.contacts.form.name_placeholder', 'Your name')}
                         className="cursor-tactical"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="phone">{t.pages.contacts.form.phone}</Label>
+                      <Label htmlFor="phone">{t('contact.form.phone', 'Phone')}</Label>
                       <Input 
                         id="phone"
-                        placeholder="+48 123 456 789"
+                        placeholder={t('pages.contacts.form.phone_placeholder', '+48 123 456 789')}
                         className="cursor-tactical"
                       />
                     </div>
                   </div>
                   
                   <div>
-                    <Label htmlFor="email">{t.pages.contacts.form.email}</Label>
+                    <Label htmlFor="email">{t('contact.form.email', 'Email')}</Label>
                     <Input 
                       id="email"
                       type="email"
-                      placeholder="your.email@example.com"
+                      placeholder={t('pages.contacts.form.email_placeholder', 'your.email@example.com')}
                       className="cursor-tactical"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="subject">Тема сообщения</Label>
+                    <Label htmlFor="subject">{t('pages.contacts.form.subject', 'Message Subject')}</Label>
                     <Input 
                       id="subject"
-                      placeholder="О чем хотите поговорить?"
+                      placeholder={t('pages.contacts.form.subject_placeholder', 'What would you like to talk about?')}
                       className="cursor-tactical"
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="message">{t.pages.contacts.form.message}</Label>
+                    <Label htmlFor="message">{t('contact.form.message', 'Message')}</Label>
                     <Textarea 
                       id="message"
-                      placeholder="Расскажите подробнее о своем вопросе или предложении..."
+                      placeholder={t('pages.contacts.form.message_placeholder', 'Tell us more about your question or suggestion...')}
                       rows={5}
                       className="cursor-tactical"
                     />
@@ -210,11 +210,11 @@ const ContactsPage = () => {
 
                   <Button className="w-full cursor-tactical">
                     <Send className="w-4 h-4 mr-2" />
-                    {t.pages.contacts.form.submit}
+                    {t('contact.form.submit', 'Send Message')}
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center">
-                    Отправляя форму, вы соглашаетесь с обработкой персональных данных
+                    {t('pages.contacts.form.privacy', 'By submitting the form, you agree to the processing of personal data')}
                   </p>
                 </CardContent>
               </Card>
@@ -224,19 +224,18 @@ const ContactsPage = () => {
           {/* FAQ Section */}
           <div className="mt-16">
             <h2 className="font-rajdhani text-2xl font-bold mb-8 text-center text-primary">
-              Часто задаваемые вопросы
+              {t('pages.contacts.faq.title', 'Frequently Asked Questions')}
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               <Card className="glass-panel">
                 <CardHeader>
                   <CardTitle className="font-rajdhani text-lg">
-                    Как присоединиться к команде?
+                    {t('pages.contacts.faq.join.question', 'How to join the team?')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Свяжитесь с нами любым удобным способом. Мы расскажем о требованиях, 
-                    пригласим на тренировку и поможем с выбором снаряжения.
+                    {t('pages.contacts.faq.join.answer', 'Contact us in any convenient way. We will tell you about the requirements, invite you to training and help you choose equipment.')}
                   </p>
                 </CardContent>
               </Card>
@@ -244,13 +243,12 @@ const ContactsPage = () => {
               <Card className="glass-panel">
                 <CardHeader>
                   <CardTitle className="font-rajdhani text-lg">
-                    Нужно ли свое снаряжение?
+                    {t('pages.contacts.faq.equipment.question', 'Do I need my own equipment?')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Для начала можно использовать арендованное снаряжение. 
-                    Поможем с выбором и покупкой собственного оборудования.
+                    {t('pages.contacts.faq.equipment.answer', 'You can start with rented equipment. We will help you choose and buy your own equipment.')}
                   </p>
                 </CardContent>
               </Card>
@@ -258,13 +256,12 @@ const ContactsPage = () => {
               <Card className="glass-panel">
                 <CardHeader>
                   <CardTitle className="font-rajdhani text-lg">
-                    Какой уровень подготовки нужен?
+                    {t('pages.contacts.faq.level.question', 'What level of preparation is needed?')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Принимаем игроков любого уровня. Главное - желание учиться, 
-                    дисциплинированность и командный дух.
+                    {t('pages.contacts.faq.level.answer', 'We accept players of any level. The main thing is the desire to learn, discipline and team spirit.')}
                   </p>
                 </CardContent>
               </Card>
@@ -272,13 +269,12 @@ const ContactsPage = () => {
               <Card className="glass-panel">
                 <CardHeader>
                   <CardTitle className="font-rajdhani text-lg">
-                    Как часто проводятся игры?
+                    {t('pages.contacts.faq.frequency.question', 'How often are games held?')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">
-                    Организуем игры 2-3 раза в месяц. Также участвуем в турнирах 
-                    и специальных мероприятиях по всей Польше.
+                    {t('pages.contacts.faq.frequency.answer', 'We organize games 2-3 times a month. We also participate in tournaments and special events throughout Poland.')}
                   </p>
                 </CardContent>
               </Card>
