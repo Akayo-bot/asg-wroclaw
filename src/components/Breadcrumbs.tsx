@@ -1,10 +1,10 @@
 import { useLocation, Link } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 
 export const Breadcrumbs = () => {
   const location = useLocation();
-  const t = useTranslation();
+  const { t } = useI18n();
   
   const pathnames = location.pathname.split('/').filter(x => x);
   
@@ -13,18 +13,18 @@ export const Breadcrumbs = () => {
   const getBreadcrumbName = (segment: string, index: number) => {
     // Map path segments to translated names
     const pathMap: Record<string, string> = {
-      games: t.nav.games,
-      team: t.nav.team,
-      gallery: t.nav.gallery,
-      articles: t.nav.articles,
-      contacts: t.nav.contacts,
-      about: t.nav.about,
-      search: t.nav.search,
-      subscribe: t.nav.subscribe,
-      event: 'Event',
-      article: 'Article',
-      category: 'Category',
-      test: 'Test'
+      games: t('nav.games', 'Games'),
+      team: t('nav.team', 'Team'),
+      gallery: t('nav.gallery', 'Gallery'),
+      articles: t('nav.articles', 'Articles'),
+      contacts: t('nav.contacts', 'Contacts'),
+      about: t('nav.about', 'About'),
+      search: t('nav.search', 'Search'),
+      subscribe: t('nav.subscribe', 'Subscribe'),
+      event: t('common.event', 'Event'),
+      article: t('common.article', 'Article'),
+      category: t('common.category', 'Category'),
+      test: t('common.test', 'Test')
     };
 
     return pathMap[segment] || segment;
@@ -37,7 +37,7 @@ export const Breadcrumbs = () => {
         className="flex items-center hover:text-primary transition-colors cursor-tactical"
       >
         <Home className="w-4 h-4" />
-        <span className="ml-1">{t.common.home}</span>
+        <span className="ml-1">{t('common.home', 'Home')}</span>
       </Link>
       
       {pathnames.map((segment, index) => {
