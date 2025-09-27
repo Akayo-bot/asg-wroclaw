@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Language } from '@/types/i18n';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
-import { useBranding } from '@/contexts/BrandingContext';
 
 interface I18nContextType {
   language: Language;
@@ -16,31 +14,22 @@ const I18nContext = createContext<I18nContextType | undefined>(undefined);
 const STORAGE_KEY = 'raven-strike-language';
 
 export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { profile } = useAuth();
-  const { settings } = useBranding();
   const [language, setCurrentLanguage] = useState<Language>('uk');
   const [strings, setStrings] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
 
-  // Determine initial language
+  // Determine initial language from localStorage
   useEffect(() => {
     let initialLanguage: Language = 'uk';
     
-    // Priority: user preference > localStorage > site default
-    if (profile?.preferred_language) {
-      initialLanguage = profile.preferred_language as Language;
-    } else {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        initialLanguage = stored as Language;
-      } else if (settings?.default_language) {
-        initialLanguage = settings.default_language as Language;
-      }
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored && ['uk', 'ru', 'pl', 'en'].includes(stored)) {
+      initialLanguage = stored as Language;
     }
     
     setCurrentLanguage(initialLanguage);
     document.documentElement.lang = initialLanguage;
-  }, [profile, settings]);
+  }, []);
 
   // Fetch UI strings from database
   const fetchUIStrings = async () => {
@@ -77,17 +66,6 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCurrentLanguage(newLanguage);
     localStorage.setItem(STORAGE_KEY, newLanguage);
     document.documentElement.lang = newLanguage;
-
-    // Update user preference if logged in
-    if (profile) {
-      supabase
-        .from('profiles')
-        .update({ preferred_language: newLanguage })
-        .eq('id', profile.id)
-        .then(({ error }) => {
-          if (error) console.error('Error updating language preference:', error);
-        });
-    }
   };
 
   const t = (key: string, fallback?: string): string => {
