@@ -29,6 +29,14 @@ export type Database = {
           preview_pl: string
           preview_ru: string
           preview_uk: string
+          seo_description_en: string | null
+          seo_description_pl: string | null
+          seo_description_ru: string | null
+          seo_description_uk: string | null
+          seo_title_en: string | null
+          seo_title_pl: string | null
+          seo_title_ru: string | null
+          seo_title_uk: string | null
           status: Database["public"]["Enums"]["article_status"]
           title_en: string | null
           title_pl: string
@@ -51,6 +59,14 @@ export type Database = {
           preview_pl: string
           preview_ru: string
           preview_uk: string
+          seo_description_en?: string | null
+          seo_description_pl?: string | null
+          seo_description_ru?: string | null
+          seo_description_uk?: string | null
+          seo_title_en?: string | null
+          seo_title_pl?: string | null
+          seo_title_ru?: string | null
+          seo_title_uk?: string | null
           status?: Database["public"]["Enums"]["article_status"]
           title_en?: string | null
           title_pl: string
@@ -73,6 +89,14 @@ export type Database = {
           preview_pl?: string
           preview_ru?: string
           preview_uk?: string
+          seo_description_en?: string | null
+          seo_description_pl?: string | null
+          seo_description_ru?: string | null
+          seo_description_uk?: string | null
+          seo_title_en?: string | null
+          seo_title_pl?: string | null
+          seo_title_ru?: string | null
+          seo_title_uk?: string | null
           status?: Database["public"]["Enums"]["article_status"]
           title_en?: string | null
           title_pl?: string
@@ -115,6 +139,7 @@ export type Database = {
       }
       events: {
         Row: {
+          cover_url: string | null
           created_at: string
           created_by: string
           description_en: string | null
@@ -129,10 +154,12 @@ export type Database = {
           location_ru: string
           location_uk: string
           main_image_url: string | null
+          map_url: string | null
           max_participants: number | null
           max_players: number | null
           min_players: number | null
           price: number | null
+          price_amount: number | null
           price_currency: string | null
           registration_deadline: string | null
           rules_en: string | null
@@ -143,7 +170,9 @@ export type Database = {
           scenario_pl: string | null
           scenario_ru: string | null
           scenario_uk: string | null
+          start_datetime: string | null
           status: Database["public"]["Enums"]["event_status"]
+          status_registration: string | null
           title_en: string | null
           title_pl: string
           title_ru: string
@@ -151,6 +180,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          cover_url?: string | null
           created_at?: string
           created_by: string
           description_en?: string | null
@@ -165,10 +195,12 @@ export type Database = {
           location_ru: string
           location_uk: string
           main_image_url?: string | null
+          map_url?: string | null
           max_participants?: number | null
           max_players?: number | null
           min_players?: number | null
           price?: number | null
+          price_amount?: number | null
           price_currency?: string | null
           registration_deadline?: string | null
           rules_en?: string | null
@@ -179,7 +211,9 @@ export type Database = {
           scenario_pl?: string | null
           scenario_ru?: string | null
           scenario_uk?: string | null
+          start_datetime?: string | null
           status?: Database["public"]["Enums"]["event_status"]
+          status_registration?: string | null
           title_en?: string | null
           title_pl: string
           title_ru: string
@@ -187,6 +221,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          cover_url?: string | null
           created_at?: string
           created_by?: string
           description_en?: string | null
@@ -201,10 +236,12 @@ export type Database = {
           location_ru?: string
           location_uk?: string
           main_image_url?: string | null
+          map_url?: string | null
           max_participants?: number | null
           max_players?: number | null
           min_players?: number | null
           price?: number | null
+          price_amount?: number | null
           price_currency?: string | null
           registration_deadline?: string | null
           rules_en?: string | null
@@ -215,7 +252,9 @@ export type Database = {
           scenario_pl?: string | null
           scenario_ru?: string | null
           scenario_uk?: string | null
+          start_datetime?: string | null
           status?: Database["public"]["Enums"]["event_status"]
+          status_registration?: string | null
           title_en?: string | null
           title_pl?: string
           title_ru?: string
@@ -574,6 +613,10 @@ export type Database = {
           target_email: string
         }
         Returns: Json
+      }
+      check_event_cancellation: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
       get_admin_stats: {
         Args: Record<PropertyKey, never>

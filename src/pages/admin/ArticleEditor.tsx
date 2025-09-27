@@ -27,14 +27,25 @@ interface ArticleForm {
   title_uk: string;
   title_ru: string;
   title_pl: string;
+  title_en: string;
   preview_uk: string;
   preview_ru: string;
   preview_pl: string;
+  preview_en: string;
   content_uk: string;
   content_ru: string;
   content_pl: string;
+  content_en: string;
   category: string;
   main_image_url: string;
+  seo_title_uk: string;
+  seo_title_ru: string;
+  seo_title_pl: string;
+  seo_title_en: string;
+  seo_description_uk: string;
+  seo_description_ru: string;
+  seo_description_pl: string;
+  seo_description_en: string;
 }
 
 const ArticleEditor = () => {
@@ -48,14 +59,25 @@ const ArticleEditor = () => {
     title_uk: '',
     title_ru: '',
     title_pl: '',
+    title_en: '',
     preview_uk: '',
     preview_ru: '',
     preview_pl: '',
+    preview_en: '',
     content_uk: '',
     content_ru: '',
     content_pl: '',
+    content_en: '',
     category: 'news',
     main_image_url: '',
+    seo_title_uk: '',
+    seo_title_ru: '',
+    seo_title_pl: '',
+    seo_title_en: '',
+    seo_description_uk: '',
+    seo_description_ru: '',
+    seo_description_pl: '',
+    seo_description_en: '',
   });
   
   const [loading, setLoading] = useState(false);
@@ -82,14 +104,25 @@ const ArticleEditor = () => {
           title_uk: data.title_uk,
           title_ru: data.title_ru,
           title_pl: data.title_pl,
+          title_en: data.title_en || '',
           preview_uk: data.preview_uk,
           preview_ru: data.preview_ru,
           preview_pl: data.preview_pl,
+          preview_en: data.preview_en || '',
           content_uk: data.content_uk,
           content_ru: data.content_ru,
           content_pl: data.content_pl,
+          content_en: data.content_en || '',
           category: data.category,
           main_image_url: data.main_image_url || '',
+          seo_title_uk: data.seo_title_uk || '',
+          seo_title_ru: data.seo_title_ru || '',
+          seo_title_pl: data.seo_title_pl || '',
+          seo_title_en: data.seo_title_en || '',
+          seo_description_uk: data.seo_description_uk || '',
+          seo_description_ru: data.seo_description_ru || '',
+          seo_description_pl: data.seo_description_pl || '',
+          seo_description_en: data.seo_description_en || '',
         });
       }
     } catch (error) {
@@ -230,9 +263,10 @@ const ArticleEditor = () => {
           <TabsTrigger value="uk">🇺🇦 Українська</TabsTrigger>
           <TabsTrigger value="ru">🇷🇺 Русский</TabsTrigger>
           <TabsTrigger value="pl">🇵🇱 Polski</TabsTrigger>
+          <TabsTrigger value="en">🇺🇸 English</TabsTrigger>
         </TabsList>
 
-        {['uk', 'ru', 'pl'].map((lang) => (
+        {['uk', 'ru', 'pl', 'en'].map((lang) => (
           <TabsContent key={lang} value={lang}>
             <Card>
               <CardContent className="space-y-4 pt-6">
@@ -246,6 +280,7 @@ const ArticleEditor = () => {
                       [`title_${lang}`]: e.target.value 
                     })}
                     placeholder={t('admin.articleTitlePlaceholder', 'Enter article title')}
+                    required={lang !== 'en'}
                   />
                 </div>
 
@@ -260,6 +295,7 @@ const ArticleEditor = () => {
                     })}
                     placeholder={t('admin.articlePreviewPlaceholder', 'Enter article preview')}
                     rows={3}
+                    required={lang !== 'en'}
                   />
                 </div>
 
@@ -271,6 +307,33 @@ const ArticleEditor = () => {
                       ...article, 
                       [`content_${lang}`]: content 
                     })}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor={`seo_title_${lang}`}>{t('admin.seoTitle', 'SEO Title')}</Label>
+                  <Input
+                    id={`seo_title_${lang}`}
+                    value={article[`seo_title_${lang}` as keyof ArticleForm]}
+                    onChange={(e) => setArticle({ 
+                      ...article, 
+                      [`seo_title_${lang}`]: e.target.value 
+                    })}
+                    placeholder={t('admin.seoTitlePlaceholder', 'Enter SEO title')}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor={`seo_description_${lang}`}>{t('admin.seoDescription', 'SEO Description')}</Label>
+                  <Textarea
+                    id={`seo_description_${lang}`}
+                    value={article[`seo_description_${lang}` as keyof ArticleForm]}
+                    onChange={(e) => setArticle({ 
+                      ...article, 
+                      [`seo_description_${lang}`]: e.target.value 
+                    })}
+                    placeholder={t('admin.seoDescriptionPlaceholder', 'Enter SEO description')}
+                    rows={2}
                   />
                 </div>
               </CardContent>
