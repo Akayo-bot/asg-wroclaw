@@ -36,8 +36,7 @@ const App = () => (
     <BrandingProvider>
         <AuthProvider>
           <I18nProvider>
-            <LanguageProvider>
-              <TooltipProvider>
+            <TooltipProvider>
                 <Toaster />
                 <Sonner />
                 <BrowserRouter>
@@ -92,11 +91,10 @@ const App = () => (
               </Routes>
             </BrowserRouter>
           </TooltipProvider>
-        </LanguageProvider>
-      </I18nProvider>
-    </AuthProvider>
-  </BrandingProvider>
-</QueryClientProvider>
+        </I18nProvider>
+      </AuthProvider>
+    </BrandingProvider>
+  </QueryClientProvider>
 );
 
 export default App;

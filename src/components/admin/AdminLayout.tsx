@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Link, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { 
   LayoutDashboard, 
@@ -21,7 +21,7 @@ import { useToast } from '@/hooks/use-toast';
 
 const AdminLayout = () => {
   const { user, profile, signOut, loading } = useAuth();
-  const t = useTranslation();
+  const { t } = useI18n();
   const location = useLocation();
   const { toast } = useToast();
 
@@ -29,8 +29,8 @@ const AdminLayout = () => {
     // Show insufficient permissions message
     if (!loading && user && profile && profile.role !== 'admin' && profile.role !== 'editor') {
       toast({
-        title: t.errors.insufficientPermissions || 'Insufficient Permissions',
-        description: t.errors.adminAccessRequired || 'Admin or Editor access required',
+        title: t('errors.insufficientPermissions', 'Insufficient Permissions'),
+        description: t('errors.adminAccessRequired', 'Admin or Editor access required'),
         variant: 'destructive'
       });
     }
@@ -57,14 +57,15 @@ const AdminLayout = () => {
   }
 
   const menuItems = [
-    { icon: LayoutDashboard, label: t.admin.dashboard, path: '/admin' },
-    { icon: FileText, label: t.admin.articles, path: '/admin/articles' },
-    { icon: UserCog, label: 'Role Management', path: '/admin/roles' },
-    { icon: Settings, label: 'Translations', path: '/admin/translations' },
-    { icon: Images, label: t.admin.gallery, path: '/admin/gallery' },
-    { icon: Calendar, label: t.admin.events, path: '/admin/events' },
-    { icon: Users, label: t.admin.team, path: '/admin/team' },
-    { icon: BarChart3, label: t.admin.statistics, path: '/admin/stats' },
+    { icon: LayoutDashboard, label: t('admin.dashboard', 'Dashboard'), path: '/admin' },
+    { icon: FileText, label: t('admin.articles', 'Articles'), path: '/admin/articles' },
+    { icon: UserCog, label: t('admin.roles.title', 'Role Management'), path: '/admin/roles' },
+    { icon: Settings, label: t('admin.branding.title', 'Brand Management'), path: '/admin/branding' },
+    { icon: Settings, label: t('admin.translations.title', 'Translations'), path: '/admin/translations' },
+    { icon: Images, label: t('admin.gallery', 'Gallery'), path: '/admin/gallery' },
+    { icon: Calendar, label: t('admin.events', 'Events'), path: '/admin/events' },
+    { icon: Users, label: t('admin.team', 'Team'), path: '/admin/team' },
+    { icon: BarChart3, label: t('admin.statistics', 'Statistics'), path: '/admin/stats' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -76,7 +77,7 @@ const AdminLayout = () => {
           <SidebarContent>
             <div className="p-4 border-b">
               <h2 className="text-lg font-semibold text-primary">
-                {t.admin.title}
+                {t('admin.title', 'Admin Panel')}
               </h2>
               <p className="text-sm text-muted-foreground">
                 {profile.display_name}
@@ -107,7 +108,7 @@ const AdminLayout = () => {
                 onClick={() => signOut()}
               >
                 <LogOut className="h-4 w-4 mr-2" />
-                {t.auth.logout}
+                {t('auth.logout', 'Logout')}
               </Button>
             </div>
           </SidebarContent>
@@ -118,7 +119,7 @@ const AdminLayout = () => {
             <SidebarTrigger />
             <div className="ml-4">
               <h1 className="text-xl font-semibold">
-                {t.admin.title}
+                {t('admin.title', 'Admin Panel')}
               </h1>
             </div>
           </header>
