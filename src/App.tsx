@@ -36,7 +36,8 @@ const App = () => (
     <BrandingProvider>
         <AuthProvider>
           <I18nProvider>
-            <TooltipProvider>
+            <LanguageProvider>
+              <TooltipProvider>
                 <Toaster />
                 <Sonner />
                 <BrowserRouter>
@@ -91,6 +92,7 @@ const App = () => (
               </Routes>
             </BrowserRouter>
           </TooltipProvider>
+            </LanguageProvider>
         </I18nProvider>
       </AuthProvider>
     </BrandingProvider>
