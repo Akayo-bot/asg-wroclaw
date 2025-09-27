@@ -26,12 +26,20 @@ export const formatCurrency = (
     return new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: currency,
-      minimumFractionDigits: currency === 'PLN' ? 0 : 2,
-      maximumFractionDigits: currency === 'PLN' ? 0 : 2
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2
     }).format(amount);
   } catch (error) {
     console.warn('Error formatting currency:', error);
-    return `${amount} ${currency}`;
+    // Fallback with currency symbols
+    const symbols: Record<string, string> = {
+      PLN: 'zł',
+      USD: '$',
+      EUR: '€',
+      UAH: '₴'
+    };
+    const symbol = symbols[currency] || currency;
+    return `${amount} ${symbol}`;
   }
 };
 

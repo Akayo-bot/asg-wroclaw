@@ -52,7 +52,7 @@ const AdminLayout = () => {
   }
 
   // Redirect users without proper role to home with message
-  if (profile.role !== 'superadmin' && profile.role !== 'admin' && profile.role !== 'editor') {
+  if (!['superadmin', 'admin', 'editor'].includes(profile.role)) {
     return <Navigate to="/" replace />;
   }
 
