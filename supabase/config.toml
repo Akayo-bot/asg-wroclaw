@@ -1,1 +1,8 @@
 project_id = "oywbldhpmpjvavtcknvy"
+
+[functions.check-event-cancellation]
+verify_jwt = false
+
+[functions."check-event-cancellation".http_config]
+cors = "false"
+timeout = 30000

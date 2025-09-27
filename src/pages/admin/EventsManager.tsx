@@ -162,7 +162,6 @@ const EventsManager = () => {
         event_date: new Date(formData.event_date).toISOString(),
         start_datetime: new Date(formData.start_datetime || formData.event_date).toISOString(),
         registration_deadline: formData.registration_deadline ? new Date(formData.registration_deadline).toISOString() : null,
-        price: formData.price_amount ? parseFloat(formData.price_amount) : null,
         price_amount: formData.price_amount ? parseFloat(formData.price_amount) : null,
         price_currency: formData.price_currency,
         max_participants: formData.max_participants ? parseInt(formData.max_participants) : null,

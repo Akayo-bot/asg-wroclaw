@@ -13,8 +13,24 @@ export const translations: Record<Language, Translations> = {
       subscribe: 'Subscribe'
     },
     common: {
+      save: 'Save',
+      cancel: 'Cancel',
+      publish: 'Publish',
+      unpublish: 'Unpublish',
+      delete: 'Delete',
+      edit: 'Edit',
+      addImage: 'Add Image',
+      addVideo: 'Add Video',
       readMore: 'Read More',
-      loadMore: 'Load More',
+      free: 'Free',
+      unlimited: 'Unlimited',
+      registrationOpen: 'Registration Open',
+      registrationClosed: 'Registration Closed',
+      waitlist: 'Waitlist',
+      currency: 'Currency',
+      noArticles: 'No articles available',
+      noGallery: 'No gallery items available',
+      common: {
       loading: 'Loading...',
       error: 'Error',
       notFound: 'Not Found',
@@ -288,7 +304,6 @@ export const translations: Record<Language, Translations> = {
       subscribe: 'Підписка'
     },
     common: {
-      readMore: 'Читати далі',
       loadMore: 'Завантажити ще',
       loading: 'Завантаження...',
       error: 'Помилка',
@@ -486,6 +501,23 @@ export const translations: Record<Language, Translations> = {
       online: 'Онлайн',
       lastBackup: 'Останнє резервне копіювання',
       automated: 'Автоматично',
+      save: 'Зберегти',
+      cancel: 'Скасувати',
+      publish: 'Опублікувати',
+      unpublish: 'Скасувати публікацію',
+      delete: 'Видалити',
+      edit: 'Редагувати',
+      addImage: 'Додати зображення',
+      addVideo: 'Додати відео',
+      readMore: 'Читати далі',
+      free: 'Безкоштовно',
+      unlimited: 'Необмежено',
+      registrationOpen: 'Реєстрація відкрита',
+      registrationClosed: 'Реєстрація закрита',
+      waitlist: 'Список очікування',
+      currency: 'Валюта',
+      noArticles: 'Статей немає',
+      noGallery: 'Елементів галереї немає'
     },
     categories: {
       tactics: 'Тактика',
@@ -761,6 +793,23 @@ export const translations: Record<Language, Translations> = {
       online: 'Онлайн',
       lastBackup: 'Последняя резервная копия',
       automated: 'Автоматически',
+      save: 'Сохранить',
+      cancel: 'Отменить', 
+      publish: 'Опубликовать',
+      unpublish: 'Отменить публикацию',
+      delete: 'Удалить',
+      edit: 'Редактировать',
+      addImage: 'Добавить изображение',
+      addVideo: 'Добавить видео',
+      readMore: 'Читать далее',
+      free: 'Бесплатно',
+      unlimited: 'Неограничено',
+      registrationOpen: 'Регистрация открыта',
+      registrationClosed: 'Регистрация закрыта',
+      waitlist: 'Список ожидания',
+      currency: 'Валюта',
+      noArticles: 'Нет статей',
+      noGallery: 'Нет элементов галереи'
     },
     categories: {
       tactics: 'Тактика',
@@ -1036,6 +1085,53 @@ export const translations: Record<Language, Translations> = {
       online: 'Online',
       lastBackup: 'Ostatnia kopia zapasowa',
       automated: 'Automatycznie',
+      save: 'Zapisz',
+      cancel: 'Anuluj',
+      publish: 'Opublikuj',
+      unpublish: 'Cofnij publikację',
+      delete: 'Usuń',
+      edit: 'Edytuj',
+      addImage: 'Dodaj obraz',
+      addVideo: 'Dodaj wideo',
+      readMore: 'Czytaj więcej',
+      free: 'Bezpłatne',
+      unlimited: 'Bez ograniczeń',
+      registrationOpen: 'Rejestracja otwarta',
+      registrationClosed: 'Rejestracja zamknięta',
+      waitlist: 'Lista oczekujących',
+      currency: 'Waluta',
+      noArticles: 'Brak artykułów',
+      noGallery: 'Brak elementów galerii'
+    },
+    categories: {
+      tactics: 'Taktyka',
+      equipment: 'Wyposażenie',
+      news: 'Wiadomości',
+      gameReports: 'Raporty z gier',
+      rules: 'Zasady'
+    },
+    profile: {
+      title: 'Profil',
+      // ... rest of profile translations
+    },
+    errors: {
+      unauthorized: 'Nieautoryzowany dostęp',
+      serverError: 'Błąd serwera',
+      insufficientPermissions: 'Niewystarczające uprawnienia',
+      adminAccessRequired: 'Wymagany dostęp administratora lub redaktora',
+      passwordMismatch: 'Hasła nie pasują',
+      passwordTooShort: 'Hasło jest za krótkie',
+      passwordChangeError: 'Błąd zmiany hasła'
+    }
+  }
+};
+
+export const languages = [
+  { code: 'uk' as Language, name: 'Українська', flag: '🇺🇦' },
+  { code: 'ru' as Language, name: 'Русский', flag: '🇷🇺' },
+  { code: 'pl' as Language, name: 'Polski', flag: '🇵🇱' },
+  { code: 'en' as Language, name: 'English', flag: '🇺🇸' }
+];
     },
     categories: {
       tactics: 'Taktyka',
@@ -1098,7 +1194,7 @@ export const translations: Record<Language, Translations> = {
       adminAccessRequired: 'Wymagany dostęp administratora lub redaktora',
       passwordMismatch: 'Hasła nie pasują',
       passwordTooShort: 'Hasło jest za krótkie',
-      passwordChangeError: 'Błąd zmiany hasła',
+      passwordChangeError: 'Błąd zmiany hasła'
     }
   }
 };
@@ -1106,5 +1202,6 @@ export const translations: Record<Language, Translations> = {
 export const languages = [
   { code: 'uk' as Language, name: 'Українська', flag: '🇺🇦' },
   { code: 'ru' as Language, name: 'Русский', flag: '🇷🇺' },
-  { code: 'pl' as Language, name: 'Polski', flag: '🇵🇱' }
+  { code: 'pl' as Language, name: 'Polski', flag: '🇵🇱' },
+  { code: 'en' as Language, name: 'English', flag: '🇺🇸' }
 ];
