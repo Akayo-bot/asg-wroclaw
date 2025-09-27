@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation, useLanguage } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import PasswordChangeForm from '@/components/auth/PasswordChangeForm';
@@ -19,8 +19,7 @@ import { languages } from '@/data/translations';
 
 export default function ProfilePage() {
   const { profile, updateProfile } = useAuth();
-  const t = useTranslation();
-  const { currentLanguage, setLanguage } = useLanguage();
+  const { language, setLanguage, t } = useI18n();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [favorites, setFavorites] = useState<any[]>([]);

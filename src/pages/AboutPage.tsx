@@ -1,10 +1,10 @@
 import { Layout } from '@/components/Layout';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Target, Shield, Users, Trophy } from 'lucide-react';
 
 const AboutPage = () => {
-  const t = useTranslation();
+  const { t } = useI18n();
 
   return (
     <Layout showBreadcrumbs>

@@ -17,7 +17,7 @@ import {
   Image as ImageIcon,
   Youtube as YoutubeIcon
 } from 'lucide-react';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 
 interface RichTextEditorProps {
   content: string;
@@ -25,7 +25,7 @@ interface RichTextEditorProps {
 }
 
 const RichTextEditor: React.FC<RichTextEditorProps> = ({ content, onChange }) => {
-  const t = useTranslation();
+  const { t } = useI18n();
   const [imageUrl, setImageUrl] = React.useState('');
   const [youtubeUrl, setYoutubeUrl] = React.useState('');
 

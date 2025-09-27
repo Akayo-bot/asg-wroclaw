@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Layout } from '@/components/Layout';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 
 const SearchPage = () => {
-  const t = useTranslation();
+  const { t } = useI18n();
   const [query, setQuery] = useState('');
 
   return (

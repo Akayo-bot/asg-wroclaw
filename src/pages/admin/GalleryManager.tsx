@@ -274,9 +274,10 @@ const GalleryManager = () => {
                   <TabsTrigger value="uk">🇺🇦 Українська</TabsTrigger>
                   <TabsTrigger value="ru">🇷🇺 Русский</TabsTrigger>
                   <TabsTrigger value="pl">🇵🇱 Polski</TabsTrigger>
+                  <TabsTrigger value="en">🇺🇸 English</TabsTrigger>
                 </TabsList>
 
-                {['uk', 'ru', 'pl'].map((lang) => (
+                {['uk', 'ru', 'pl', 'en'].map((lang) => (
                   <TabsContent key={lang} value={lang} className="space-y-4">
                     <div>
                       <Label htmlFor={`title_${lang}`}>{t('gallery.title_field', 'Title')}</Label>

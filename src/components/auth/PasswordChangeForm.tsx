@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,7 +12,7 @@ import { Lock, AlertTriangle, CheckCircle } from 'lucide-react';
 
 const PasswordChangeForm = () => {
   const { user } = useAuth();
-  const t = useTranslation();
+  const { t } = useI18n();
   const { toast } = useToast();
   
   const [formData, setFormData] = useState({

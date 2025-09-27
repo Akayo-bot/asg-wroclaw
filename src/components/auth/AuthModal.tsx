@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Lock, User, Chrome } from 'lucide-react';
 
@@ -18,7 +18,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
   const [activeTab, setActiveTab] = useState('login');
   const [loading, setLoading] = useState(false);
   const { signIn, signUp, signInWithGoogle, resetPassword } = useAuth();
-  const t = useTranslation();
+  const { t } = useI18n();
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
