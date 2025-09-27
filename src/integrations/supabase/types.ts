@@ -18,16 +18,19 @@ export type Database = {
         Row: {
           author_id: string
           category: Database["public"]["Enums"]["article_category"]
+          content_en: string | null
           content_pl: string
           content_ru: string
           content_uk: string
           created_at: string
           id: string
           main_image_url: string | null
+          preview_en: string | null
           preview_pl: string
           preview_ru: string
           preview_uk: string
           status: Database["public"]["Enums"]["article_status"]
+          title_en: string | null
           title_pl: string
           title_ru: string
           title_uk: string
@@ -37,16 +40,19 @@ export type Database = {
         Insert: {
           author_id: string
           category: Database["public"]["Enums"]["article_category"]
+          content_en?: string | null
           content_pl: string
           content_ru: string
           content_uk: string
           created_at?: string
           id?: string
           main_image_url?: string | null
+          preview_en?: string | null
           preview_pl: string
           preview_ru: string
           preview_uk: string
           status?: Database["public"]["Enums"]["article_status"]
+          title_en?: string | null
           title_pl: string
           title_ru: string
           title_uk: string
@@ -56,16 +62,19 @@ export type Database = {
         Update: {
           author_id?: string
           category?: Database["public"]["Enums"]["article_category"]
+          content_en?: string | null
           content_pl?: string
           content_ru?: string
           content_uk?: string
           created_at?: string
           id?: string
           main_image_url?: string | null
+          preview_en?: string | null
           preview_pl?: string
           preview_ru?: string
           preview_uk?: string
           status?: Database["public"]["Enums"]["article_status"]
+          title_en?: string | null
           title_pl?: string
           title_ru?: string
           title_uk?: string
@@ -108,25 +117,34 @@ export type Database = {
         Row: {
           created_at: string
           created_by: string
+          description_en: string | null
           description_pl: string
           description_ru: string
           description_uk: string
           event_date: string
           id: string
+          limit_mode: string | null
+          location_en: string | null
           location_pl: string
           location_ru: string
           location_uk: string
           main_image_url: string | null
           max_participants: number | null
+          max_players: number | null
+          min_players: number | null
           price: number | null
+          price_currency: string | null
           registration_deadline: string | null
+          rules_en: string | null
           rules_pl: string | null
           rules_ru: string | null
           rules_uk: string | null
+          scenario_en: string | null
           scenario_pl: string | null
           scenario_ru: string | null
           scenario_uk: string | null
           status: Database["public"]["Enums"]["event_status"]
+          title_en: string | null
           title_pl: string
           title_ru: string
           title_uk: string
@@ -135,25 +153,34 @@ export type Database = {
         Insert: {
           created_at?: string
           created_by: string
+          description_en?: string | null
           description_pl: string
           description_ru: string
           description_uk: string
           event_date: string
           id?: string
+          limit_mode?: string | null
+          location_en?: string | null
           location_pl: string
           location_ru: string
           location_uk: string
           main_image_url?: string | null
           max_participants?: number | null
+          max_players?: number | null
+          min_players?: number | null
           price?: number | null
+          price_currency?: string | null
           registration_deadline?: string | null
+          rules_en?: string | null
           rules_pl?: string | null
           rules_ru?: string | null
           rules_uk?: string | null
+          scenario_en?: string | null
           scenario_pl?: string | null
           scenario_ru?: string | null
           scenario_uk?: string | null
           status?: Database["public"]["Enums"]["event_status"]
+          title_en?: string | null
           title_pl: string
           title_ru: string
           title_uk: string
@@ -162,25 +189,34 @@ export type Database = {
         Update: {
           created_at?: string
           created_by?: string
+          description_en?: string | null
           description_pl?: string
           description_ru?: string
           description_uk?: string
           event_date?: string
           id?: string
+          limit_mode?: string | null
+          location_en?: string | null
           location_pl?: string
           location_ru?: string
           location_uk?: string
           main_image_url?: string | null
           max_participants?: number | null
+          max_players?: number | null
+          min_players?: number | null
           price?: number | null
+          price_currency?: string | null
           registration_deadline?: string | null
+          rules_en?: string | null
           rules_pl?: string | null
           rules_ru?: string | null
           rules_uk?: string | null
+          scenario_en?: string | null
           scenario_pl?: string | null
           scenario_ru?: string | null
           scenario_uk?: string | null
           status?: Database["public"]["Enums"]["event_status"]
+          title_en?: string | null
           title_pl?: string
           title_ru?: string
           title_uk?: string
@@ -191,13 +227,16 @@ export type Database = {
       gallery_items: {
         Row: {
           created_at: string
+          description_en: string | null
           description_pl: string | null
           description_ru: string | null
           description_uk: string | null
           file_type: string
           file_url: string
           id: string
+          status: string | null
           thumbnail_url: string | null
+          title_en: string | null
           title_pl: string | null
           title_ru: string | null
           title_uk: string | null
@@ -206,13 +245,16 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          description_en?: string | null
           description_pl?: string | null
           description_ru?: string | null
           description_uk?: string | null
           file_type: string
           file_url: string
           id?: string
+          status?: string | null
           thumbnail_url?: string | null
+          title_en?: string | null
           title_pl?: string | null
           title_ru?: string | null
           title_uk?: string | null
@@ -221,13 +263,16 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          description_en?: string | null
           description_pl?: string | null
           description_ru?: string | null
           description_uk?: string | null
           file_type?: string
           file_url?: string
           id?: string
+          status?: string | null
           thumbnail_url?: string | null
+          title_en?: string | null
           title_pl?: string | null
           title_ru?: string | null
           title_uk?: string | null
@@ -319,6 +364,7 @@ export type Database = {
       }
       team_members: {
         Row: {
+          bio_en: string | null
           bio_pl: string | null
           bio_ru: string | null
           bio_uk: string | null
@@ -329,6 +375,7 @@ export type Database = {
           is_active: boolean
           photo_url: string | null
           real_name: string | null
+          role_en: string | null
           role_pl: string
           role_ru: string
           role_uk: string
@@ -336,6 +383,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          bio_en?: string | null
           bio_pl?: string | null
           bio_ru?: string | null
           bio_uk?: string | null
@@ -346,6 +394,7 @@ export type Database = {
           is_active?: boolean
           photo_url?: string | null
           real_name?: string | null
+          role_en?: string | null
           role_pl: string
           role_ru: string
           role_uk: string
@@ -353,6 +402,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          bio_en?: string | null
           bio_pl?: string | null
           bio_ru?: string | null
           bio_uk?: string | null
@@ -363,11 +413,66 @@ export type Database = {
           is_active?: boolean
           photo_url?: string | null
           real_name?: string | null
+          role_en?: string | null
           role_pl?: string
           role_ru?: string
           role_uk?: string
           social_links?: Json | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      team_settings: {
+        Row: {
+          active_members: number | null
+          created_at: string | null
+          games_played: number | null
+          id: string
+          mission_description_en: string
+          mission_description_pl: string
+          mission_description_ru: string
+          mission_description_uk: string
+          mission_title_en: string
+          mission_title_pl: string
+          mission_title_ru: string
+          mission_title_uk: string
+          updated_at: string | null
+          win_rate: number | null
+          years_active: number | null
+        }
+        Insert: {
+          active_members?: number | null
+          created_at?: string | null
+          games_played?: number | null
+          id?: string
+          mission_description_en: string
+          mission_description_pl: string
+          mission_description_ru: string
+          mission_description_uk: string
+          mission_title_en: string
+          mission_title_pl: string
+          mission_title_ru: string
+          mission_title_uk: string
+          updated_at?: string | null
+          win_rate?: number | null
+          years_active?: number | null
+        }
+        Update: {
+          active_members?: number | null
+          created_at?: string | null
+          games_played?: number | null
+          id?: string
+          mission_description_en?: string
+          mission_description_pl?: string
+          mission_description_ru?: string
+          mission_description_uk?: string
+          mission_title_en?: string
+          mission_title_pl?: string
+          mission_title_ru?: string
+          mission_title_uk?: string
+          updated_at?: string | null
+          win_rate?: number | null
+          years_active?: number | null
         }
         Relationships: []
       }
