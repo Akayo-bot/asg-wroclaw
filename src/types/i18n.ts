@@ -22,6 +22,24 @@ export interface Translations {
     search: string;
     subscribe: string;
   };
+  games: {
+    title: string;
+    subtitle: string;
+    registration_closed: string;
+    join_waitlist: string;
+    register: string;
+    no_upcoming: string;
+    cta: {
+      question: string;
+      contact: string;
+    };
+    status: {
+      cancelled: string;
+      waitlist: string;
+      full: string;
+      open: string;
+    };
+  };
   admin: {
     title: string;
     dashboard: string;

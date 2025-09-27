@@ -21,11 +21,11 @@ const DataSources = () => {
   const fetchDebugData = async () => {
     setLoading(true);
     try {
-      // Fetch upcoming events
+      // Fetch upcoming events  
       const { data: eventsData, error: eventsError } = await supabase
         .from('events')
         .select('*')
-        .eq('status', 'upcoming')
+        .in('status', ['upcoming', 'registration_open'])
         .gte('start_datetime', new Date().toISOString())
         .order('start_datetime', { ascending: true })
         .limit(3);
@@ -90,27 +90,53 @@ const DataSources = () => {
             <div>
               <strong>Query:</strong>
               <code className="block bg-muted p-2 rounded mt-2 text-sm">
-                SELECT * FROM events WHERE status = 'upcoming' AND start_datetime &gt;= NOW() ORDER BY start_datetime ASC LIMIT 3
+                SELECT * FROM events WHERE status IN ('upcoming', 'registration_open') AND start_datetime &gt;= NOW() ORDER BY start_datetime ASC LIMIT 3
               </code>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
+                <strong>Total Found:</strong>
+                <p className="text-muted-foreground">{upcomingGames.length} events</p>
+              </div>
+              <div>
+                <strong>Status Filter:</strong>
+                <p className="text-muted-foreground">upcoming, registration_open</p>
+              </div>
+              <div>
+                <strong>Currency Support:</strong>
+                <p className="text-muted-foreground">PLN, USD, EUR, UAH</p>
+              </div>
+              <div>
                 <strong>Last Update:</strong>
                 <p className="text-muted-foreground">{lastUpdate.toLocaleString()}</p>
               </div>
-              <div>
-                <strong>Results Count:</strong>
-                <Badge variant="outline">{upcomingGames.length}</Badge>
-              </div>
-              <div>
-                <strong>Language:</strong>
-                <Badge>{language.toUpperCase()}</Badge>
-              </div>
-              <div>
-                <strong>Cache Status:</strong>
-                <Badge variant="secondary">Live Query</Badge>
-              </div>
             </div>
+
+            {upcomingGames.length > 0 ? (
+              <div className="space-y-2">
+                <strong>Events Found:</strong>
+                {upcomingGames.map((event: any) => (
+                  <div key={event.id} className="flex items-center justify-between p-3 bg-muted/50 rounded">
+                    <div>
+                      <span className="font-medium">{getTitle(event, 'event')}</span>
+                      <div className="text-xs text-muted-foreground">
+                        ID: {event.id} | Status: {event.status} | Registration: {event.status_registration}
+                      </div>
+                    </div>
+                    <div className="text-right text-sm">
+                      <div>{formatDateTime(event.start_datetime, language, { month: 'short', day: 'numeric' })}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {formatCurrency(event.price_amount, event.price_currency || 'PLN', language)}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded">
+                <p className="text-yellow-800 dark:text-yellow-200">⚠️ No upcoming events found. This will show empty state on homepage.</p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>

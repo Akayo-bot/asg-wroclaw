@@ -197,6 +197,24 @@ export const translations: Record<Language, Translations> = {
         cancelled: 'Cancelled'
       }
     },
+    games: {
+      title: 'UPCOMING GAMES',
+      subtitle: 'Join our tactical operations and experience the real military spirit',
+      registration_closed: 'Registration Closed',
+      join_waitlist: 'Join Waitlist',
+      register: 'Register',
+      no_upcoming: 'No upcoming games. Check back soon!',
+      cta: {
+        question: 'Didn\'t find a suitable game? Suggest your own scenario!',
+        contact: 'CONTACT ORGANIZERS →'
+      },
+      status: {
+        cancelled: 'Cancelled',
+        waitlist: 'Waitlist',
+        full: 'Full',
+        open: 'Open'
+      }
+    },
     pages: {
       games: {
         title: 'Upcoming Games',
@@ -329,6 +347,24 @@ export const translations: Record<Language, Translations> = {
         players: 'Гравців',
         gamesPerYear: 'Ігор на рік',
         yearsExperience: 'Років досвіду'
+      }
+    },
+    games: {
+      title: 'БЛИЖАЙШІ ІГРИ',
+      subtitle: 'Приєднуйтесь до наших тактичних операцій та відчуйте справжній військовий дух',
+      registration_closed: 'Реєстрацію закрито',
+      join_waitlist: 'Список очікування',
+      register: 'Записатися',
+      no_upcoming: 'Поки немає запланованих ігор. Завітайте пізніше!',
+      cta: {
+        question: 'Не знайшли підходящу гру? Запропонуйте свій сценарій!',
+        contact: 'ЗВ\'ЯЗАТИСЯ З ОРГАНІЗАТОРАМИ →'
+      },
+      status: {
+        cancelled: 'Скасовано',
+        waitlist: 'Очікування',
+        full: 'Повна',
+        open: 'Відкрито'
       }
     },
     pages: {
@@ -771,6 +807,24 @@ export const translations: Record<Language, Translations> = {
         cancelled: 'Отменено'
       }
     },
+    games: {
+      title: 'БЛИЖАЙШИЕ ИГРЫ',
+      subtitle: 'Присоединяйтесь к нашим тактическим операциям и почувствуйте настоящий военный дух',
+      registration_closed: 'Регистрация закрыта',
+      join_waitlist: 'Список ожидания',
+      register: 'Записаться',
+      no_upcoming: 'Пока нет запланированных игр. Заходите позже!',
+      cta: {
+        question: 'Не нашли подходящую игру? Предложите свой сценарий!',
+        contact: 'СВЯЗАТЬСЯ С ОРГАНИЗАТОРАМИ →'
+      },
+      status: {
+        cancelled: 'Отменено',
+        waitlist: 'Ожидание',
+        full: 'Полная',
+        open: 'Открыто'
+      }
+    },
     pages: {
       games: {
         title: 'Предстоящие игры',
@@ -1056,6 +1110,24 @@ export const translations: Record<Language, Translations> = {
         approved: 'Zatwierdzono',
         rejected: 'Odrzucono',
         cancelled: 'Anulowany'
+      }
+    },
+    games: {
+      title: 'NADCHODZĄCE GRY',
+      subtitle: 'Dołącz do naszych operacji taktycznych i poczuj prawdziwego ducha wojskowego',
+      registration_closed: 'Rejestracja zamknięta',
+      join_waitlist: 'Dołącz do listy oczekujących',
+      register: 'Zapisz się',
+      no_upcoming: 'Obecnie brak zaplanowanych gier. Sprawdź później!',
+      cta: {
+        question: 'Nie znalazłeś odpowiedniej gry? Zaproponuj swój scenariusz!',
+        contact: 'SKONTAKTUJ SIĘ Z ORGANIZATORAMI →'
+      },
+      status: {
+        cancelled: 'Anulowano',
+        waitlist: 'Lista oczekujących',
+        full: 'Pełna',
+        open: 'Otwarta'
       }
     },
     pages: {

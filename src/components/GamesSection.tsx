@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, MapPin, Users, DollarSign } from 'lucide-react';
+import { Calendar, MapPin, Users, Coins } from 'lucide-react';
 import { useI18n } from '@/contexts/I18nContext';
 import { supabase } from '@/integrations/supabase/client';
 import { formatCurrency, formatPlayerLimits, formatDateTime } from '@/lib/formatters';
@@ -24,7 +24,7 @@ const GamesSection = () => {
       const { data, error } = await supabase
         .from('events')
         .select('*')
-        .eq('status', 'upcoming')
+        .in('status', ['upcoming', 'registration_open'])
         .gte('start_datetime', new Date().toISOString())
         .order('start_datetime', { ascending: true })
         .limit(3);
@@ -148,16 +148,16 @@ const GamesSection = () => {
 
         {/* Games Grid */}
         {upcomingGames.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
             {upcomingGames.map((event) => (
-              <Card key={event.id} className="hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group">
+              <Card key={event.id} className="group overflow-hidden rounded-2xl bg-card border hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <div className="relative">
                   {event.main_image_url && (
-                    <div className="aspect-video overflow-hidden rounded-t-lg">
+                    <div className="aspect-[16/9] overflow-hidden">
                       <img 
                         src={event.main_image_url} 
                         alt={getTitle(event)}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
                   )}
@@ -204,7 +204,7 @@ const GamesSection = () => {
                         </div>
 
                         <div className="flex items-center gap-2 text-muted-foreground">
-                          <DollarSign className="h-4 w-4" />
+                          <Coins className="h-4 w-4" />
                           <span className="font-semibold">
                             {formatCurrency(event.price_amount, event.price_currency || 'PLN', language)}
                           </span>
