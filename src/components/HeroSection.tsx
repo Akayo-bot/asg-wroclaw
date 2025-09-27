@@ -1,8 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Crosshair } from 'lucide-react';
 import heroImage from '@/assets/hero-airsoft.jpg';
+import { useI18n } from '@/contexts/I18nContext';
 
 const HeroSection = () => {
+  const { t } = useI18n();
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -39,14 +42,14 @@ const HeroSection = () => {
 
           {/* Main Headline */}
           <h1 className="font-rajdhani text-5xl md:text-7xl lg:text-8xl font-bold text-foreground leading-tight tracking-tight">
-            СТРАЙКБОЛ —<br />
-            ЭТО БОЛЬШЕ,<br />
-            <span className="text-primary">ЧЕМ ИГРА</span>
+            {t('hero.title.line1', 'СТРАЙКБОЛ —')}<br />
+            {t('hero.title.line2', 'ЭТО БОЛЬШЕ,')}<br />
+            <span className="text-primary">{t('hero.title.line3', 'ЧЕМ ИГРА')}</span>
           </h1>
 
           {/* Subheadline */}
           <p className="font-inter text-xl md:text-2xl text-muted-foreground font-medium tracking-wide max-w-2xl mx-auto leading-relaxed">
-            Тактика. Командный дух. Адреналин.
+            {t('hero.subtitle', 'Тактика. Командный дух. Адреналин.')}
           </p>
 
           {/* CTA Button */}
@@ -55,7 +58,7 @@ const HeroSection = () => {
               size="lg" 
               className="btn-tactical-primary font-rajdhani text-lg font-bold px-8 py-4 cursor-tactical group"
             >
-              ЗАПИСАТЬСЯ НА ИГРУ
+              {t('hero.cta.button', 'ЗАПИСАТЬСЯ НА ИГРУ')}
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
@@ -64,15 +67,15 @@ const HeroSection = () => {
           <div className="pt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto">
             <div className="text-center">
               <div className="font-rajdhani text-3xl font-bold text-primary">150+</div>
-              <div className="font-inter text-sm text-muted-foreground uppercase tracking-wider">Игроков</div>
+              <div className="font-inter text-sm text-muted-foreground uppercase tracking-wider">{t('hero.stats.players', 'Игроков')}</div>
             </div>
             <div className="text-center">
               <div className="font-rajdhani text-3xl font-bold text-primary">50+</div>
-              <div className="font-inter text-sm text-muted-foreground uppercase tracking-wider">Игр в год</div>
+              <div className="font-inter text-sm text-muted-foreground uppercase tracking-wider">{t('hero.stats.games', 'Игр в год')}</div>
             </div>
             <div className="text-center">
               <div className="font-rajdhani text-3xl font-bold text-primary">5</div>
-              <div className="font-inter text-sm text-muted-foreground uppercase tracking-wider">Лет опыта</div>
+              <div className="font-inter text-sm text-muted-foreground uppercase tracking-wider">{t('hero.stats.experience', 'Лет опыта')}</div>
             </div>
           </div>
         </div>

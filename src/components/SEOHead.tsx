@@ -25,8 +25,9 @@ export const SEOHead = ({ title, description, image, type = 'website' }: SEOHead
     const finalDescription = description || siteTagline;
     const finalImage = image || settings.og_image_url || 'https://lovable.dev/opengraph-image-p98pqg.png';
 
-    // Update document title
+    // Update document title and language
     document.title = finalTitle;
+    document.documentElement.lang = language;
 
     // Update meta tags
     const updateMeta = (name: string, content: string) => {

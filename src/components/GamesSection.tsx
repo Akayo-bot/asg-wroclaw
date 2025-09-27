@@ -2,8 +2,10 @@ import GameCard from './GameCard';
 import fieldArena from '@/assets/field-arena.jpg';
 import teamPhoto from '@/assets/team-photo.jpg';
 import heroImage from '@/assets/hero-airsoft.jpg';
+import { useI18n } from '@/contexts/I18nContext';
 
 const GamesSection = () => {
+  const { t } = useI18n();
   const upcomingGames = [
     {
       title: "Операция 'Волчья Стая'",
@@ -43,10 +45,12 @@ const GamesSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="font-rajdhani text-4xl md:text-5xl font-bold text-foreground mb-4">
-            БЛИЖАЙШИЕ <span className="text-primary">ИГРЫ</span>
+            {t('games.title', 'БЛИЖАЙШИЕ ИГРЫ').split(' ').map((word, i, arr) => 
+              i === arr.length - 1 ? <span key={i} className="text-primary">{word}</span> : word + ' '
+            )}
           </h2>
           <p className="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
-            Присоединяйтесь к нашим тактическим операциям и почувствуйте настоящий военный дух
+            {t('games.subtitle', 'Присоединяйтесь к нашим тактическим операциям и почувствуйте настоящий военный дух')}
           </p>
         </div>
 
@@ -60,10 +64,10 @@ const GamesSection = () => {
         {/* Call to Action */}
         <div className="text-center mt-16">
           <p className="font-inter text-muted-foreground mb-6">
-            Не нашли подходящую игру? Предложите свой сценарий!
+            {t('games.cta.question', 'Не нашли подходящую игру? Предложите свой сценарий!')}
           </p>
           <button className="font-rajdhani text-lg font-bold text-primary hover:text-foreground transition-colors cursor-tactical">
-            СВЯЗАТЬСЯ С ОРГАНИЗАТОРАМИ →
+            {t('games.cta.contact', 'СВЯЗАТЬСЯ С ОРГАНИЗАТОРАМИ →')}
           </button>
         </div>
       </div>

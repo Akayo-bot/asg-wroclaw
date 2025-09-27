@@ -2,32 +2,35 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Mail, Phone, MapPin, Clock, Facebook, Instagram } from 'lucide-react';
+import { useI18n } from '@/contexts/I18nContext';
 
 const ContactSection = () => {
+  const { t } = useI18n();
+  
   const contactInfo = [
     {
       icon: Phone,
-      label: 'Телефон',
+      label: t('contact.phone', 'Телефон'),
       value: '+48 123 456 789',
-      description: 'Звоните с 9:00 до 21:00'
+      description: t('contact.phone.desc', 'Звоните с 9:00 до 21:00')
     },
     {
       icon: Mail,
-      label: 'Email',
+      label: t('contact.email', 'Email'),
       value: 'info@ravenstrike.pl',
-      description: 'Ответим в течение 24 часов'
+      description: t('contact.email.desc', 'Ответим в течение 24 часов')
     },
     {
       icon: MapPin,
-      label: 'Локация',
-      value: 'Вроцлав, Польша',
-      description: 'Игры в радиусе 50 км'
+      label: t('contact.location', 'Локация'),
+      value: t('contact.location.value', 'Вроцлав, Польша'),
+      description: t('contact.location.desc', 'Игры в радиусе 50 км')
     },
     {
       icon: Clock,
-      label: 'Режим работы',
-      value: 'Пн-Вс 9:00-21:00',
-      description: 'Консультации и бронирование'
+      label: t('contact.hours', 'Режим работы'),
+      value: t('contact.hours.value', 'Пн-Вс 9:00-21:00'),
+      description: t('contact.hours.desc', 'Консультации и бронирование')
     }
   ];
 
@@ -37,10 +40,12 @@ const ContactSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="font-rajdhani text-4xl md:text-5xl font-bold text-foreground mb-4">
-            ГОТОВЫ К <span className="text-primary">БОЮ?</span>
+            {t('contact.title', 'ГОТОВЫ К БОЮ?').split(' ').map((word, i, arr) => 
+              i === arr.length - 1 ? <span key={i} className="text-primary">{word}</span> : word + ' '
+            )}
           </h2>
           <p className="font-inter text-lg text-muted-foreground max-w-2xl mx-auto">
-            Свяжитесь с нами для участия в играх или организации собственного события
+            {t('contact.subtitle', 'Свяжитесь с нами для участия в играх или организации собственного события')}
           </p>
         </div>
 
@@ -70,7 +75,7 @@ const ContactSection = () => {
             {/* Social Links */}
             <div className="bg-card p-6 rounded-lg tactical-lift">
               <h3 className="font-rajdhani text-xl font-bold text-foreground mb-4">
-                СЛЕДИТЕ ЗА НАМИ
+                {t('contact.social.title', 'СЛЕДИТЕ ЗА НАМИ')}
               </h3>
               <div className="flex space-x-4">
                 <button className="p-3 bg-primary/10 hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors cursor-tactical group">
@@ -86,26 +91,26 @@ const ContactSection = () => {
           {/* Contact Form */}
           <div className="bg-card p-8 rounded-lg tactical-lift">
             <h3 className="font-rajdhani text-2xl font-bold text-foreground mb-6">
-              НАПИСАТЬ НАМ
+              {t('contact.form.title', 'НАПИСАТЬ НАМ')}
             </h3>
             
             <form className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="font-inter text-sm font-medium text-foreground mb-2 block">
-                    Имя
+                    {t('contact.form.name', 'Имя')}
                   </label>
                   <Input 
-                    placeholder="Ваше имя"
+                    placeholder={t('contact.form.name.placeholder', 'Ваше имя')}
                     className="bg-muted border-border text-foreground cursor-tactical"
                   />
                 </div>
                 <div>
                   <label className="font-inter text-sm font-medium text-foreground mb-2 block">
-                    Телефон
+                    {t('contact.phone', 'Телефон')}
                   </label>
                   <Input 
-                    placeholder="+48 123 456 789"
+                    placeholder={t('contact.form.phone.placeholder', '+48 123 456 789')}
                     className="bg-muted border-border text-foreground cursor-tactical"
                   />
                 </div>
@@ -113,21 +118,21 @@ const ContactSection = () => {
               
               <div>
                 <label className="font-inter text-sm font-medium text-foreground mb-2 block">
-                  Email
+                  {t('contact.email', 'Email')}
                 </label>
                 <Input 
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder={t('contact.form.email.placeholder', 'your@email.com')}
                   className="bg-muted border-border text-foreground cursor-tactical"
                 />
               </div>
               
               <div>
                 <label className="font-inter text-sm font-medium text-foreground mb-2 block">
-                  Сообщение
+                  {t('contact.form.message', 'Сообщение')}
                 </label>
                 <Textarea 
-                  placeholder="Расскажите о своих планах или задайте вопрос..."
+                  placeholder={t('contact.form.message.placeholder', 'Расскажите о своих планах или задайте вопрос...')}
                   rows={5}
                   className="bg-muted border-border text-foreground cursor-tactical resize-none"
                 />
@@ -137,7 +142,7 @@ const ContactSection = () => {
                 type="submit"
                 className="btn-tactical-primary w-full font-rajdhani text-lg font-bold cursor-tactical"
               >
-                ОТПРАВИТЬ СООБЩЕНИЕ
+                {t('contact.form.submit', 'ОТПРАВИТЬ СООБЩЕНИЕ')}
               </Button>
             </form>
           </div>

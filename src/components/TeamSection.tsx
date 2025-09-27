@@ -1,12 +1,15 @@
 import { Shield, Target, Users, Zap } from 'lucide-react';
 import teamPhoto from '@/assets/team-photo.jpg';
+import { useI18n } from '@/contexts/I18nContext';
 
 const TeamSection = () => {
+  const { t } = useI18n();
+  
   const teamStats = [
-    { icon: Shield, label: 'Безопасность', value: '100%', description: 'Приоритет №1' },
-    { icon: Target, label: 'Точность', value: '95%', description: 'Попаданий в цель' },
-    { icon: Users, label: 'Команда', value: '12', description: 'Опытных игроков' },
-    { icon: Zap, label: 'Адреналин', value: '∞', description: 'Гарантирован' },
+    { icon: Shield, label: t('team.stats.safety', 'Безопасность'), value: '100%', description: t('team.stats.safety.desc', 'Приоритет №1') },
+    { icon: Target, label: t('team.stats.accuracy', 'Точность'), value: '95%', description: t('team.stats.accuracy.desc', 'Попаданий в цель') },
+    { icon: Users, label: t('team.stats.team', 'Команда'), value: '12', description: t('team.stats.team.desc', 'Опытных игроков') },
+    { icon: Zap, label: t('team.stats.adrenaline', 'Адреналин'), value: '∞', description: t('team.stats.adrenaline.desc', 'Гарантирован') },
   ];
 
   return (
@@ -17,11 +20,12 @@ const TeamSection = () => {
           <div className="space-y-8">
             <div>
               <h2 className="font-rajdhani text-4xl md:text-5xl font-bold text-foreground mb-6">
-                НАША <span className="text-primary">КОМАНДА</span>
+                {t('team.title', 'НАША КОМАНДА').split(' ').map((word, i, arr) => 
+                  i === arr.length - 1 ? <span key={i} className="text-primary">{word}</span> : word + ' '
+                )}
               </h2>
               <p className="font-inter text-lg text-muted-foreground leading-relaxed mb-8">
-                Raven Strike Force — это команда профессиональных организаторов страйкбольных игр с многолетним опытом. 
-                Мы создаем незабываемые тактические сценарии, которые проверят ваши навыки на прочность.
+                {t('team.description', 'Raven Strike Force — это команда профессиональных организаторов страйкбольных игр с многолетним опытом. Мы создаем незабываемые тактические сценарии, которые проверят ваши навыки на прочность.')}
               </p>
             </div>
 
@@ -49,11 +53,10 @@ const TeamSection = () => {
             {/* Mission Statement */}
             <div className="bg-primary/10 border border-primary/20 p-6 rounded-lg">
               <h3 className="font-rajdhani text-xl font-bold text-primary mb-3">
-                НАША МИССИЯ
+                {t('team.mission.title', 'НАША МИССИЯ')}
               </h3>
               <p className="font-inter text-foreground leading-relaxed">
-                Создавать реалистичные тактические симуляции, которые развивают командный дух, 
-                стратегическое мышление и позволяют каждому игроку почувствовать себя настоящим бойцом.
+                {t('team.mission.text', 'Создавать реалистичные тактические симуляции, которые развивают командный дух, стратегическое мышление и позволяют каждому игроку почувствовать себя настоящим бойцом.')}
               </p>
             </div>
           </div>

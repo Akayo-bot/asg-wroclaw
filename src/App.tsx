@@ -24,6 +24,7 @@ import ArticlesList from "./pages/admin/ArticlesList";
 import ArticleEditor from "./pages/admin/ArticleEditor";
 import RoleManager from "./pages/admin/RoleManager";
 import BrandingManager from "./pages/admin/BrandingManager";
+import TranslationsManager from "./pages/admin/TranslationsManager";
 import AuthPage from "./pages/AuthPage";
 import DebugAuthPage from "./pages/DebugAuthPage";
 import NotFound from "./pages/NotFound";
@@ -81,6 +82,7 @@ const App = () => (
                             <Route path="articles/edit/:id" element={<ArticleEditor />} />
                             <Route path="roles" element={<RoleManager />} />
                             <Route path="branding" element={<BrandingManager />} />
+                            <Route path="translations" element={<TranslationsManager />} />
                           </Route>
                           <Route path="*" element={<NotFound />} />
                         </Routes>

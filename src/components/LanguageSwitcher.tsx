@@ -10,10 +10,10 @@ import { useI18n } from '@/contexts/I18nContext';
 import { Language } from '@/types/i18n';
 
 const languages = [
-  { code: 'uk' as Language, name: 'Українська', flag: '🇺🇦', short: 'UA' },
-  { code: 'ru' as Language, name: 'Русский', flag: '🇷🇺', short: 'RU' },
-  { code: 'pl' as Language, name: 'Polski', flag: '🇵🇱', short: 'PL' },
-  { code: 'en' as Language, name: 'English', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', short: 'EN' },
+  { code: 'uk' as Language, name: 'Українська', short: 'UA' },
+  { code: 'ru' as Language, name: 'Русский', short: 'RU' },
+  { code: 'pl' as Language, name: 'Polski', short: 'PL' },
+  { code: 'en' as Language, name: 'English', short: 'EN' },
 ];
 
 export const LanguageSwitcher = () => {
@@ -40,9 +40,8 @@ export const LanguageSwitcher = () => {
                 : 'hover:bg-muted'
             }`}
           >
-            <span className="mr-2">{lang.flag}</span>
-            <span className="mr-2 text-xs font-medium">{lang.short}</span>
-            {lang.name}
+            <span className="mr-3 text-sm font-medium">{lang.short}</span>
+            <span>{lang.name}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

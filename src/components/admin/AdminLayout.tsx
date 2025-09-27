@@ -60,6 +60,7 @@ const AdminLayout = () => {
     { icon: LayoutDashboard, label: t.admin.dashboard, path: '/admin' },
     { icon: FileText, label: t.admin.articles, path: '/admin/articles' },
     { icon: UserCog, label: 'Role Management', path: '/admin/roles' },
+    { icon: Settings, label: 'Translations', path: '/admin/translations' },
     { icon: Images, label: t.admin.gallery, path: '/admin/gallery' },
     { icon: Calendar, label: t.admin.events, path: '/admin/events' },
     { icon: Users, label: t.admin.team, path: '/admin/team' },
