@@ -115,6 +115,14 @@ const Header = () => {
                       </Link>
                     </DropdownMenuItem>
                   )}
+                  {profile?.role === 'superadmin' && (
+                    <DropdownMenuItem asChild>
+                      <Link to="/admin" className="flex items-center">
+                        <Crown className="mr-2 h-4 w-4 text-primary" />
+                        <span>{t('admin.title', 'Admin Panel')}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem asChild>
                     <Link to="/games" className="flex items-center">
                       <Target className="mr-2 h-4 w-4" />
@@ -179,6 +187,16 @@ const Header = () => {
                         className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
                       >
                         <Target className="h-4 w-4" />
+                        {t('admin.title', 'Admin Panel')}
+                      </Link>
+                    )}
+                    {profile?.role === 'superadmin' && (
+                      <Link 
+                        to="/admin" 
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
+                      >
+                        <Crown className="h-4 w-4 text-primary" />
                         {t('admin.title', 'Admin Panel')}
                       </Link>
                     )}

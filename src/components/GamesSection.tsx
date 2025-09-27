@@ -73,7 +73,15 @@ const GamesSection = () => {
   };
 
   const getRegistrationButton = (event: Event) => {
-    if (event.status_registration === 'closed' || event.status === 'cancelled') {
+    if (event.status === 'cancelled') {
+      return (
+        <Button variant="outline" disabled className="w-full">
+          {t('games.status.cancelled', 'Cancelled')}
+        </Button>
+      );
+    }
+
+    if (event.status_registration === 'closed') {
       return (
         <Button variant="outline" disabled className="w-full">
           {t('games.registration_closed', 'Registration Closed')}
