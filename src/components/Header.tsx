@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Menu, X, Target, User, LogOut } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useBranding } from '@/contexts/BrandingContext';
 
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -13,15 +14,16 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const t = useTranslation();
+  const { t } = useI18n();
   const { user, profile, signOut } = useAuth();
+  const { settings } = useBranding();
 
   const navItems = [
-    { label: t.nav.games, path: '/games' },
-    { label: t.nav.team, path: '/team' },
-    { label: t.nav.gallery, path: '/gallery' },
-    { label: t.nav.articles, path: '/articles' },
-    { label: t.nav.contacts, path: '/contacts' },
+    { label: t('nav.games', 'Games'), path: '/games' },
+    { label: t('nav.team', 'Team'), path: '/team' },
+    { label: t('nav.gallery', 'Gallery'), path: '/gallery' },
+    { label: t('nav.articles', 'Articles'), path: '/articles' },
+    { label: t('nav.contacts', 'Contacts'), path: '/contacts' },
   ];
 
   const handleSignOut = async () => {
@@ -43,10 +45,10 @@ const Header = () => {
             <Target className="w-8 h-8 text-primary" />
             <div>
               <h1 className="font-rajdhani text-2xl font-bold text-foreground tracking-wide">
-                RAVEN STRIKE FORCE
+                {settings?.site_name || 'RAVEN STRIKE FORCE'}
               </h1>
               <p className="text-xs text-muted-foreground font-inter tracking-wider">
-                СТРАЙКБОЛ ВРОЦЛАВ
+                {t('site.tagline', 'Страйкбол Вроцлав').toUpperCase()}
               </p>
             </div>
           </Link>
@@ -94,33 +96,33 @@ const Header = () => {
                   <DropdownMenuItem asChild>
                     <Link to="/profile" className="flex items-center">
                       <User className="mr-2 h-4 w-4" />
-                      <span>{t.profile.title}</span>
+                      <span>{t('profile.title', 'Profile')}</span>
                     </Link>
                   </DropdownMenuItem>
                   {(profile?.role === 'admin' || profile?.role === 'editor') && (
                     <DropdownMenuItem asChild>
                       <Link to="/admin" className="flex items-center">
                         <Target className="mr-2 h-4 w-4" />
-                        <span>{t.admin.title || 'Admin Panel'}</span>
+                        <span>{t('admin.title', 'Admin Panel')}</span>
                       </Link>
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuItem asChild>
                     <Link to="/games" className="flex items-center">
                       <Target className="mr-2 h-4 w-4" />
-                      <span>{t.nav.games}</span>
+                      <span>{t('nav.games', 'Games')}</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleSignOut}>
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>{t.auth.logout}</span>
+                    <span>{t('auth.logout', 'Logout')}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
               <Button asChild size="sm">
-                <Link to="/login">{t.auth.login}</Link>
+                <Link to="/login">{t('auth.login', 'Login')}</Link>
               </Button>
             )}
           </div>
@@ -160,7 +162,7 @@ const Header = () => {
                       className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
                     >
                       <User className="h-4 w-4" />
-                      {t.profile.title}
+                      {t('profile.title', 'Profile')}
                     </Link>
                     {(profile?.role === 'admin' || profile?.role === 'editor') && (
                       <Link 
@@ -169,7 +171,7 @@ const Header = () => {
                         className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
                       >
                         <Target className="h-4 w-4" />
-                        {t.admin.title || 'Admin Panel'}
+                        {t('admin.title', 'Admin Panel')}
                       </Link>
                     )}
                     <button 
@@ -180,17 +182,17 @@ const Header = () => {
                       className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
                     >
                       <LogOut className="h-4 w-4" />
-                      {t.auth.logout}
+                      {t('auth.logout', 'Logout')}
                     </button>
                   </div>
                 ) : (
-                  <Button 
-                    asChild 
-                    size="sm"
-                    className="w-full"
-                  >
-                    <Link to="/login">{t.auth.login}</Link>
-                  </Button>
+                    <Button 
+                      asChild 
+                      size="sm"
+                      className="w-full"
+                    >
+                      <Link to="/login">{t('auth.login', 'Login')}</Link>
+                    </Button>
                 )}
               </div>
             </div>

@@ -1,6 +1,281 @@
 import { Translations, Language } from '@/types/i18n';
 
 export const translations: Record<Language, Translations> = {
+  en: {
+    nav: {
+      games: 'Games',
+      team: 'Team',
+      gallery: 'Gallery',
+      articles: 'Articles',
+      contacts: 'Contacts',
+      about: 'About',
+      search: 'Search',
+      subscribe: 'Subscribe'
+    },
+    common: {
+      readMore: 'Read More',
+      loadMore: 'Load More',
+      loading: 'Loading...',
+      error: 'Error',
+      notFound: 'Not Found',
+      back: 'Back',
+      next: 'Next',
+      previous: 'Previous',
+      home: 'Home',
+      register: 'Register',
+      subscribe: 'Subscribe',
+      submit: 'Submit',
+      cancel: 'Cancel',
+      save: 'Save',
+      edit: 'Edit',
+      delete: 'Delete',
+      view: 'View',
+      share: 'Share',
+      download: 'Download',
+      success: 'Success'
+    },
+    hero: {
+      title: 'RAVEN STRIKE FORCE',
+      subtitle: 'PROFESSIONAL AIRSOFT IN WROCŁAW',
+      cta: 'Join the Team',
+      stats: {
+        players: 'Players',
+        gamesPerYear: 'Games per Year',
+        yearsExperience: 'Years of Experience'
+      }
+    },
+    admin: {
+      title: 'Admin Panel',
+      dashboard: 'Dashboard',
+      dashboardSubtitle: 'Manage site content and settings',
+      articles: 'Articles',
+      gallery: 'Gallery',
+      events: 'Events',
+      team: 'Team',
+      users: 'Users',
+      statistics: 'Statistics',
+      settings: 'Settings',
+      manageArticles: 'Manage Articles',
+      createArticle: 'Create Article',
+      editArticle: 'Edit Article',
+      backToArticles: 'Back to Articles',
+      saveDraft: 'Save Draft',
+      publish: 'Publish',
+      published: 'Published',
+      drafts: 'Drafts',
+      allStatuses: 'All Statuses',
+      allCategories: 'All Categories',
+      confirmDeleteArticle: 'Are you sure you want to delete this article?',
+      articleDeleted: 'Article deleted successfully',
+      articleCreated: 'Article created successfully',
+      articleUpdated: 'Article updated successfully',
+      errorFetchingArticles: 'Error fetching articles',
+      errorFetchingArticle: 'Error fetching article',
+      errorDeletingArticle: 'Error deleting article',
+      errorSavingArticle: 'Error saving article',
+      noArticlesFound: 'No articles found',
+      articleTitle: 'Article Title',
+      preview: 'Preview',
+      content: 'Content',
+      category: 'Category',
+      mainImageUrl: 'Main Image URL',
+      articleSettings: 'Article Settings',
+      articleTitlePlaceholder: 'Enter article title...',
+      articlePreviewPlaceholder: 'Brief description of the article...',
+      imageUrl: 'Image URL',
+      youtubeUrl: 'YouTube Video URL',
+      addImage: 'Add Image',
+      addVideo: 'Add Video',
+      totalArticles: 'Total Articles',
+      totalUsers: 'Total Users',
+      totalEvents: 'Total Events',
+      totalRegistrations: 'Total Registrations',
+      galleryItems: 'Gallery Items',
+      teamMembers: 'Team Members',
+      admins: 'Admins',
+      editors: 'Editors',
+      upcoming: 'Upcoming',
+      completed: 'Completed',
+      eventRegistrations: 'Event Registrations',
+      photosAndVideos: 'Photos and Videos',
+      activeMembers: 'Active Members',
+      quickActions: 'Quick Actions',
+      createEvent: 'Create Event',
+      systemInfo: 'System Info',
+      databaseStatus: 'Database Status',
+      online: 'Online',
+      lastBackup: 'Last Backup',
+      automated: 'Automated'
+    },
+    categories: {
+      tactics: 'Tactics',
+      equipment: 'Equipment',
+      news: 'News',
+      gameReports: 'Game Reports',
+      rules: 'Rules'
+    },
+    auth: {
+      login: 'Login',
+      register: 'Register',
+      logout: 'Logout',
+      pleaseLogin: 'Please log in to continue',
+      loginDescription: 'Access your profile and participate in games',
+      email: 'Email',
+      password: 'Password',
+      confirmPassword: 'Confirm Password',
+      displayName: 'Display Name',
+      resetPassword: 'Reset Password',
+      forgotPassword: 'Forgot Password?',
+      googleLogin: 'Continue with Google',
+      or: 'or',
+      loginSuccess: 'Successfully logged in',
+      registerSuccess: 'Registration successful',
+      resetPasswordSuccess: 'Password reset link sent',
+      emailPlaceholder: 'your.email@example.com',
+      passwordPlaceholder: 'Your password',
+      displayNamePlaceholder: 'Your nickname',
+      confirmPasswordPlaceholder: 'Confirm your password',
+      passwordMismatch: 'Passwords do not match',
+      error: 'Login error',
+      success: 'Success'
+    },
+    profile: {
+      title: 'Profile',
+      notLoggedIn: 'You are not logged in',
+      settings: 'Settings',
+      displayName: 'Display Name',
+      bio: 'Bio',
+      language: 'Language',
+      notifications: 'Notifications',
+      updateProfile: 'Update Profile',
+      updateSuccess: 'Profile updated successfully',
+      updateError: 'Error updating profile',
+      memberSince: 'Member since',
+      favoriteItems: 'Favorite Items',
+      testResults: 'Test Results',
+      gameHistory: 'Game History',
+      noFavorites: 'No favorite items yet',
+      noTestResults: 'No test results yet',
+      noGameHistory: 'No game history yet',
+      displayNamePlaceholder: 'Enter your display name',
+      bioPlaceholder: 'Tell us about yourself...',
+      notificationsDescription: 'Receive notifications about new events and updates',
+      score: 'Score',
+      security: 'Security',
+      changePassword: 'Change Password',
+      newPassword: 'New Password',
+      confirmPassword: 'Confirm Password',
+      changePasswordDescription: 'Change your account password',
+      passwordChanged: 'Password changed successfully',
+      tabs: {
+        info: 'Information',
+        security: 'Security',
+        favorites: 'Favorites',
+        tests: 'Tests',
+        games: 'Games'
+      },
+      roles: {
+        admin: 'Administrator',
+        editor: 'Editor',
+        user: 'User'
+      },
+      statuses: {
+        pending: 'Pending',
+        approved: 'Approved',
+        rejected: 'Rejected',
+        cancelled: 'Cancelled'
+      }
+    },
+    pages: {
+      games: {
+        title: 'Upcoming Games',
+        subtitle: 'Calendar of airsoft events and scenarios',
+        noGames: 'No games scheduled',
+        filters: {
+          all: 'All',
+          upcoming: 'Upcoming',
+          past: 'Past',
+          registration: 'Registration Open'
+        }
+      },
+      team: {
+        title: 'Our Team',
+        subtitle: 'Meet the Raven Strike Force members',
+        noMembers: 'No team members found'
+      },
+      gallery: {
+        title: 'Gallery',
+        subtitle: 'Photos and videos from our games',
+        noMedia: 'No media files found',
+        filters: {
+          all: 'All',
+          photos: 'Photos',
+          videos: 'Videos'
+        }
+      },
+      articles: {
+        title: 'Articles',
+        subtitle: 'Guides, news, and tactical materials',
+        noArticles: 'No articles found',
+        categories: {
+          all: 'All',
+          tactics: 'Tactics',
+          equipment: 'Equipment',
+          news: 'News',
+          guides: 'Guides'
+        }
+      },
+      contacts: {
+        title: 'Contacts',
+        subtitle: 'Get in touch with us',
+        form: {
+          name: 'Name',
+          email: 'Email',
+          phone: 'Phone',
+          message: 'Message',
+          submit: 'Send Message',
+          success: 'Message sent successfully',
+          error: 'Error sending message'
+        },
+        info: {
+          phone: 'Phone',
+          email: 'Email',
+          location: 'Location',
+          hours: 'Hours'
+        }
+      },
+      about: {
+        title: 'About Us',
+        subtitle: 'Our mission and values',
+        mission: 'Mission',
+        history: 'History',
+        goals: 'Goals'
+      },
+      search: {
+        title: 'Search',
+        placeholder: 'Search for articles, events...',
+        noResults: 'No results found',
+        results: 'Search Results'
+      },
+      subscribe: {
+        title: 'Subscribe',
+        subtitle: 'Stay updated with the latest news',
+        email: 'Email',
+        submit: 'Subscribe',
+        success: 'Successfully subscribed',
+        error: 'Subscription error'
+      }
+    },
+    errors: {
+      unauthorized: 'Unauthorized access',
+      serverError: 'Server error',
+      insufficientPermissions: 'Insufficient permissions',
+      adminAccessRequired: 'Admin access required',
+      passwordMismatch: 'Passwords do not match',
+      passwordTooShort: 'Password too short',
+      passwordChangeError: 'Error changing password'
+    }
+  },
   uk: {
     nav: {
       games: 'Ігри',

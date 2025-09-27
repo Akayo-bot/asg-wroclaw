@@ -5,37 +5,44 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Languages } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { languages } from '@/data/translations';
+import { Globe } from 'lucide-react';
+import { useI18n } from '@/contexts/I18nContext';
+import { Language } from '@/types/i18n';
+
+const languages = [
+  { code: 'uk' as Language, name: 'Українська', flag: '🇺🇦', short: 'UA' },
+  { code: 'ru' as Language, name: 'Русский', flag: '🇷🇺', short: 'RU' },
+  { code: 'pl' as Language, name: 'Polski', flag: '🇵🇱', short: 'PL' },
+  { code: 'en' as Language, name: 'English', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', short: 'EN' },
+];
 
 export const LanguageSwitcher = () => {
-  const { currentLanguage, setLanguage } = useLanguage();
+  const { language, setLanguage } = useI18n();
   
-  const currentLang = languages.find(lang => lang.code === currentLanguage);
+  const currentLang = languages.find(lang => lang.code === language);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-2 cursor-tactical">
-          <Languages className="h-4 w-4" />
-          <span className="hidden md:inline">{currentLang?.flag}</span>
-          <span className="text-xs">{currentLang?.code.toUpperCase()}</span>
+        <Button variant="ghost" size="sm" className="gap-1 cursor-tactical px-2">
+          <Globe className="h-4 w-4" />
+          <span className="text-xs font-medium">{currentLang?.short}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="glass-panel">
-        {languages.map((language) => (
+        {languages.map((lang) => (
           <DropdownMenuItem
-            key={language.code}
-            onClick={() => setLanguage(language.code)}
+            key={lang.code}
+            onClick={() => setLanguage(lang.code)}
             className={`cursor-tactical ${
-              currentLanguage === language.code 
+              language === lang.code 
                 ? 'bg-primary/10 text-primary' 
                 : 'hover:bg-muted'
             }`}
           >
-            <span className="mr-2">{language.flag}</span>
-            {language.name}
+            <span className="mr-2">{lang.flag}</span>
+            <span className="mr-2 text-xs font-medium">{lang.short}</span>
+            {lang.name}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

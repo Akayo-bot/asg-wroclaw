@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { SEOHead } from "@/components/SEOHead";
+import { Layout } from "@/components/Layout";
 import Index from "./pages/Index";
 import GamesPage from "./pages/GamesPage";
 import TeamPage from "./pages/TeamPage";
@@ -19,6 +21,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ArticlesList from "./pages/admin/ArticlesList";
 import ArticleEditor from "./pages/admin/ArticleEditor";
 import RoleManager from "./pages/admin/RoleManager";
+import BrandingManager from "./pages/admin/BrandingManager";
 import AuthPage from "./pages/AuthPage";
 import DebugAuthPage from "./pages/DebugAuthPage";
 import NotFound from "./pages/NotFound";
@@ -30,43 +33,56 @@ const App = () => (
     <LanguageProvider>
       <AuthProvider>
         <TooltipProvider>
+          <SEOHead />
           <Toaster />
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/games" element={<GamesPage />} />
-              <Route path="/team" element={<TeamPage />} />
-              <Route path="/gallery" element={<GalleryPage />} />
-              <Route path="/articles" element={<ArticlesPage />} />
-              <Route path="/contacts" element={<ContactsPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route 
-                path="/profile" 
+              <Route
+                path="/*"
                 element={
-                  <ProtectedRoute>
-                    <ProfilePage />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route path="/login" element={<AuthPage />} />
-              <Route path="/auth" element={<AuthPage />} />
-              <Route path="/debug/auth" element={<DebugAuthPage />} />
-              <Route 
-                path="/admin" 
-                element={
-                  <ProtectedRoute allowedRoles={['admin', 'editor']}>
-                    <AdminLayout />
-                  </ProtectedRoute>
+                  <Layout>
+                    <Routes>
+                      <Route path="/" element={<Index />} />
+                      <Route path="/games" element={<GamesPage />} />
+                      <Route path="/team" element={<TeamPage />} />
+                      <Route path="/gallery" element={<GalleryPage />} />
+                      <Route path="/articles" element={<ArticlesPage />} />
+                      <Route path="/contacts" element={<ContactsPage />} />
+                      <Route path="/about" element={<AboutPage />} />
+                      <Route 
+                        path="/profile" 
+                        element={
+                          <ProtectedRoute>
+                            <ProfilePage />
+                          </ProtectedRoute>
+                        } 
+                      />
+                      <Route path="/login" element={<AuthPage />} />
+                      <Route path="/auth" element={<AuthPage />} />
+                      <Route path="/debug/auth" element={<DebugAuthPage />} />
+                      
+                      {/* Admin Routes */}
+                      <Route 
+                        path="/admin" 
+                        element={
+                          <ProtectedRoute allowedRoles={['admin', 'editor']}>
+                            <AdminLayout />
+                          </ProtectedRoute>
+                        }
+                      >
+                        <Route index element={<AdminDashboard />} />
+                        <Route path="articles" element={<ArticlesList />} />
+                        <Route path="articles/new" element={<ArticleEditor />} />
+                        <Route path="articles/edit/:id" element={<ArticleEditor />} />
+                        <Route path="roles" element={<RoleManager />} />
+                        <Route path="branding" element={<BrandingManager />} />
+                      </Route>
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Layout>
                 }
-              >
-                <Route index element={<AdminDashboard />} />
-                <Route path="articles" element={<ArticlesList />} />
-                <Route path="articles/new" element={<ArticleEditor />} />
-                <Route path="articles/edit/:id" element={<ArticleEditor />} />
-                <Route path="roles" element={<RoleManager />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
+              />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
