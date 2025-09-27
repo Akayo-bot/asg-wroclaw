@@ -19,7 +19,7 @@ export const SEOHead = ({ title, description, image, type = 'website' }: SEOHead
     if (!settings) return;
 
     const siteName = settings.site_name;
-    const siteTagline = settings[`tagline_${language}` as keyof typeof settings] as string;
+    const siteTagline = t('brand.tagline', settings.tagline_base || 'Airsoft is more than a game');
     
     const finalTitle = title ? `${title} | ${siteName}` : `${siteName} | ${siteTagline}`;
     const finalDescription = description || siteTagline;

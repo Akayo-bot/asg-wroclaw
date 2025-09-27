@@ -42,7 +42,15 @@ const Header = () => {
         <nav className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 cursor-tactical">
-            <Target className="w-8 h-8 text-primary" />
+            {settings?.logo_url ? (
+              <img 
+                src={settings.logo_url} 
+                alt="Logo" 
+                className="h-8 w-auto"
+              />
+            ) : (
+              <Target className="w-8 h-8 text-primary" />
+            )}
             <div>
               <h1 className="font-rajdhani text-2xl font-bold text-foreground tracking-wide">
                 {settings?.site_name || 'RAVEN STRIKE FORCE'}
