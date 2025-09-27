@@ -275,6 +275,60 @@ export type Database = {
         }
         Relationships: []
       }
+      site_settings: {
+        Row: {
+          accent_color: string | null
+          created_at: string | null
+          default_language: string | null
+          favicon_url: string | null
+          id: string
+          logo_dark_url: string | null
+          logo_light_url: string | null
+          og_image_url: string | null
+          primary_color: string | null
+          site_name: string
+          tagline_en: string | null
+          tagline_pl: string | null
+          tagline_ru: string | null
+          tagline_uk: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          accent_color?: string | null
+          created_at?: string | null
+          default_language?: string | null
+          favicon_url?: string | null
+          id?: string
+          logo_dark_url?: string | null
+          logo_light_url?: string | null
+          og_image_url?: string | null
+          primary_color?: string | null
+          site_name?: string
+          tagline_en?: string | null
+          tagline_pl?: string | null
+          tagline_ru?: string | null
+          tagline_uk?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          accent_color?: string | null
+          created_at?: string | null
+          default_language?: string | null
+          favicon_url?: string | null
+          id?: string
+          logo_dark_url?: string | null
+          logo_light_url?: string | null
+          og_image_url?: string | null
+          primary_color?: string | null
+          site_name?: string
+          tagline_en?: string | null
+          tagline_pl?: string | null
+          tagline_ru?: string | null
+          tagline_uk?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       team_members: {
         Row: {
           bio_pl: string | null
@@ -326,6 +380,42 @@ export type Database = {
           role_uk?: string
           social_links?: Json | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      ui_strings: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          id: string
+          key: string
+          text_en: string
+          text_pl: string
+          text_ru: string
+          text_uk: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          key: string
+          text_en: string
+          text_pl: string
+          text_ru: string
+          text_uk: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          key?: string
+          text_en?: string
+          text_pl?: string
+          text_ru?: string
+          text_uk?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -399,6 +489,10 @@ export type Database = {
       get_current_user_role: {
         Args: Record<PropertyKey, never>
         Returns: Database["public"]["Enums"]["user_role"]
+      }
+      get_site_settings: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
       }
       sync_user_profile: {
         Args: {
