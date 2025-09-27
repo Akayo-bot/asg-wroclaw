@@ -20,11 +20,15 @@ import AboutPage from "./pages/AboutPage";
 import ProfilePage from "./pages/ProfilePage";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import ArticlesList from "./pages/admin/ArticlesList";
-import ArticleEditor from "./pages/admin/ArticleEditor";
-import RoleManager from "./pages/admin/RoleManager";
-import BrandingManager from "./pages/admin/BrandingManager";
-import TranslationsManager from "./pages/admin/TranslationsManager";
+import ArticlesList from '@/pages/admin/ArticlesList';
+import ArticleEditor from '@/pages/admin/ArticleEditor';
+import GalleryManager from '@/pages/admin/GalleryManager';
+import EventsManager from '@/pages/admin/EventsManager';
+import TeamManager from '@/pages/admin/TeamManager';
+import StatsManager from '@/pages/admin/StatsManager';
+import RoleManager from '@/pages/admin/RoleManager';
+import BrandingManager from '@/pages/admin/BrandingManager';
+import TranslationsManager from '@/pages/admin/TranslationsManager';
 import AuthPage from "./pages/AuthPage";
 import DebugAuthPage from "./pages/DebugAuthPage";
 import NotFound from "./pages/NotFound";
@@ -77,12 +81,16 @@ const App = () => (
                             }
                           >
                             <Route index element={<AdminDashboard />} />
-                            <Route path="articles" element={<ArticlesList />} />
-                            <Route path="articles/new" element={<ArticleEditor />} />
-                            <Route path="articles/edit/:id" element={<ArticleEditor />} />
-                            <Route path="roles" element={<RoleManager />} />
-                            <Route path="branding" element={<BrandingManager />} />
-                            <Route path="translations" element={<TranslationsManager />} />
+                    <Route path="articles" element={<ArticlesList />} />
+                    <Route path="articles/new" element={<ArticleEditor />} />
+                    <Route path="articles/edit/:id" element={<ArticleEditor />} />
+                    <Route path="gallery" element={<GalleryManager />} />
+                    <Route path="events" element={<EventsManager />} />
+                    <Route path="team" element={<TeamManager />} />
+                    <Route path="stats" element={<StatsManager />} />
+                    <Route path="roles" element={<RoleManager />} />
+                    <Route path="branding" element={<BrandingManager />} />
+                    <Route path="translations" element={<TranslationsManager />} />
                           </Route>
                           <Route path="*" element={<NotFound />} />
                         </Routes>

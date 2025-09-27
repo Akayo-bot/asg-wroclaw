@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation, useLanguage } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -19,8 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 type Article = Tables<'articles'>;
 
 const ArticlesList = () => {
-  const t = useTranslation();
-  const { currentLanguage } = useLanguage();
+  const { t, language } = useI18n();
   const { toast } = useToast();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
@@ -52,8 +51,8 @@ const ArticlesList = () => {
     } catch (error) {
       console.error('Error fetching articles:', error);
       toast({
-        title: t.common.error,
-        description: t.admin.errorFetchingArticles,
+        title: t('common.error', 'Error'),
+        description: t('admin.errorFetchingArticles', 'Failed to fetch articles'),
         variant: 'destructive',
       });
     } finally {
@@ -62,7 +61,7 @@ const ArticlesList = () => {
   };
 
   const deleteArticle = async (id: string) => {
-    if (!confirm(t.admin.confirmDeleteArticle)) return;
+    if (!confirm(t('admin.confirmDeleteArticle', 'Are you sure you want to delete this article?'))) return;
 
     try {
       const { error } = await supabase
@@ -74,55 +73,55 @@ const ArticlesList = () => {
 
       setArticles(articles.filter(article => article.id !== id));
       toast({
-        title: t.common.success,
-        description: t.admin.articleDeleted,
+        title: t('common.success', 'Success'),
+        description: t('admin.articleDeleted', 'Article deleted successfully'),
       });
     } catch (error) {
       console.error('Error deleting article:', error);
       toast({
-        title: t.common.error,
-        description: t.admin.errorDeletingArticle,
+        title: t('common.error', 'Error'),
+        description: t('admin.errorDeletingArticle', 'Failed to delete article'),
         variant: 'destructive',
       });
     }
   };
 
   const getTitle = (article: Article) => {
-    return currentLanguage === 'uk' ? article.title_uk :
-           currentLanguage === 'ru' ? article.title_ru : 
+    return language === 'uk' ? article.title_uk :
+           language === 'ru' ? article.title_ru : 
            article.title_pl;
   };
 
   const getPreview = (article: Article) => {
-    return currentLanguage === 'uk' ? article.preview_uk :
-           currentLanguage === 'ru' ? article.preview_ru : 
+    return language === 'uk' ? article.preview_uk :
+           language === 'ru' ? article.preview_ru : 
            article.preview_pl;
   };
 
   const categories = [
-    { value: 'all', label: t.admin.allCategories },
-    { value: 'tactics', label: t.categories.tactics },
-    { value: 'equipment', label: t.categories.equipment },
-    { value: 'news', label: t.categories.news },
-    { value: 'game_reports', label: t.categories.gameReports },
-    { value: 'rules', label: t.categories.rules },
+    { value: 'all', label: t('admin.allCategories', 'All Categories') },
+    { value: 'tactics', label: t('categories.tactics', 'Tactics') },
+    { value: 'equipment', label: t('categories.equipment', 'Equipment') },
+    { value: 'news', label: t('categories.news', 'News') },
+    { value: 'game_reports', label: t('categories.gameReports', 'Game Reports') },
+    { value: 'rules', label: t('categories.rules', 'Rules') },
   ];
 
   if (loading) {
-    return <div className="text-center py-8">{t.common.loading}</div>;
+    return <div className="text-center py-8">{t('common.loading', 'Loading...')}</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold">{t.admin.articles}</h1>
-          <p className="text-muted-foreground">{t.admin.manageArticles}</p>
+          <h1 className="text-2xl font-bold">{t('admin.articles', 'Articles')}</h1>
+          <p className="text-muted-foreground">{t('admin.manageArticles', 'Manage your articles')}</p>
         </div>
         <Link to="/admin/articles/new">
           <Button>
             <Plus className="h-4 w-4 mr-2" />
-            {t.admin.createArticle}
+            {t('admin.createArticle', 'Create Article')}
           </Button>
         </Link>
       </div>
@@ -133,9 +132,9 @@ const ArticlesList = () => {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">{t.admin.allStatuses}</SelectItem>
-            <SelectItem value="published">{t.admin.published}</SelectItem>
-            <SelectItem value="draft">{t.admin.drafts}</SelectItem>
+            <SelectItem value="all">{t('admin.allStatuses', 'All Statuses')}</SelectItem>
+            <SelectItem value="published">{t('admin.published', 'Published')}</SelectItem>
+            <SelectItem value="draft">{t('admin.drafts', 'Drafts')}</SelectItem>
           </SelectContent>
         </Select>
 
@@ -165,10 +164,10 @@ const ArticlesList = () => {
                   </p>
                   <div className="flex items-center gap-2 mt-2">
                     <Badge variant={article.status === 'published' ? 'default' : 'secondary'}>
-                      {article.status === 'published' ? t.admin.published : t.admin.drafts}
+                      {article.status === 'published' ? t('admin.published', 'Published') : t('admin.drafts', 'Drafts')}
                     </Badge>
                     <Badge variant="outline">
-                      {t.categories[article.category as keyof typeof t.categories]}
+                      {t(`categories.${article.category}`, article.category)}
                     </Badge>
                     <span className="text-sm text-muted-foreground">
                       <Eye className="h-3 w-3 inline mr-1" />
@@ -200,7 +199,7 @@ const ArticlesList = () => {
         {articles.length === 0 && (
           <Card>
             <CardContent className="py-8 text-center">
-              <p className="text-muted-foreground">{t.admin.noArticlesFound}</p>
+              <p className="text-muted-foreground">{t('admin.noArticlesFound', 'No articles found')}</p>
             </CardContent>
           </Card>
         )}

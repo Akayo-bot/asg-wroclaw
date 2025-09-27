@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Shield, UserCog } from 'lucide-react';
 
 const RoleManager = () => {
-  const t = useTranslation();
+  const { t } = useI18n();
   const { profile } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -23,8 +23,8 @@ const RoleManager = () => {
     
     if (!profile || profile.role !== 'admin') {
       toast({
-        title: t.errors.unauthorized,
-        description: t.errors.adminAccessRequired,
+        title: t('errors.unauthorized', 'Unauthorized'),
+        description: t('errors.adminAccessRequired', 'Admin access required'),
         variant: 'destructive'
       });
       return;
@@ -32,7 +32,7 @@ const RoleManager = () => {
 
     if (!email || !newRole) {
       toast({
-        title: t.common.error,
+        title: t('common.error', 'Error'),
         description: 'Email and role are required',
         variant: 'destructive'
       });
@@ -51,7 +51,7 @@ const RoleManager = () => {
       const result = data as any;
       if (result.success) {
         toast({
-          title: t.common.success,
+          title: t('common.success', 'Success'),
           description: `Role updated: ${email} -> ${newRole}`
         });
         setEmail('');
@@ -61,7 +61,7 @@ const RoleManager = () => {
       }
     } catch (error: any) {
       toast({
-        title: t.common.error,
+        title: t('common.error', 'Error'),
         description: error.message,
         variant: 'destructive'
       });
@@ -75,7 +75,7 @@ const RoleManager = () => {
       <Card>
         <CardContent className="pt-6">
           <div className="text-center text-muted-foreground">
-            {t.errors.adminAccessRequired}
+            {t('errors.adminAccessRequired', 'Admin access required')}
           </div>
         </CardContent>
       </Card>
@@ -128,7 +128,7 @@ const RoleManager = () => {
             </div>
 
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? t.common.loading : 'Update Role'}
+              {loading ? t('common.loading', 'Loading...') : 'Update Role'}
             </Button>
           </form>
         </CardContent>

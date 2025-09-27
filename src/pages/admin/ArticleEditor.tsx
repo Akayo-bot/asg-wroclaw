@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -40,7 +40,7 @@ interface ArticleForm {
 const ArticleEditor = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const t = useTranslation();
+  const { t } = useI18n();
   const { user } = useAuth();
   const { toast } = useToast();
   
@@ -95,8 +95,8 @@ const ArticleEditor = () => {
     } catch (error) {
       console.error('Error fetching article:', error);
       toast({
-        title: t.common.error,
-        description: t.admin.errorFetchingArticle,
+        title: t('common.error', 'Error'),
+        description: t('admin.errorFetchingArticle', 'Failed to fetch article'),
         variant: 'destructive',
       });
     }
@@ -130,16 +130,16 @@ const ArticleEditor = () => {
       }
 
       toast({
-        title: t.common.success,
-        description: isEdit ? t.admin.articleUpdated : t.admin.articleCreated,
+        title: t('common.success', 'Success'),
+        description: isEdit ? t('admin.articleUpdated', 'Article updated') : t('admin.articleCreated', 'Article created'),
       });
 
       navigate('/admin/articles');
     } catch (error) {
       console.error('Error saving article:', error);
       toast({
-        title: t.common.error,
-        description: t.admin.errorSavingArticle,
+        title: t('common.error', 'Error'),
+        description: t('admin.errorSavingArticle', 'Failed to save article'),
         variant: 'destructive',
       });
     } finally {
@@ -148,11 +148,12 @@ const ArticleEditor = () => {
   };
 
   const categories = [
-    { value: 'tactics', label: t.categories.tactics },
-    { value: 'equipment', label: t.categories.equipment },
-    { value: 'news', label: t.categories.news },
-    { value: 'game_reports', label: t.categories.gameReports },
-    { value: 'rules', label: t.categories.rules },
+    { value: 'all', label: t('admin.allCategories', 'All Categories') },
+    { value: 'tactics', label: t('categories.tactics', 'Tactics') },
+    { value: 'equipment', label: t('categories.equipment', 'Equipment') },
+    { value: 'news', label: t('categories.news', 'News') },
+    { value: 'game_reports', label: t('categories.gameReports', 'Game Reports') },
+    { value: 'rules', label: t('categories.rules', 'Rules') },
   ];
 
   return (
@@ -161,11 +162,11 @@ const ArticleEditor = () => {
         <div className="flex items-center gap-4">
           <Button variant="ghost" onClick={() => navigate('/admin/articles')}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            {t.admin.backToArticles}
+            {t('admin.backToArticles', 'Back to Articles')}
           </Button>
           <div>
             <h1 className="text-2xl font-bold">
-              {isEdit ? t.admin.editArticle : t.admin.createArticle}
+              {isEdit ? t('admin.editArticle', 'Edit Article') : t('admin.createArticle', 'Create Article')}
             </h1>
           </div>
         </div>
@@ -177,26 +178,26 @@ const ArticleEditor = () => {
             disabled={loading}
           >
             <Save className="h-4 w-4 mr-2" />
-            {t.admin.saveDraft}
+            {t('admin.saveDraft', 'Save Draft')}
           </Button>
           <Button
             onClick={() => handleSubmit('published')}
             disabled={loading}
           >
             <FileCheck className="h-4 w-4 mr-2" />
-            {t.admin.publish}
+            {t('admin.publish', 'Publish')}
           </Button>
         </div>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>{t.admin.articleSettings}</CardTitle>
+          <CardTitle>{t('admin.articleSettings', 'Article Settings')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="category">{t.admin.category}</Label>
+              <Label htmlFor="category">{t('admin.category', 'Category')}</Label>
               <Select value={article.category} onValueChange={(value) => setArticle({ ...article, category: value })}>
                 <SelectTrigger>
                   <SelectValue />
@@ -212,7 +213,7 @@ const ArticleEditor = () => {
             </div>
 
             <div>
-              <Label htmlFor="main_image_url">{t.admin.mainImageUrl}</Label>
+              <Label htmlFor="main_image_url">{t('admin.mainImageUrl', 'Main Image URL')}</Label>
               <Input
                 id="main_image_url"
                 value={article.main_image_url}
@@ -236,7 +237,7 @@ const ArticleEditor = () => {
             <Card>
               <CardContent className="space-y-4 pt-6">
                 <div>
-                  <Label htmlFor={`title_${lang}`}>{t.admin.articleTitle}</Label>
+                  <Label htmlFor={`title_${lang}`}>{t('admin.articleTitle', 'Article Title')}</Label>
                   <Input
                     id={`title_${lang}`}
                     value={article[`title_${lang}` as keyof ArticleForm]}
@@ -244,12 +245,12 @@ const ArticleEditor = () => {
                       ...article, 
                       [`title_${lang}`]: e.target.value 
                     })}
-                    placeholder={t.admin.articleTitlePlaceholder}
+                    placeholder={t('admin.articleTitlePlaceholder', 'Enter article title')}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor={`preview_${lang}`}>{t.admin.preview}</Label>
+                  <Label htmlFor={`preview_${lang}`}>{t('admin.preview', 'Preview')}</Label>
                   <Textarea
                     id={`preview_${lang}`}
                     value={article[`preview_${lang}` as keyof ArticleForm]}
@@ -257,13 +258,13 @@ const ArticleEditor = () => {
                       ...article, 
                       [`preview_${lang}`]: e.target.value 
                     })}
-                    placeholder={t.admin.articlePreviewPlaceholder}
+                    placeholder={t('admin.articlePreviewPlaceholder', 'Enter article preview')}
                     rows={3}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor={`content_${lang}`}>{t.admin.content}</Label>
+                  <Label htmlFor={`content_${lang}`}>{t('admin.content', 'Content')}</Label>
                   <RichTextEditor
                     content={article[`content_${lang}` as keyof ArticleForm]}
                     onChange={(content) => setArticle({ 
