@@ -63,9 +63,9 @@ const GamesPage = () => {
         .order('event_date', { ascending: true });
 
       // Apply filters
-      if (activeFilter !== 'all') {
-        query = query.eq('status', activeFilter);
-      }
+          if (activeFilter !== 'all') {
+            query = query.eq('status', activeFilter as any);
+          }
 
       const { data, error } = await query;
 

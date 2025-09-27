@@ -156,26 +156,26 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({ content, onChange }) =>
         <div className="flex items-center gap-2">
           <ImageIcon className="h-4 w-4" />
           <Input
-            placeholder={t.admin.imageUrl}
+            placeholder={t('admin.imageUrl', 'Image URL')}
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
             className="w-64"
           />
           <Button type="button" size="sm" onClick={addImage}>
-            {t.admin.addImage}
+            {t('admin.addImage', 'Add Image')}
           </Button>
         </div>
 
         <div className="flex items-center gap-2">
           <YoutubeIcon className="h-4 w-4" />
           <Input
-            placeholder={t.admin.youtubeUrl}
+            placeholder={t('admin.youtubeUrl', 'YouTube URL')}
             value={youtubeUrl}
             onChange={(e) => setYoutubeUrl(e.target.value)}
             className="w-64"
           />
           <Button type="button" size="sm" onClick={addYoutube}>
-            {t.admin.addVideo}
+            {t('admin.addVideo', 'Add Video')}
           </Button>
         </div>
       </div>

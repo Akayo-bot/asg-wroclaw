@@ -31,7 +31,7 @@ const PasswordChangeForm = () => {
     
     if (formData.newPassword !== formData.confirmPassword) {
       toast({
-        title: t.errors.passwordMismatch || 'Password Mismatch',
+        title: t('errors.passwordMismatch', 'Password Mismatch'),
         description: 'New passwords do not match',
         variant: 'destructive'
       });
@@ -40,7 +40,7 @@ const PasswordChangeForm = () => {
 
     if (formData.newPassword.length < 6) {
       toast({
-        title: t.errors.passwordTooShort || 'Password Too Short', 
+        title: t('errors.passwordTooShort', 'Password Too Short'), 
         description: 'Password must be at least 6 characters long',
         variant: 'destructive'
       });
@@ -59,7 +59,7 @@ const PasswordChangeForm = () => {
       }
 
       toast({
-        title: t.profile.passwordChanged || 'Password Changed',
+        title: t('profile.passwordChanged', 'Password Changed'),
         description: 'Your password has been updated successfully',
       });
 
@@ -75,7 +75,7 @@ const PasswordChangeForm = () => {
     } catch (error: any) {
       console.error('Password change error:', error);
       toast({
-        title: t.errors.passwordChangeError || 'Password Change Error',
+        title: t('errors.passwordChangeError', 'Password Change Error'),
         description: error.message || 'Failed to change password',
         variant: 'destructive'
       });
@@ -107,17 +107,17 @@ const PasswordChangeForm = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Lock className="w-5 h-5" />
-            {t.profile.changePassword || 'Change Password'}
+            {t('profile.changePassword', 'Change Password')}
           </CardTitle>
           <CardDescription>
-            {t.profile.changePasswordDescription || 'Update your account password'}
+            {t('profile.changePasswordDescription', 'Update your account password')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="newPassword">
-                {t.profile.newPassword || 'New Password'}
+                {t('profile.newPassword', 'New Password')}
               </Label>
               <Input
                 id="newPassword"
@@ -132,7 +132,7 @@ const PasswordChangeForm = () => {
 
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">
-                {t.profile.confirmPassword || 'Confirm New Password'}
+                {t('profile.confirmPassword', 'Confirm New Password')}
               </Label>
               <Input
                 id="confirmPassword"
@@ -167,7 +167,7 @@ const PasswordChangeForm = () => {
                 disabled={isLoading || !formData.newPassword || !formData.confirmPassword}
                 className="flex-1"
               >
-                {isLoading ? 'Changing...' : (t.profile.changePassword || 'Change Password')}
+                {isLoading ? 'Changing...' : t('profile.changePassword', 'Change Password')}
               </Button>
             </div>
           </form>

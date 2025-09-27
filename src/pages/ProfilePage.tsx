@@ -15,7 +15,6 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import PasswordChangeForm from '@/components/auth/PasswordChangeForm';
 import { User, Settings, Heart, Trophy, Calendar, Bell } from 'lucide-react';
-import { languages } from '@/data/translations';
 
 export default function ProfilePage() {
   const { profile, updateProfile } = useAuth();
@@ -29,8 +28,9 @@ export default function ProfilePage() {
   const [formData, setFormData] = useState({
     display_name: profile?.display_name || '',
     bio: profile?.bio || '',
-    preferred_language: profile?.preferred_language || 'uk',
-    notifications_enabled: profile?.notifications_enabled ?? true
+    avatar_url: profile?.avatar_url || '',
+    preferred_language: profile?.preferred_language || language,
+    notifications_enabled: profile?.notifications_enabled ?? true,
   });
 
   useEffect(() => {
@@ -38,313 +38,351 @@ export default function ProfilePage() {
       setFormData({
         display_name: profile.display_name || '',
         bio: profile.bio || '',
-        preferred_language: profile.preferred_language,
-        notifications_enabled: profile.notifications_enabled
+        avatar_url: profile.avatar_url || '',
+        preferred_language: profile.preferred_language || language,
+        notifications_enabled: profile.notifications_enabled ?? true,
       });
-      
-      fetchUserData();
     }
-  }, [profile]);
+  }, [profile, language]);
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const fetchUserData = async () => {
-    if (!profile) return;
+    if (!profile?.id) return;
 
-    // Fetch favorites
-    const { data: favoritesData } = await supabase
-      .from('user_favorites')
-      .select('*')
-      .eq('user_id', profile.user_id);
+    try {
+      // Fetch favorites
+      const { data: favData } = await supabase
+        .from('user_favorites')
+        .select('*')
+        .eq('user_id', profile.id);
+      setFavorites(favData || []);
 
-    setFavorites(favoritesData || []);
+      // Fetch test results
+      const { data: testData } = await supabase
+        .from('user_test_results')
+        .select('*')
+        .eq('user_id', profile.id);
+      setTestResults(testData || []);
 
-    // Fetch test results
-    const { data: testResultsData } = await supabase
-      .from('user_test_results')
-      .select('*')
-      .eq('user_id', profile.user_id)
-      .order('completed_at', { ascending: false });
-
-    setTestResults(testResultsData || []);
-
-    // Fetch game registrations
-    const { data: gameHistoryData } = await supabase
-      .from('event_registrations')
-      .select('*')
-      .eq('user_id', profile.user_id)
-      .order('created_at', { ascending: false });
-
-    setGameHistory(gameHistoryData || []);
+      // Fetch game history (placeholder - would need events registration data)
+      setGameHistory([]);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
   };
 
-  const handleUpdateProfile = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true);
-    
+
     try {
-      const { error } = await updateProfile(formData);
-      
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          display_name: formData.display_name,
+          bio: formData.bio,
+          avatar_url: formData.avatar_url,
+          preferred_language: formData.preferred_language,
+          notifications_enabled: formData.notifications_enabled,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('user_id', profile?.user_id);
+
       if (error) throw error;
 
       // Update language context if changed
-      if (formData.preferred_language !== currentLanguage) {
+      if (formData.preferred_language !== language) {
         setLanguage(formData.preferred_language as any);
       }
 
       toast({
-        title: t.common.success,
-        description: t.profile.updateSuccess
+        title: t('common.success', 'Success'),
+        description: t('profile.updateSuccess', 'Profile updated successfully')
       });
+
+      // Refresh profile data
+      window.location.reload();
     } catch (error: any) {
+      console.error('Error updating profile:', error);
       toast({
-        title: t.common.error,
-        description: error.message || t.profile.updateError,
+        title: t('common.error', 'Error'),
+        description: error.message || t('profile.updateError', 'Failed to update profile'),
         variant: 'destructive'
       });
-    } finally {
-      setLoading(false);
     }
-  };
 
-  const getRoleColor = (role: string) => {
-    switch (role) {
-      case 'admin': return 'bg-red-500';
-      case 'editor': return 'bg-blue-500';
-      default: return 'bg-green-500';
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'approved': return 'bg-green-500';
-      case 'pending': return 'bg-yellow-500';
-      case 'rejected': return 'bg-red-500';
-      case 'cancelled': return 'bg-gray-500';
-      default: return 'bg-gray-500';
-    }
+    setLoading(false);
   };
 
   if (!profile) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <Card>
-          <CardContent className="text-center py-8">
-            <p className="text-muted-foreground">{t.profile.notLoggedIn}</p>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p>{t('common.loading', 'Loading...')}</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="space-y-6">
-        {/* Profile Header */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center space-x-4">
-              <Avatar className="h-20 w-20">
-                <AvatarImage src={profile.avatar_url || ''} alt={profile.display_name || ''} />
-                <AvatarFallback className="text-lg">
-                  {profile.display_name?.charAt(0).toUpperCase() || 'U'}
-                </AvatarFallback>
-              </Avatar>
-              <div className="space-y-1">
-                <h1 className="text-2xl font-bold">{profile.display_name}</h1>
-                <Badge className={getRoleColor(profile.role)}>
-                  {t.profile.roles[profile.role]}
-                </Badge>
-                <p className="text-sm text-muted-foreground">
-                  {t.profile.memberSince}: {new Date(profile.created_at).toLocaleDateString()}
-                </p>
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 py-12">
+      <div className="container mx-auto px-4 max-w-4xl">
+        <div className="text-center mb-8">
+          <h1 className="font-rajdhani text-3xl font-bold mb-2">
+            {t('profile.title', 'Profile Settings')}
+          </h1>
+          <p className="text-muted-foreground">
+            {t('profile.subtitle', 'Manage your account settings and preferences')}
+          </p>
+        </div>
 
-        <Tabs defaultValue="info" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="info" className="flex items-center gap-2">
-              <User className="h-4 w-4" />
-              {t.profile.tabs.info}
+        <Tabs defaultValue="profile" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="profile" className="flex items-center gap-2">
+              <User className="w-4 h-4" />
+              {t('profile.tabs.profile', 'Profile')}
+            </TabsTrigger>
+            <TabsTrigger value="preferences" className="flex items-center gap-2">
+              <Settings className="w-4 h-4" />
+              {t('profile.tabs.preferences', 'Preferences')}
+            </TabsTrigger>
+            <TabsTrigger value="activity" className="flex items-center gap-2">
+              <Trophy className="w-4 h-4" />
+              {t('profile.tabs.activity', 'Activity')}
             </TabsTrigger>
             <TabsTrigger value="security" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              {t.profile.tabs.security}
-            </TabsTrigger>
-            <TabsTrigger value="favorites" className="flex items-center gap-2">
-              <Heart className="h-4 w-4" />
-              {t.profile.tabs.favorites}
-            </TabsTrigger>
-            <TabsTrigger value="tests" className="flex items-center gap-2">
-              <Trophy className="h-4 w-4" />
-              {t.profile.tabs.tests}
-            </TabsTrigger>
-            <TabsTrigger value="games" className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              {t.profile.tabs.games}
+              <Settings className="w-4 h-4" />
+              {t('profile.tabs.security', 'Security')}
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="info" className="space-y-4">
-            <Card>
+          <TabsContent value="profile">
+            <Card className="glass-panel">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Settings className="h-5 w-5" />
-                  {t.profile.settings}
+                  <User className="w-5 h-5" />
+                  {t('profile.personalInfo', 'Personal Information')}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="displayName">{t.profile.displayName}</Label>
-                    <Input
-                      id="displayName"
-                      value={formData.display_name}
-                      onChange={(e) => setFormData(prev => ({ ...prev, display_name: e.target.value }))}
-                      placeholder={t.profile.displayNamePlaceholder}
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="flex items-center space-x-6">
+                    <Avatar className="w-20 h-20">
+                      <AvatarImage src={formData.avatar_url} alt={t('profile.avatar', 'Avatar')} />
+                      <AvatarFallback className="text-lg">
+                        {formData.display_name?.charAt(0) || profile.display_name?.charAt(0) || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <Label htmlFor="avatar_url">{t('profile.avatarUrl', 'Avatar URL')}</Label>
+                      <Input
+                        id="avatar_url"
+                        value={formData.avatar_url}
+                        onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
+                        placeholder={t('profile.avatarPlaceholder', 'Enter avatar URL')}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="display_name">{t('profile.displayName', 'Display Name')}</Label>
+                      <Input
+                        id="display_name"
+                        value={formData.display_name}
+                        onChange={(e) => setFormData({ ...formData, display_name: e.target.value })}
+                        placeholder={t('profile.displayNamePlaceholder', 'Enter your display name')}
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="email">{t('profile.email', 'Email')}</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={profile.user_id}
+                        disabled
+                        className="bg-muted"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="bio">{t('profile.bio', 'Bio')}</Label>
+                    <Textarea
+                      id="bio"
+                      value={formData.bio}
+                      onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                      placeholder={t('profile.bioPlaceholder', 'Tell us about yourself')}
+                      rows={4}
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="language">{t.profile.language}</Label>
-                    <Select
-                      value={formData.preferred_language}
-                      onValueChange={(value) => setFormData(prev => ({ ...prev, preferred_language: value }))}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {languages.map((lang) => (
-                          <SelectItem key={lang.code} value={lang.code}>
-                            {lang.flag} {lang.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
+                  <Button type="submit" disabled={loading} className="w-full">
+                    {loading ? t('common.loading', 'Loading...') : t('profile.saveChanges', 'Save Changes')}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-                <div className="space-y-2">
-                  <Label htmlFor="bio">{t.profile.bio}</Label>
-                  <Textarea
-                    id="bio"
-                    value={formData.bio}
-                    onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
-                    placeholder={t.profile.bioPlaceholder}
-                    rows={4}
-                  />
+          <TabsContent value="preferences">
+            <Card className="glass-panel">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="w-5 h-5" />
+                  {t('profile.preferences', 'Preferences')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>{t('profile.language', 'Language')}</Label>
+                    <p className="text-sm text-muted-foreground">
+                      {t('profile.languageDescription', 'Choose your preferred language')}
+                    </p>
+                  </div>
+                  <Select
+                    value={formData.preferred_language}
+                    onValueChange={(value) => setFormData({ ...formData, preferred_language: value })}
+                  >
+                    <SelectTrigger className="w-48">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="uk">🇺🇦 Українська</SelectItem>
+                      <SelectItem value="ru">🇷🇺 Русский</SelectItem>
+                      <SelectItem value="pl">🇵🇱 Polski</SelectItem>
+                      <SelectItem value="en">🇺🇸 English</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label className="flex items-center gap-2">
                       <Bell className="h-4 w-4" />
-                      {t.profile.notifications}
+                      {t('profile.notifications', 'Notifications')}
                     </Label>
                     <p className="text-sm text-muted-foreground">
-                      {t.profile.notificationsDescription}
+                      {t('profile.notificationsDescription', 'Receive notifications about events and updates')}
                     </p>
                   </div>
                   <Switch
                     checked={formData.notifications_enabled}
-                    onCheckedChange={(checked) => setFormData(prev => ({ ...prev, notifications_enabled: checked }))}
+                    onCheckedChange={(checked) => setFormData({ ...formData, notifications_enabled: checked })}
                   />
                 </div>
 
-                <Button onClick={handleUpdateProfile} disabled={loading} className="w-full">
-                  {loading ? t.common.loading : t.profile.updateProfile}
+                <Button onClick={handleSubmit} disabled={loading} className="w-full">
+                  {loading ? t('common.loading', 'Loading...') : t('profile.savePreferences', 'Save Preferences')}
                 </Button>
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="security" className="space-y-4">
-            <PasswordChangeForm />
+          <TabsContent value="activity">
+            <div className="grid gap-6">
+              <Card className="glass-panel">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Heart className="w-5 h-5" />
+                    {t('profile.favorites', 'Favorites')} 
+                    <Badge variant="secondary">{favorites.length}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {favorites.length === 0 ? (
+                    <p className="text-muted-foreground text-center py-8">
+                      {t('profile.noFavorites', 'No favorites yet')}
+                    </p>
+                  ) : (
+                    <div className="space-y-2">
+                      {favorites.slice(0, 5).map((fav, index) => (
+                        <div key={index} className="p-3 bg-muted/50 rounded-lg">
+                          <div className="font-medium">{fav.entity_type}</div>
+                          <div className="text-sm text-muted-foreground">{fav.entity_id}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              <Card className="glass-panel">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Trophy className="w-5 h-5" />
+                    {t('profile.testResults', 'Test Results')}
+                    <Badge variant="secondary">{testResults.length}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {testResults.length === 0 ? (
+                    <p className="text-muted-foreground text-center py-8">
+                      {t('profile.noTestResults', 'No test results yet')}
+                    </p>
+                  ) : (
+                    <div className="space-y-2">
+                      {testResults.slice(0, 5).map((result, index) => (
+                        <div key={index} className="p-3 bg-muted/50 rounded-lg flex justify-between">
+                          <div>
+                            <div className="font-medium">{result.test_id}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {new Date(result.completed_at).toLocaleDateString()}
+                            </div>
+                          </div>
+                          <Badge variant={result.score >= 80 ? 'default' : 'secondary'}>
+                            {result.score}%
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
-          <TabsContent value="favorites" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>{t.profile.favoriteItems}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {favorites.length > 0 ? (
-                  <div className="space-y-2">
-                    {favorites.map((favorite) => (
-                      <div key={favorite.id} className="flex items-center justify-between p-3 border rounded-lg">
-                        <div>
-                          <p className="font-medium">{favorite.entity_type}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {new Date(favorite.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <Badge>{favorite.entity_type}</Badge>
+          <TabsContent value="security">
+            <div className="space-y-6">
+              <PasswordChangeForm />
+              
+              <Card className="glass-panel">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Settings className="w-5 h-5" />
+                    {t('profile.accountInfo', 'Account Information')}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label>{t('profile.memberSince', 'Member since')}</Label>
+                      <div className="text-sm text-muted-foreground">
+                        {new Date(profile.created_at).toLocaleDateString()}
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground text-center py-8">{t.profile.noFavorites}</p>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="tests" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>{t.profile.testResults}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {testResults.length > 0 ? (
-                  <div className="space-y-2">
-                    {testResults.map((result) => (
-                      <div key={result.id} className="flex items-center justify-between p-3 border rounded-lg">
-                        <div>
-                          <p className="font-medium">{result.test_id}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {new Date(result.completed_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <Badge variant="secondary">
-                          {t.profile.score}: {result.score || 0}
-                        </Badge>
+                    </div>
+                    <div>
+                      <Label>{t('profile.lastUpdate', 'Last updated')}</Label>
+                      <div className="text-sm text-muted-foreground">
+                        {new Date(profile.updated_at).toLocaleDateString()}
                       </div>
-                    ))}
+                    </div>
                   </div>
-                ) : (
-                  <p className="text-muted-foreground text-center py-8">{t.profile.noTestResults}</p>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="games" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>{t.profile.gameHistory}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {gameHistory.length > 0 ? (
-                  <div className="space-y-2">
-                    {gameHistory.map((registration) => (
-                      <div key={registration.id} className="flex items-center justify-between p-3 border rounded-lg">
-                        <div>
-                          <p className="font-medium">{registration.event_id}</p>
-                          <p className="text-sm text-muted-foregroup">
-                            {new Date(registration.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <Badge className={getStatusColor(registration.status)}>
-                          {t.profile.statuses[registration.status]}
-                        </Badge>
-                      </div>
-                    ))}
+                  <div>
+                    <Label>{t('profile.role', 'Role')}</Label>
+                    <Badge variant="outline" className="ml-2">
+                      {profile.role}
+                    </Badge>
                   </div>
-                ) : (
-                  <p className="text-muted-foreground text-center py-8">{t.profile.noGameHistory}</p>
-                )}
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

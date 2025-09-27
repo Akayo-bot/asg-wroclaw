@@ -12,10 +12,10 @@ const AboutPage = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="font-rajdhani text-4xl md:text-5xl font-bold mb-4">
-              {t.pages.about.title}
+              {t('pages.about.title', 'About Us')}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t.pages.about.subtitle}
+              {t('pages.about.subtitle', 'Learn more about our team')}
             </p>
           </div>
 
@@ -24,7 +24,7 @@ const AboutPage = () => {
               <CardContent className="p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <Target className="w-8 h-8 text-primary" />
-                  <h2 className="font-rajdhani text-2xl font-bold">{t.pages.about.mission}</h2>
+                  <h2 className="font-rajdhani text-2xl font-bold">{t('pages.about.mission', 'Mission')}</h2>
                 </div>
                 <p className="text-muted-foreground leading-relaxed">
                   Raven Strike Force - это профессиональная команда страйкболистов, 
@@ -39,7 +39,7 @@ const AboutPage = () => {
               <CardContent className="p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <Shield className="w-8 h-8 text-primary" />
-                  <h2 className="font-rajdhani text-2xl font-bold">{t.pages.about.history}</h2>
+                  <h2 className="font-rajdhani text-2xl font-bold">{t('pages.about.history', 'History')}</h2>
                 </div>
                 <p className="text-muted-foreground leading-relaxed">
                   Команда была основана группой энтузиастов с военным опытом. 
@@ -55,7 +55,7 @@ const AboutPage = () => {
               <CardContent className="p-8">
                 <div className="flex items-center justify-center gap-3 mb-6">
                   <Trophy className="w-8 h-8 text-primary" />
-                  <h2 className="font-rajdhani text-2xl font-bold">{t.pages.about.goals}</h2>
+                  <h2 className="font-rajdhani text-2xl font-bold">{t('pages.about.goals', 'Goals')}</h2>
                 </div>
                 <div className="grid md:grid-cols-3 gap-6 text-center">
                   <div>

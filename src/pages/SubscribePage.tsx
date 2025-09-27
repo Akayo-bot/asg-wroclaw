@@ -15,10 +15,10 @@ const SubscribePage = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="font-rajdhani text-4xl md:text-5xl font-bold mb-4">
-              {t.pages.subscribe.title}
+              {t('pages.subscribe.title', 'Subscribe')}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t.pages.subscribe.subtitle}
+              {t('pages.subscribe.subtitle', 'Stay updated with our latest news')}
             </p>
           </div>
 
@@ -27,21 +27,21 @@ const SubscribePage = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Bell className="w-5 h-5 text-primary" />
-                  Подписка на новости
+                  {t('pages.subscribe.newsletter', 'Newsletter Subscription')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label htmlFor="email">{t.pages.subscribe.email}</Label>
+                  <Label htmlFor="email">{t('pages.subscribe.email', 'Email')}</Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="your.email@example.com"
+                    placeholder={t('pages.subscribe.emailPlaceholder', 'Enter your email')}
                     className="cursor-tactical"
                   />
                 </div>
                 <Button className="w-full cursor-tactical">
-                  {t.pages.subscribe.submit}
+                  {t('pages.subscribe.button', 'Subscribe')}
                 </Button>
               </CardContent>
             </Card>

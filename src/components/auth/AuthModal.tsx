@@ -24,8 +24,8 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    displayName: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    displayName: ''
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,21 +38,21 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         if (error) throw error;
         
         toast({
-          title: t.auth.success,
-          description: t.auth.loginSuccess
+          title: t('auth.success', 'Success'),
+          description: t('auth.loginSuccess', 'Successfully logged in')
         });
         onClose();
       } else if (activeTab === 'register') {
         if (formData.password !== formData.confirmPassword) {
-          throw new Error(t.auth.passwordMismatch);
+          throw new Error(t('auth.passwordMismatch', 'Passwords do not match'));
         }
         
         const { error } = await signUp(formData.email, formData.password, formData.displayName);
         if (error) throw error;
         
         toast({
-          title: t.auth.success,
-          description: t.auth.registerSuccess
+          title: t('auth.success', 'Success'),
+          description: t('auth.registerSuccess', 'Registration successful! Please check your email.')
         });
         onClose();
       } else if (activeTab === 'reset') {
@@ -60,45 +60,38 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         if (error) throw error;
         
         toast({
-          title: t.auth.success,
-          description: t.auth.resetPasswordSuccess
+          title: t('common.success', 'Success'),
+          description: t('auth.resetEmailSent', 'Password reset email sent!')
         });
+        onClose();
       }
     } catch (error: any) {
+      console.error('Auth error:', error);
       toast({
-        title: t.common.error,
-        description: error.message || t.auth.error,
+        title: t('common.error', 'Error'),
+        description: error.message || t('auth.genericError', 'Authentication failed'),
         variant: 'destructive'
       });
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   const handleGoogleSignIn = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const { error } = await signInWithGoogle();
       if (error) throw error;
       onClose();
     } catch (error: any) {
+      console.error('Google sign in error:', error);
       toast({
-        title: t.common.error,
-        description: error.message || t.auth.error,
+        title: t('common.error', 'Error'),
+        description: error.message || t('auth.googleError', 'Google sign in failed'),
         variant: 'destructive'
       });
-    } finally {
-      setLoading(false);
     }
-  };
-
-  const resetForm = () => {
-    setFormData({
-      email: '',
-      password: '',
-      displayName: '',
-      confirmPassword: ''
-    });
+    setLoading(false);
   };
 
   return (
@@ -106,178 +99,164 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-center">
-            {activeTab === 'login' ? t.auth.login : 
-             activeTab === 'register' ? t.auth.register : 
-             t.auth.resetPassword}
+            {activeTab === 'login' && t('auth.signIn', 'Sign In')}
+            {activeTab === 'register' && t('auth.signUp', 'Sign Up')}
+            {activeTab === 'reset' && t('auth.resetPassword', 'Reset Password')}
           </DialogTitle>
         </DialogHeader>
 
-        <Tabs value={activeTab} onValueChange={(value) => {
-          setActiveTab(value);
-          resetForm();
-        }}>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="login">{t.auth.login}</TabsTrigger>
-            <TabsTrigger value="register">{t.auth.register}</TabsTrigger>
-            <TabsTrigger value="reset">{t.auth.resetPassword}</TabsTrigger>
+            <TabsTrigger value="login">{t('auth.signIn', 'Sign In')}</TabsTrigger>
+            <TabsTrigger value="register">{t('auth.signUp', 'Sign Up')}</TabsTrigger>
+            <TabsTrigger value="reset">{t('auth.reset', 'Reset')}</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="login" className="space-y-4">
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+            <TabsContent value="login" className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">{t.auth.email}</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder={t.auth.emailPlaceholder}
-                    value={formData.email}
-                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                    className="pl-10"
-                    required
-                  />
-                </div>
+                <Label htmlFor="email" className="flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  {t('auth.email', 'Email')}
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  placeholder={t('auth.emailPlaceholder', 'Enter your email')}
+                  required
+                />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">{t.auth.password}</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder={t.auth.passwordPlaceholder}
-                    value={formData.password}
-                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                    className="pl-10"
-                    required
-                  />
-                </div>
+                <Label htmlFor="password" className="flex items-center gap-2">
+                  <Lock className="w-4 h-4" />
+                  {t('auth.password', 'Password')}
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  placeholder={t('auth.passwordPlaceholder', 'Enter your password')}
+                  required
+                />
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? t.common.loading : t.auth.login}
+                {loading ? t('common.loading', 'Loading...') : t('auth.signIn', 'Sign In')}
               </Button>
-            </form>
+            </TabsContent>
 
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
+            <TabsContent value="register" className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="displayName" className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  {t('auth.displayName', 'Display Name')}
+                </Label>
+                <Input
+                  id="displayName"
+                  type="text"
+                  value={formData.displayName}
+                  onChange={(e) => setFormData({...formData, displayName: e.target.value})}
+                  placeholder={t('auth.displayNamePlaceholder', 'Enter your name')}
+                />
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">{t.auth.or}</span>
+
+              <div className="space-y-2">
+                <Label htmlFor="registerEmail" className="flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  {t('auth.email', 'Email')}
+                </Label>
+                <Input
+                  id="registerEmail"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  placeholder={t('auth.emailPlaceholder', 'Enter your email')}
+                  required
+                />
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="registerPassword" className="flex items-center gap-2">
+                  <Lock className="w-4 h-4" />
+                  {t('auth.password', 'Password')}
+                </Label>
+                <Input
+                  id="registerPassword"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  placeholder={t('auth.passwordPlaceholder', 'Enter your password')}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword" className="flex items-center gap-2">
+                  <Lock className="w-4 h-4" />
+                  {t('auth.confirmPassword', 'Confirm Password')}
+                </Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                  placeholder={t('auth.confirmPasswordPlaceholder', 'Confirm your password')}
+                  required
+                />
+              </div>
+
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? t('common.loading', 'Loading...') : t('auth.signUp', 'Sign Up')}
+              </Button>
+            </TabsContent>
+
+            <TabsContent value="reset" className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="resetEmail" className="flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  {t('auth.email', 'Email')}
+                </Label>
+                <Input
+                  id="resetEmail"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  placeholder={t('auth.emailPlaceholder', 'Enter your email')}
+                  required
+                />
+              </div>
+
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? t('common.loading', 'Loading...') : t('auth.sendResetEmail', 'Send Reset Email')}
+              </Button>
+            </TabsContent>
+          </form>
+
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
             </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                {t('auth.orContinueWith', 'Or continue with')}
+              </span>
+            </div>
+          </div>
 
-            <Button 
-              variant="outline" 
-              className="w-full" 
-              onClick={handleGoogleSignIn}
-              disabled={loading}
-            >
-              <Chrome className="mr-2 h-4 w-4" />
-              {t.auth.googleLogin}
-            </Button>
-          </TabsContent>
-
-          <TabsContent value="register" className="space-y-4">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="displayName">{t.auth.displayName}</Label>
-                <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="displayName"
-                    type="text"
-                    placeholder={t.auth.displayNamePlaceholder}
-                    value={formData.displayName}
-                    onChange={(e) => setFormData(prev => ({ ...prev, displayName: e.target.value }))}
-                    className="pl-10"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="registerEmail">{t.auth.email}</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="registerEmail"
-                    type="email"
-                    placeholder={t.auth.emailPlaceholder}
-                    value={formData.email}
-                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                    className="pl-10"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="registerPassword">{t.auth.password}</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="registerPassword"
-                    type="password"
-                    placeholder={t.auth.passwordPlaceholder}
-                    value={formData.password}
-                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                    className="pl-10"
-                    minLength={6}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">{t.auth.confirmPassword}</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    placeholder={t.auth.confirmPasswordPlaceholder}
-                    value={formData.confirmPassword}
-                    onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                    className="pl-10"
-                    minLength={6}
-                    required
-                  />
-                </div>
-              </div>
-
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? t.common.loading : t.auth.register}
-              </Button>
-            </form>
-          </TabsContent>
-
-          <TabsContent value="reset" className="space-y-4">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="resetEmail">{t.auth.email}</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="resetEmail"
-                    type="email"
-                    placeholder={t.auth.emailPlaceholder}
-                    value={formData.email}
-                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                    className="pl-10"
-                    required
-                  />
-                </div>
-              </div>
-
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? t.common.loading : t.auth.resetPassword}
-              </Button>
-            </form>
-          </TabsContent>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+          >
+            <Chrome className="w-4 h-4 mr-2" />
+            {t('auth.googleSignIn', 'Continue with Google')}
+          </Button>
         </Tabs>
       </DialogContent>
     </Dialog>
