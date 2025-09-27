@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useTranslation, useLanguage } from '@/contexts/LanguageContext';
+import { useI18n } from '@/contexts/I18nContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -9,8 +9,7 @@ import { Link } from 'react-router-dom';
 
 const DebugAuthPage = () => {
   const { user, profile, session, loading } = useAuth();
-  const t = useTranslation();
-  const { currentLanguage } = useLanguage();
+  const { t, language } = useI18n();
 
   // Show only in development
   if (process.env.NODE_ENV === 'production') {
@@ -168,7 +167,14 @@ const DebugAuthPage = () => {
             <CardContent className="space-y-3">
               <div>
                 <strong>Current Language:</strong>{' '}
-                <Badge variant="secondary">{currentLanguage}</Badge>
+                <Badge variant="secondary">{language}</Badge>
+              </div>
+              <div>
+                <strong>Language Source:</strong>{' '}
+                <Badge variant="outline">
+                  {localStorage.getItem('preferredLanguage') ? 'localStorage' : 
+                   profile?.preferred_language ? 'profile' : 'default'}
+                </Badge>
               </div>
               <div>
                 <strong>Preferred Language:</strong>{' '}

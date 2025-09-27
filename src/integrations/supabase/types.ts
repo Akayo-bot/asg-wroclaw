@@ -282,15 +282,11 @@ export type Database = {
           default_language: string | null
           favicon_url: string | null
           id: string
-          logo_dark_url: string | null
-          logo_light_url: string | null
+          logo_url: string | null
           og_image_url: string | null
           primary_color: string | null
           site_name: string
-          tagline_en: string | null
-          tagline_pl: string | null
-          tagline_ru: string | null
-          tagline_uk: string | null
+          tagline_base: string | null
           updated_at: string | null
         }
         Insert: {
@@ -299,15 +295,11 @@ export type Database = {
           default_language?: string | null
           favicon_url?: string | null
           id?: string
-          logo_dark_url?: string | null
-          logo_light_url?: string | null
+          logo_url?: string | null
           og_image_url?: string | null
           primary_color?: string | null
           site_name?: string
-          tagline_en?: string | null
-          tagline_pl?: string | null
-          tagline_ru?: string | null
-          tagline_uk?: string | null
+          tagline_base?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -316,15 +308,11 @@ export type Database = {
           default_language?: string | null
           favicon_url?: string | null
           id?: string
-          logo_dark_url?: string | null
-          logo_light_url?: string | null
+          logo_url?: string | null
           og_image_url?: string | null
           primary_color?: string | null
           site_name?: string
-          tagline_en?: string | null
-          tagline_pl?: string | null
-          tagline_ru?: string | null
-          tagline_uk?: string | null
+          tagline_base?: string | null
           updated_at?: string | null
         }
         Relationships: []

@@ -4,12 +4,8 @@ import { supabase } from '@/integrations/supabase/client';
 interface SiteSettings {
   id: string;
   site_name: string;
-  tagline_uk: string;
-  tagline_ru: string;
-  tagline_pl: string;
-  tagline_en: string;
-  logo_light_url?: string;
-  logo_dark_url?: string;
+  tagline_base: string;
+  logo_url?: string;
   favicon_url?: string;
   og_image_url?: string;
   primary_color: string;

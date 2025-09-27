@@ -48,7 +48,7 @@ const Header = () => {
                 {settings?.site_name || 'RAVEN STRIKE FORCE'}
               </h1>
               <p className="text-xs text-muted-foreground font-inter tracking-wider">
-                {t('site.tagline', 'Страйкбол Вроцлав').toUpperCase()}
+                {t('brand.tagline', settings?.tagline_base || 'Airsoft is more than a game').toUpperCase()}
               </p>
             </div>
           </Link>

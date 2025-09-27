@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,12 +25,8 @@ const BrandingManager = () => {
       const formData = new FormData(e.currentTarget);
       const updates = {
         site_name: formData.get('site_name') as string,
-        tagline_uk: formData.get('tagline_uk') as string,
-        tagline_ru: formData.get('tagline_ru') as string,
-        tagline_pl: formData.get('tagline_pl') as string,
-        tagline_en: formData.get('tagline_en') as string,
-        logo_light_url: formData.get('logo_light_url') as string,
-        logo_dark_url: formData.get('logo_dark_url') as string,
+        tagline_base: formData.get('tagline_base') as string,
+        logo_url: formData.get('logo_url') as string,
         favicon_url: formData.get('favicon_url') as string,
         og_image_url: formData.get('og_image_url') as string,
         primary_color: formData.get('primary_color') as string,
@@ -95,43 +92,18 @@ const BrandingManager = () => {
               />
             </div>
             
-            <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <Label htmlFor="tagline_uk">{t('admin.branding.tagline_uk', 'Tagline (Ukrainian)')}</Label>
-                <Textarea
-                  id="tagline_uk"
-                  name="tagline_uk"
-                  defaultValue={settings.tagline_uk}
-                  placeholder="Страйкбол — це більше, ніж гра"
-                />
-              </div>
-              <div>
-                <Label htmlFor="tagline_ru">{t('admin.branding.tagline_ru', 'Tagline (Russian)')}</Label>
-                <Textarea
-                  id="tagline_ru"
-                  name="tagline_ru"
-                  defaultValue={settings.tagline_ru}
-                  placeholder="Страйкбол — это больше, чем игра"
-                />
-              </div>
-              <div>
-                <Label htmlFor="tagline_pl">{t('admin.branding.tagline_pl', 'Tagline (Polish)')}</Label>
-                <Textarea
-                  id="tagline_pl"
-                  name="tagline_pl"
-                  defaultValue={settings.tagline_pl}
-                  placeholder="Airsoft to coś więcej niż gra"
-                />
-              </div>
-              <div>
-                <Label htmlFor="tagline_en">{t('admin.branding.tagline_en', 'Tagline (English)')}</Label>
-                <Textarea
-                  id="tagline_en"
-                  name="tagline_en"
-                  defaultValue={settings.tagline_en}
-                  placeholder="Airsoft is more than a game"
-                />
-              </div>
+            <div>
+              <Label htmlFor="tagline_base">{t('admin.branding.tagline_base', 'Base Tagline')}</Label>
+              <Textarea
+                id="tagline_base"
+                name="tagline_base"
+                defaultValue={settings.tagline_base}
+                placeholder="Airsoft is more than a game"
+                className="mt-1"
+              />
+              <p className="text-sm text-muted-foreground mt-1">
+                {t('admin.branding.tagline_help', 'Base tagline text. Translations are managed in the')} <Link to="/admin/translations" className="underline text-primary">{t('admin.branding.translations_link', 'Translations Manager')}</Link>.
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -148,41 +120,40 @@ const BrandingManager = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-4">
               <div>
-                <Label htmlFor="logo_light_url">{t('admin.branding.logo_light', 'Light Logo URL')}</Label>
+                <Label htmlFor="logo_url">{t('admin.branding.logo_url', 'Logo URL')}</Label>
                 <Input
-                  id="logo_light_url"
-                  name="logo_light_url"
-                  defaultValue={settings.logo_light_url || ''}
-                  placeholder="https://example.com/logo-light.png"
+                  id="logo_url"
+                  name="logo_url"
+                  type="url"
+                  defaultValue={settings.logo_url || ''}
+                  placeholder="https://example.com/logo.png"
+                  className="mt-1"
                 />
               </div>
+              
               <div>
-                <Label htmlFor="logo_dark_url">{t('admin.branding.logo_dark', 'Dark Logo URL')}</Label>
-                <Input
-                  id="logo_dark_url"
-                  name="logo_dark_url"
-                  defaultValue={settings.logo_dark_url || ''}
-                  placeholder="https://example.com/logo-dark.png"
-                />
-              </div>
-              <div>
-                <Label htmlFor="favicon_url">{t('admin.branding.favicon', 'Favicon URL')}</Label>
+                <Label htmlFor="favicon_url">{t('admin.branding.favicon_url', 'Favicon URL')}</Label>
                 <Input
                   id="favicon_url"
                   name="favicon_url"
+                  type="url"
                   defaultValue={settings.favicon_url || ''}
                   placeholder="https://example.com/favicon.ico"
+                  className="mt-1"
                 />
               </div>
+              
               <div>
-                <Label htmlFor="og_image_url">{t('admin.branding.og_image', 'Social Media Image URL')}</Label>
+                <Label htmlFor="og_image_url">{t('admin.branding.og_image_url', 'Social Media Image URL')}</Label>
                 <Input
                   id="og_image_url"
                   name="og_image_url"
+                  type="url"
                   defaultValue={settings.og_image_url || ''}
-                  placeholder="https://example.com/og-image.png"
+                  placeholder="https://example.com/og-image.jpg"
+                  className="mt-1"
                 />
               </div>
             </div>
