@@ -33,14 +33,14 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrandingProvider>
-      <AuthProvider>
-        <I18nProvider>
-          <LanguageProvider>
-            <TooltipProvider>
-              <SEOHead />
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
+        <AuthProvider>
+          <I18nProvider>
+            <LanguageProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                  <SEOHead />
                 <Routes>
                   <Route
                     path="/*"
