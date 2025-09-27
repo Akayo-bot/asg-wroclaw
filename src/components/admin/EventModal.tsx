@@ -9,20 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  Calendar, 
-  Clock, 
-  Users, 
-  Coins, 
-  Settings, 
-  Image as ImageIcon, 
-  MapPin, 
-  FileText,
-  Globe2,
-  AlertTriangle,
-  CheckCircle,
-  X
-} from 'lucide-react';
+import { Calendar, Clock, Users, Coins, Settings, Image as ImageIcon, MapPin, FileText, Globe as Globe2, TriangleAlert as AlertTriangle, CircleCheck as CheckCircle, X } from 'lucide-react';
 
 interface EventForm {
   title_uk: string;

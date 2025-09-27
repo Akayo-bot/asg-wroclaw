@@ -3,17 +3,7 @@ import { Outlet, Link, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useI18n } from '@/contexts/I18nContext';
 import { Sidebar, SidebarContent, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
-import { 
-  LayoutDashboard, 
-  FileText, 
-  Images, 
-  Calendar, 
-  Users, 
-  UserCog, 
-  BarChart3,
-  Settings,
-  LogOut
-} from 'lucide-react';
+import { LayoutDashboard, FileText, Images, Calendar, Users, UserCog, ChartBar as BarChart3, Settings, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useEffect } from 'react';

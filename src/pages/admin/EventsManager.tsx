@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Edit, Trash2, Calendar, MapPin, Users, Coins, Search } from 'lucide-react';
+import { Plus, CreditCard as Edit, Trash2, Calendar, MapPin, Users, Coins, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Tables } from '@/integrations/supabase/types';
 import { formatCurrency, formatPlayerLimits } from '@/lib/formatters';
@@ -358,84 +358,7 @@ const EventsManager = () => {
   };
 
   const handleModalSubmit = async (data: EventForm) => {
-    setLoading(true);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      const eventData = {
-        title_uk: data.title_uk,
-        title_ru: data.title_ru,
-        title_pl: data.title_pl,
-        title_en: data.title_en,
-        description_uk: data.description_uk,
-        description_ru: data.description_ru,
-        description_pl: data.description_pl,
-        description_en: data.description_en,
-        location_uk: data.location_uk,
-        location_ru: data.location_ru,
-        location_pl: data.location_pl,
-        location_en: data.location_en,
-        rules_uk: data.rules_uk,
-        rules_ru: data.rules_ru,
-        rules_pl: data.rules_pl,
-        rules_en: data.rules_en,
-        scenario_uk: data.scenario_uk,
-        scenario_ru: data.scenario_ru,
-        scenario_pl: data.scenario_pl,
-        scenario_en: data.scenario_en,
-        start_datetime: data.start_datetime ? new Date(data.start_datetime).toISOString() : null,
-        registration_deadline: data.registration_deadline ? new Date(data.registration_deadline).toISOString() : null,
-        price_amount: data.price_amount ? parseFloat(data.price_amount) : null,
-        price_currency: data.price_currency,
-        min_players: data.min_players ? parseInt(data.min_players) : null,
-        max_players: data.max_players ? parseInt(data.max_players) : null,
-        limit_mode: data.limit_mode,
-        status: data.status as 'upcoming' | 'registration_open' | 'registration_closed' | 'completed' | 'cancelled',
-        status_registration: data.status_registration,
-        created_by: user?.id || '',
-        main_image_url: data.main_image_url || null,
-        cover_url: data.cover_url || null,
-        map_url: data.map_url || null,
-        event_date: data.start_datetime ? new Date(data.start_datetime).toISOString() : new Date().toISOString(),
-      };
-
-      if (editingEvent) {
-        const { error } = await supabase
-          .from('events')
-          .update(eventData)
-          .eq('id', editingEvent.id);
-        
-        if (error) throw error;
-        
-        toast({
-          title: t('common.success', 'Success'),
-          description: t('events.updated', 'Event updated successfully'),
-        });
-      } else {
-        const { error } = await supabase
-          .from('events')
-          .insert([eventData]);
-        
-        if (error) throw error;
-        
-        toast({
-          title: t('common.success', 'Success'),
-          description: t('events.created', 'Event created successfully'),
-        });
-      }
-      
-      resetForm();
-      fetchEvents();
-    } catch (error) {
-      console.error('Error saving event:', error);
-      toast({
-        title: t('common.error', 'Error'),
-        description: t('events.save_error', 'Failed to save event'),
-        variant: 'destructive',
-      });
-    } finally {
-      setLoading(false);
-    }
+    await handleSubmit({ preventDefault: () => {} } as React.FormEvent);
   };
 
   if (loading && events.length === 0) {
