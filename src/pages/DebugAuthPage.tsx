@@ -1,15 +1,117 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useI18n } from '@/contexts/I18nContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle, User, Shield, Globe, Database } from 'lucide-react';
+import { AlertTriangle, User, Shield, Globe, Database, RefreshCw, RotateCw, Crown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { hasAdminAccess, getRoleDisplayName, getRoleBadgeVariant } from '@/utils/auth';
+import { useToast } from '@/hooks/use-toast';
 
 const DebugAuthPage = () => {
-  const { user, profile, session, loading } = useAuth();
+  const { 
+    user, 
+    profile, 
+    session, 
+    loading, 
+    jwtRole, 
+    dbRole, 
+    rolesSynced, 
+    hasAdminAccess: hasAdminAccessValue,
+    refreshRole,
+    syncRoleToJWT,
+    ensureSuperadmin
+  } = useAuth();
   const { t, language } = useI18n();
+  const { toast } = useToast();
+  const [refreshing, setRefreshing] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [promoting, setPromoting] = useState(false);
+
+  const handleRefreshRole = async () => {
+    setRefreshing(true);
+    try {
+      await refreshRole();
+      toast({
+        title: "Success",
+        description: "Role refreshed from database"
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  const handleSyncRole = async () => {
+    setSyncing(true);
+    try {
+      const { error } = await syncRoleToJWT();
+      if (error) throw error;
+      
+      toast({
+        title: "Success",
+        description: "Role synchronized to JWT token"
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
+      setSyncing(false);
+    }
+  };
+
+  const handleEnsureSuperadmin = async () => {
+    setPromoting(true);
+    try {
+      const { error } = await ensureSuperadmin();
+      if (error) throw error;
+      
+      toast({
+        title: "Success",
+        description: "Emergency superadmin check completed"
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
+      setPromoting(false);
+    }
+  };
+
+  // Calculate admin access reasons
+  const getAdminAccessReason = () => {
+    if (!user) return "No user session";
+    if (!profile) return "No profile found";
+    if (!profile.role) return "No role assigned";
+    if (!hasAdminAccess(profile.role)) return `Role '${profile.role}' has no admin access`;
+    return "Access granted via role";
+  };
+
+  const getProfileIdStatus = () => {
+    if (!user || !profile) return { status: 'unknown', message: 'Missing data' };
+    if (user.id === profile.id && user.id === profile.user_id) {
+      return { status: 'synced', message: 'IDs are synchronized' };
+    }
+    return { status: 'error', message: 'ID mismatch detected' };
+  };
+
+  const getRoleSyncStatus = () => {
+    if (!jwtRole && !dbRole) return { status: 'none', message: 'No roles found' };
+    if (jwtRole === dbRole) return { status: 'synced', message: 'Roles are synchronized' };
+    return { status: 'out-of-sync', message: `JWT: ${jwtRole || 'none'}, DB: ${dbRole || 'none'}` };
+  };
 
   // Show only in development
   if (process.env.NODE_ENV === 'production') {
@@ -88,14 +190,21 @@ const DebugAuthPage = () => {
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <strong>Role:</strong>{' '}
-                <Badge 
-                  variant={
-                    profile?.role === 'admin' ? 'destructive' :
-                    profile?.role === 'editor' ? 'secondary' : 'outline'
-                  }
-                >
-                  {profile?.role || 'No role'}
+                <strong>DB Role:</strong>{' '}
+                <Badge variant={getRoleBadgeVariant(dbRole)}>
+                  {getRoleDisplayName(dbRole) || 'No role'}
+                </Badge>
+              </div>
+              <div>
+                <strong>JWT Role:</strong>{' '}
+                <Badge variant={getRoleBadgeVariant(jwtRole)}>
+                  {getRoleDisplayName(jwtRole) || 'No role'}
+                </Badge>
+              </div>
+              <div>
+                <strong>Role Sync:</strong>{' '}
+                <Badge variant={rolesSynced ? 'default' : 'destructive'}>
+                  {rolesSynced ? 'Synchronized' : 'Out of sync'}
                 </Badge>
               </div>
               <div>
@@ -105,18 +214,25 @@ const DebugAuthPage = () => {
                 </code>
               </div>
               <div>
-                <strong>Notifications:</strong>{' '}
-                {profile?.notifications_enabled?.toString() || 'Not set'}
+                <strong>User ID:</strong>{' '}
+                <code className="text-xs bg-muted p-1 rounded">
+                  {user?.id || 'null'}
+                </code>
               </div>
-              <div>
-                <strong>Admin Access:</strong>{' '}
-                <Badge variant={
-                  profile?.role === 'admin' || profile?.role === 'editor' 
-                    ? 'default' : 'destructive'
-                }>
-                  {profile?.role === 'admin' || profile?.role === 'editor' 
-                    ? 'Allowed' : 'Denied'}
+              <div className="flex items-center gap-2">
+                <strong>ID Status:</strong>
+                <Badge variant={getProfileIdStatus().status === 'synced' ? 'default' : 'destructive'}>
+                  {getProfileIdStatus().message}
                 </Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <strong>Admin Access:</strong>
+                <Badge variant={hasAdminAccessValue ? 'default' : 'destructive'}>
+                  {hasAdminAccessValue ? 'Granted' : 'Denied'}
+                </Badge>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                <strong>Reason:</strong> {getAdminAccessReason()}
               </div>
             </CardContent>
           </Card>
@@ -196,10 +312,57 @@ const DebugAuthPage = () => {
           </Card>
         </div>
 
-        {/* Actions */}
+        {/* Role Management Actions */}
         <Card>
           <CardHeader>
-            <CardTitle>Debug Actions</CardTitle>
+            <CardTitle>Role Management</CardTitle>
+            <CardDescription>Development tools for role synchronization</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex gap-3 flex-wrap">
+              <Button 
+                onClick={handleRefreshRole} 
+                disabled={refreshing}
+                variant="outline"
+                size="sm"
+              >
+                <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+                Refresh Role from DB
+              </Button>
+              
+              <Button 
+                onClick={handleSyncRole} 
+                disabled={syncing || rolesSynced}
+                variant="outline"
+                size="sm"
+              >
+                <RotateCw className={`w-4 h-4 mr-2 ${syncing ? 'animate-spin' : ''}`} />
+                Sync Role to JWT
+              </Button>
+              
+              <Button 
+                onClick={handleEnsureSuperadmin} 
+                disabled={promoting}
+                variant="destructive"
+                size="sm"
+              >
+                <Crown className={`w-4 h-4 mr-2 ${promoting ? 'animate-spin' : ''}`} />
+                Emergency SuperAdmin
+              </Button>
+            </div>
+            
+            <div className="text-xs text-muted-foreground">
+              <p><strong>Refresh Role:</strong> Re-fetch profile data from database</p>
+              <p><strong>Sync Role:</strong> Update JWT token with database role</p>
+              <p><strong>Emergency SuperAdmin:</strong> Promote current user if no superadmin exists</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Navigation Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Navigation</CardTitle>
           </CardHeader>
           <CardContent className="flex gap-3 flex-wrap">
             <Button asChild variant="outline">

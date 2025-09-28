@@ -303,9 +303,7 @@ export const translations: Record<Language, Translations> = {
       adminAccessRequired: 'Admin access required',
       passwordMismatch: 'Passwords do not match',
       passwordTooShort: 'Password too short',
-      passwordChangeError: 'Error changing password',
-      superadminProtected: 'SuperAdmin role is protected',
-      lastSuperadmin: 'Cannot remove the last SuperAdmin'
+      passwordChangeError: 'Error changing password'
     }
   },
   uk: {
@@ -610,9 +608,7 @@ export const translations: Record<Language, Translations> = {
       adminAccessRequired: 'Потрібен доступ адміністратора або редактора',
       passwordMismatch: 'Паролі не співпадають',
       passwordTooShort: 'Пароль занадто короткий',
-      passwordChangeError: 'Помилка зміни пароля',
-      superadminProtected: 'Роль SuperAdmin захищена',
-      lastSuperadmin: 'Неможливо видалити останнього SuperAdmin'
+      passwordChangeError: 'Помилка зміни пароля'
     }
   },
   ru: {
@@ -917,9 +913,7 @@ export const translations: Record<Language, Translations> = {
       adminAccessRequired: 'Требуется доступ администратора или редактора',
       passwordMismatch: 'Пароли не совпадают',
       passwordTooShort: 'Пароль слишком короткий',
-      passwordChangeError: 'Ошибка изменения пароля',
-      superadminProtected: 'Роль SuperAdmin защищена',
-      lastSuperadmin: 'Нельзя удалить последнего SuperAdmin'
+      passwordChangeError: 'Ошибка изменения пароля'
     }
   },
   pl: {
@@ -1224,9 +1218,7 @@ export const translations: Record<Language, Translations> = {
       adminAccessRequired: 'Wymagany dostęp administratora lub redaktora',
       passwordMismatch: 'Hasła nie pasują',
       passwordTooShort: 'Hasło jest za krótkie',
-      passwordChangeError: 'Błąd zmiany hasła',
-      superadminProtected: 'Rola SuperAdmin jest chroniona',
-      lastSuperadmin: 'Nie można usunąć ostatniego SuperAdmin'
+      passwordChangeError: 'Błąd zmiany hasła'
     }
   }
 };

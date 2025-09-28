@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { hasAdminAccess, hasRole } from '@/utils/auth';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -29,8 +30,16 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to={`/login?returnUrl=${returnUrl}`} replace />;
   }
 
-  if (allowedRoles && profile && !allowedRoles.includes(profile.role)) {
-    return <Navigate to="/" replace />;
+  if (allowedRoles && profile) {
+    const userRole = profile.role;
+    const hasRequiredRole = allowedRoles.some(role => {
+      if (role === 'admin') return hasAdminAccess(userRole);
+      return hasRole(userRole, role);
+    });
+    
+    if (!hasRequiredRole) {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return <>{children}</>;

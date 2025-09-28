@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Target, User, LogOut } from 'lucide-react';
+import { Menu, X, Target, User, LogOut, Crown } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useI18n } from '@/contexts/I18nContext';
