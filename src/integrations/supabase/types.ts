@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           author_id: string
           category: Database["public"]["Enums"]["article_category"]
+          content: Json | null
           content_en: string | null
           content_pl: string
           content_ru: string
@@ -25,6 +26,7 @@ export type Database = {
           created_at: string
           id: string
           main_image_url: string | null
+          preview: string | null
           preview_en: string | null
           preview_pl: string
           preview_ru: string
@@ -38,6 +40,7 @@ export type Database = {
           seo_title_ru: string | null
           seo_title_uk: string | null
           status: Database["public"]["Enums"]["article_status"]
+          title: string | null
           title_en: string | null
           title_pl: string
           title_ru: string
@@ -48,6 +51,7 @@ export type Database = {
         Insert: {
           author_id: string
           category: Database["public"]["Enums"]["article_category"]
+          content?: Json | null
           content_en?: string | null
           content_pl: string
           content_ru: string
@@ -55,6 +59,7 @@ export type Database = {
           created_at?: string
           id?: string
           main_image_url?: string | null
+          preview?: string | null
           preview_en?: string | null
           preview_pl: string
           preview_ru: string
@@ -68,6 +73,7 @@ export type Database = {
           seo_title_ru?: string | null
           seo_title_uk?: string | null
           status?: Database["public"]["Enums"]["article_status"]
+          title?: string | null
           title_en?: string | null
           title_pl: string
           title_ru: string
@@ -78,6 +84,7 @@ export type Database = {
         Update: {
           author_id?: string
           category?: Database["public"]["Enums"]["article_category"]
+          content?: Json | null
           content_en?: string | null
           content_pl?: string
           content_ru?: string
@@ -85,6 +92,7 @@ export type Database = {
           created_at?: string
           id?: string
           main_image_url?: string | null
+          preview?: string | null
           preview_en?: string | null
           preview_pl?: string
           preview_ru?: string
@@ -98,6 +106,7 @@ export type Database = {
           seo_title_ru?: string | null
           seo_title_uk?: string | null
           status?: Database["public"]["Enums"]["article_status"]
+          title?: string | null
           title_en?: string | null
           title_pl?: string
           title_ru?: string
@@ -270,6 +279,7 @@ export type Database = {
           description_pl: string | null
           description_ru: string | null
           description_uk: string | null
+          display_order: number | null
           file_type: string
           file_url: string
           id: string
@@ -288,6 +298,7 @@ export type Database = {
           description_pl?: string | null
           description_ru?: string | null
           description_uk?: string | null
+          display_order?: number | null
           file_type: string
           file_url: string
           id?: string
@@ -306,6 +317,7 @@ export type Database = {
           description_pl?: string | null
           description_ru?: string | null
           description_uk?: string | null
+          display_order?: number | null
           file_type?: string
           file_url?: string
           id?: string
@@ -356,6 +368,36 @@ export type Database = {
           role?: Database["public"]["Enums"]["user_role"] | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      role_changes: {
+        Row: {
+          changed_by: string
+          created_at: string
+          id: string
+          new_role: Database["public"]["Enums"]["user_role"]
+          old_role: Database["public"]["Enums"]["user_role"] | null
+          reason: string | null
+          target_user_id: string
+        }
+        Insert: {
+          changed_by: string
+          created_at?: string
+          id?: string
+          new_role: Database["public"]["Enums"]["user_role"]
+          old_role?: Database["public"]["Enums"]["user_role"] | null
+          reason?: string | null
+          target_user_id: string
+        }
+        Update: {
+          changed_by?: string
+          created_at?: string
+          id?: string
+          new_role?: Database["public"]["Enums"]["user_role"]
+          old_role?: Database["public"]["Enums"]["user_role"] | null
+          reason?: string | null
+          target_user_id?: string
         }
         Relationships: []
       }
@@ -618,6 +660,14 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      ensure_superadmin_exists: {
+        Args: { emergency_email?: string }
+        Returns: Json
+      }
+      fix_profile_ids: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       get_admin_stats: {
         Args: Record<PropertyKey, never>
         Returns: Json
@@ -628,6 +678,22 @@ export type Database = {
       }
       get_site_settings: {
         Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      has_admin_access: {
+        Args: { role_name?: string }
+        Returns: boolean
+      }
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      reorder_team_members: {
+        Args: { p_ids: string[]; p_orders: number[] }
+        Returns: undefined
+      }
+      sync_role_to_jwt: {
+        Args: { target_user_id?: string }
         Returns: Json
       }
       sync_user_profile: {
