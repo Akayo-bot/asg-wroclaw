@@ -29,6 +29,7 @@ import RoleManager from '@/pages/admin/RoleManager';
 import BrandingManager from '@/pages/admin/BrandingManager';
 import TranslationsManager from '@/pages/admin/TranslationsManager';
 import AuthPage from "./pages/AuthPage";
+import CreativeAuthPage from "./pages/CreativeAuthPage";
 import DebugAuthPage from "./pages/DebugAuthPage";
 import NotFound from "./pages/NotFound";
 
@@ -66,7 +67,8 @@ const App = () => (
                             } 
                           />
                           <Route path="/login" element={<AuthPage />} />
-                          <Route path="/auth" element={<AuthPage />} />
+                          <Route path="/auth" element={<CreativeAuthPage />} />
+                          <Route path="/auth/simple" element={<AuthPage />} />
                           <Route path="/debug/auth" element={<DebugAuthPage />} />
                           
                           {/* Admin Routes */}
