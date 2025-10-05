@@ -7,33 +7,41 @@ export interface MascotBehavior {
   message: string;
   duration?: number;
   confetti?: boolean;
+  shake?: boolean;
+  speechPosition?: 'bottom-left' | 'bottom-center';
 }
 
 export const mascotBehaviors: Record<MascotState, MascotBehavior> = {
   idle: {
     animation: '/lottie/idle.json',
-    message: "Ready when you are! 🎯",
-    duration: Infinity
+    message: "Готовий, коли ви готові! 🎯",
+    duration: Infinity,
+    speechPosition: 'bottom-left'
   },
   typing: {
     animation: '/lottie/typing.json',
-    message: "Looking tactical! 💪",
-    duration: Infinity
+    message: "Виглядає тактично! 💪",
+    duration: Infinity,
+    speechPosition: 'bottom-left'
   },
   success: {
     animation: '/lottie/success.json',
-    message: "Mission accomplished! 🎖️",
+    message: "Місія виконана! 🎖️",
     duration: 3000,
-    confetti: true
+    confetti: true,
+    speechPosition: 'bottom-center'
   },
   error: {
     animation: '/lottie/error.json',
-    message: "Mission failed, let's try again 🤔",
-    duration: 3000
+    message: "Помилка, але ми прикриємо вас! 🛡️",
+    duration: 3000,
+    shake: true,
+    speechPosition: 'bottom-center'
   },
   thinking: {
     animation: '/lottie/typing.json',
-    message: "Processing... ⚙️",
-    duration: Infinity
+    message: "Обробка даних... ⚙️",
+    duration: Infinity,
+    speechPosition: 'bottom-left'
   }
 };

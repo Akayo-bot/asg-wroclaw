@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, RefObject } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock } from 'lucide-react';
 import { FormField } from './FormField';
@@ -7,16 +7,22 @@ import { validators } from '@/lib/validate';
 import { buttonHover, buttonTap, fadeInUp } from '@/lib/authAnimations';
 
 interface LoginFormProps {
-  onSubmit: (email: string, password: string, rememberMe: boolean) => void;
-  onGoogleSignIn: () => void;
+  onSubmit: (email: string, password: string, rememberMe: boolean) => Promise<void>;
+  onGoogleSignIn: () => Promise<void>;
+  onForgotPassword: () => void;
+  onFieldFocus?: (ref: RefObject<HTMLInputElement>) => void;
   isLoading?: boolean;
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({ 
   onSubmit, 
   onGoogleSignIn,
+  onForgotPassword,
+  onFieldFocus,
   isLoading = false 
 }) => {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -35,7 +41,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     setErrors({ ...errors, [field]: error });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     const emailError = validateField('email', email);
@@ -47,7 +53,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       return;
     }
 
-    onSubmit(email, password, rememberMe);
+    await onSubmit(email, password, rememberMe);
   };
 
   return (
@@ -62,6 +68,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         placeholder="operator@tactical.squad"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        onFocus={() => onFieldFocus?.(emailRef)}
         onBlur={() => handleBlur('email')}
         error={touched.email ? errors.email : undefined}
         isValid={touched.email && !errors.email && email.length > 0}
@@ -75,6 +82,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         placeholder="Enter your password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onFocus={() => onFieldFocus?.(passwordRef)}
         onBlur={() => handleBlur('password')}
         error={touched.password ? errors.password : undefined}
         showPasswordToggle
@@ -95,15 +103,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({
               cursor-pointer disabled:opacity-50
             "
           />
-          <span className="text-sm text-foreground/80">Remember me</span>
+          <span className="text-sm text-foreground/80">Запам'ятати мене</span>
         </label>
 
         <button
           type="button"
+          onClick={onForgotPassword}
           className="text-sm text-primary hover:text-primary/80 transition-colors"
           disabled={isLoading}
         >
-          Forgot password?
+          Забули пароль?
         </button>
       </div>
 
@@ -124,17 +133,17 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         {isLoading ? (
           <span className="flex items-center justify-center gap-2">
             <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-            Authenticating...
+            Перевірка...
           </span>
         ) : (
-          'Deploy Mission'
+          'ПОЧАТИ МІСІЮ'
         )}
       </motion.button>
 
       <ProviderButtons onGoogleSignIn={onGoogleSignIn} disabled={isLoading} />
 
       <p className="text-center text-sm text-muted-foreground">
-        Protected by tactical-grade encryption 🔒
+        Тактичне шифрування 🔒
       </p>
     </motion.form>
   );

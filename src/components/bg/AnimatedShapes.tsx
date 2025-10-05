@@ -1,37 +1,90 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { blobFloat } from '@/lib/authAnimations';
 
 export const AnimatedShapes: React.FC = () => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
 
-  const shapes = [
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion || isMobile) return;
+
+    let rafId: number;
+    const handleMouseMove = (e: MouseEvent) => {
+      rafId = requestAnimationFrame(() => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 15;
+        const y = (e.clientY / window.innerHeight - 0.5) * 15;
+        setMousePos({ x, y });
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(rafId);
+    };
+  }, [prefersReducedMotion, isMobile]);
+
+  const blobs = [
     {
-      className: 'w-96 h-96 bg-gradient-to-br from-primary/20 to-primary/10',
+      src: '/assets/auth/blob1.svg',
       style: { top: '10%', left: '10%' },
-      delay: 0
+      parallaxStrength: 1.2,
+      rotation: 2
     },
     {
-      className: 'w-72 h-72 bg-gradient-to-br from-accent/15 to-accent/5',
+      src: '/assets/auth/blob2.svg',
       style: { top: '60%', left: '20%' },
-      delay: 2
+      parallaxStrength: 0.8,
+      rotation: -3
     },
     {
-      className: 'w-80 h-80 bg-gradient-to-br from-primary/10 to-destructive/10',
+      src: '/assets/auth/blob3.svg',
       style: { top: '30%', right: '15%' },
-      delay: 4
+      parallaxStrength: 1,
+      rotation: 1.5
     }
   ];
 
+  const visibleBlobs = isMobile ? [blobs[0]] : blobs;
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {shapes.map((shape, index) => (
+      {visibleBlobs.map((blob, index) => (
         <motion.div
           key={index}
-          className={`absolute rounded-full blur-3xl ${shape.className}`}
-          style={shape.style}
-          animate={prefersReducedMotion ? {} : blobFloat(shape.delay)}
-        />
+          className="absolute w-96 h-96"
+          style={{
+            ...blob.style,
+            opacity: isMobile ? 0.3 : 0.6
+          }}
+          animate={prefersReducedMotion || isMobile ? {} : {
+            x: -mousePos.x * blob.parallaxStrength,
+            y: -mousePos.y * blob.parallaxStrength,
+            rotate: [0, blob.rotation, 0],
+            scale: [1, 1.05, 1]
+          }}
+          transition={{
+            x: { type: 'spring', stiffness: 50, damping: 20 },
+            y: { type: 'spring', stiffness: 50, damping: 20 },
+            rotate: { duration: 20, repeat: Infinity, ease: 'linear' },
+            scale: { duration: 15, repeat: Infinity, ease: 'easeInOut' }
+          }}
+        >
+          <img 
+            src={blob.src} 
+            alt="" 
+            className="w-full h-full object-contain"
+            loading="lazy"
+          />
+        </motion.div>
       ))}
       
       {/* Noise texture overlay */}

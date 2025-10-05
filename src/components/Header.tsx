@@ -138,7 +138,7 @@ const Header = () => {
               </DropdownMenu>
             ) : (
               <Button asChild size="sm">
-                <Link to="/login">{t('auth.login', 'Login')}</Link>
+                <Link to="/auth">{t('auth.login', 'Login')}</Link>
               </Button>
             )}
           </div>
@@ -217,7 +217,7 @@ const Header = () => {
                       size="sm"
                       className="w-full"
                     >
-                      <Link to="/login">{t('auth.login', 'Login')}</Link>
+                      <Link to="/auth">{t('auth.login', 'Login')}</Link>
                     </Button>
                 )}
               </div>

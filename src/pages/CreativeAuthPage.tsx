@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, RefObject } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { Mascot } from '@/components/mascot/Mascot';
 import { AnimatedShapes } from '@/components/bg/AnimatedShapes';
 import { AuthCard } from '@/components/auth/creative/AuthCard';
@@ -18,6 +19,7 @@ const CreativeAuthPage = () => {
 
   const [mascotState, setMascotState] = useState<MascotState>('idle');
   const [isAuthLoading, setIsAuthLoading] = useState(false);
+  const [activeFocusRef, setActiveFocusRef] = useState<RefObject<HTMLInputElement> | null>(null);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -129,6 +131,46 @@ const CreativeAuthPage = () => {
     }
   };
 
+  const handlePasswordReset = async (email: string) => {
+    setIsAuthLoading(true);
+    setMascotState('thinking');
+
+    await new Promise(resolve => setTimeout(resolve, 600));
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + '/auth?type=recovery'
+      });
+      
+      if (error) throw error;
+
+      setMascotState('success');
+      toast({
+        title: 'Перевірте пошту! 📧',
+        description: 'Посилання для скидання пароля надіслано',
+      });
+
+      setTimeout(() => setMascotState('idle'), 3000);
+    } catch (err: any) {
+      setMascotState('error');
+      toast({
+        title: 'Помилка скидання',
+        description: err.message || 'Спробуйте ще раз',
+        variant: 'destructive',
+      });
+      setTimeout(() => setMascotState('idle'), 3000);
+    } finally {
+      setIsAuthLoading(false);
+    }
+  };
+
+  const handleFieldFocus = (ref: RefObject<HTMLInputElement>) => {
+    setActiveFocusRef(ref);
+    if (mascotState === 'idle') {
+      setMascotState('typing');
+    }
+  };
+
   const handleInputChange = () => {
     if (mascotState === 'idle') {
       setMascotState('typing');
@@ -168,19 +210,27 @@ const CreativeAuthPage = () => {
           {...fadeInUp}
           className="hidden lg:flex lg:w-3/5 items-center justify-center p-8"
         >
-          <Mascot state={mascotState} showEyes={mascotState === 'idle'} />
+          <Mascot 
+            state={mascotState} 
+            showEyes={true} 
+            focusAnchor={activeFocusRef}
+          />
         </motion.div>
 
         {/* Right Side - Auth Form */}
-        <div className="flex-1 flex items-center justify-center p-6 lg:p-8">
+        <div className="flex-1 flex items-center justify-center p-6 lg:p-8 lg:w-2/5">
           <div className="w-full max-w-md">
-            {/* Mobile Mascot */}
+            {/* Mobile Mascot - Stacked on top */}
             <motion.div 
               {...fadeInUp}
-              className="lg:hidden mb-8 flex justify-center"
+              className="lg:hidden mb-8 h-[40vh] flex justify-center items-center"
             >
               <div className="scale-75">
-                <Mascot state={mascotState} showEyes={false} />
+                <Mascot 
+                  state={mascotState} 
+                  showEyes={true} 
+                  focusAnchor={activeFocusRef}
+                />
               </div>
             </motion.div>
 
@@ -189,6 +239,8 @@ const CreativeAuthPage = () => {
               onLogin={handleLogin}
               onRegister={handleRegister}
               onGoogleSignIn={handleGoogleSignIn}
+              onPasswordReset={handlePasswordReset}
+              onFieldFocus={handleFieldFocus}
               isLoading={isAuthLoading}
             />
 

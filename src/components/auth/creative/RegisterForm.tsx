@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, RefObject } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User } from 'lucide-react';
 import { FormField } from './FormField';
@@ -7,16 +7,21 @@ import { validators } from '@/lib/validate';
 import { buttonHover, buttonTap, fadeInUp } from '@/lib/authAnimations';
 
 interface RegisterFormProps {
-  onSubmit: (name: string, email: string, password: string) => void;
-  onGoogleSignIn: () => void;
+  onSubmit: (name: string, email: string, password: string) => Promise<void>;
+  onGoogleSignIn: () => Promise<void>;
+  onFieldFocus?: (ref: RefObject<HTMLInputElement>) => void;
   isLoading?: boolean;
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ 
   onSubmit, 
   onGoogleSignIn,
+  onFieldFocus,
   isLoading = false 
 }) => {
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -55,7 +60,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
     setErrors({ ...errors, [field]: error });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     const nameError = validateField('name', name);
@@ -77,7 +82,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       return;
     }
 
-    onSubmit(name, email, password);
+    await onSubmit(name, email, password);
   };
 
   return (
@@ -87,11 +92,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       className="space-y-5"
     >
       <FormField
-        label="Full Name"
+        label="Повне ім'я"
         type="text"
-        placeholder="John Tactical"
+        placeholder="Олександр Тактичний"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        onFocus={() => onFieldFocus?.(nameRef)}
         onBlur={() => handleBlur('name')}
         error={touched.name ? errors.name : undefined}
         isValid={touched.name && !errors.name && name.length > 0}
@@ -105,6 +111,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         placeholder="operator@tactical.squad"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        onFocus={() => onFieldFocus?.(emailRef)}
         onBlur={() => handleBlur('email')}
         error={touched.email ? errors.email : undefined}
         isValid={touched.email && !errors.email && email.length > 0}
@@ -113,11 +120,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       />
 
       <FormField
-        label="Password"
+        label="Пароль"
         type="password"
-        placeholder="Create a strong password"
+        placeholder="Створіть надійний пароль"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onFocus={() => onFieldFocus?.(passwordRef)}
         onBlur={() => handleBlur('password')}
         error={touched.password ? errors.password : undefined}
         showPasswordToggle
@@ -126,9 +134,9 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       />
 
       <FormField
-        label="Confirm Password"
+        label="Підтвердження пароля"
         type="password"
-        placeholder="Confirm your password"
+        placeholder="Повторіть пароль"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
         onBlur={() => handleBlur('confirmPassword')}
@@ -157,13 +165,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             "
           />
           <span className="text-sm text-foreground/80">
-            I accept the{' '}
+            Я приймаю{' '}
             <button type="button" className="text-primary hover:text-primary/80 transition-colors">
-              Terms & Conditions
+              Умови використання
             </button>
-            {' '}and{' '}
+            {' '}та{' '}
             <button type="button" className="text-primary hover:text-primary/80 transition-colors">
-              Privacy Policy
+              Політику конфіденційності
             </button>
           </span>
         </label>
@@ -194,17 +202,17 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         {isLoading ? (
           <span className="flex items-center justify-center gap-2">
             <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-            Creating account...
+            Створення акаунту...
           </span>
         ) : (
-          'Join the Squad'
+          'ВСТУПИТИ В ЗАГІН'
         )}
       </motion.button>
 
       <ProviderButtons onGoogleSignIn={onGoogleSignIn} disabled={isLoading} />
 
       <p className="text-center text-sm text-muted-foreground">
-        Tactical-grade security guaranteed 🛡️
+        Тактична безпека гарантована 🛡️
       </p>
     </motion.form>
   );

@@ -4,6 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tactical breathing animation */
+@keyframes tactical-breathe {
+  0%, 100% { 
+    transform: scale(1) translateY(0); 
+  }
+  50% { 
+    transform: scale(1.02) translateY(-3px); 
+  }
+}
+
+.animate-breathe {
+  animation: tactical-breathe 4s ease-in-out infinite;
+}
+
 /* Military Editorial Minimalism 2026 Design System */
 
 @layer base {

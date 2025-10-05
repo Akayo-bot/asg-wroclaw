@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, RefObject } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Lottie from 'lottie-react';
 import confetti from 'canvas-confetti';
 import { MascotState, mascotBehaviors } from './mascotStates';
 import { FollowEyes } from './FollowEyes';
+import { SpeechBubble } from './SpeechBubble';
 import { fadeIn } from '@/lib/authAnimations';
 
 interface MascotProps {
   state: MascotState;
   className?: string;
   showEyes?: boolean;
+  focusAnchor?: RefObject<HTMLElement> | null;
 }
 
 export const Mascot: React.FC<MascotProps> = ({ 
   state, 
   className = '',
-  showEyes = true 
+  showEyes = true,
+  focusAnchor = null
 }) => {
   const [animationData, setAnimationData] = useState<any>(null);
   const [prevState, setPrevState] = useState<MascotState>(state);
@@ -70,10 +73,16 @@ export const Mascot: React.FC<MascotProps> = ({
       <motion.div
         key={state}
         initial={prefersReducedMotion ? {} : { scale: 0.9, opacity: 0 }}
-        animate={prefersReducedMotion ? {} : { scale: 1, opacity: 1 }}
+        animate={prefersReducedMotion ? {} : { 
+          scale: state === 'error' && behavior.shake ? [1, 1.05, 0.95, 1.05, 1] : 1, 
+          opacity: 1 
+        }}
         exit={prefersReducedMotion ? {} : { scale: 0.9, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        className="relative w-64 h-64 md:w-80 md:h-80"
+        transition={{ 
+          duration: state === 'error' ? 0.5 : 0.3,
+          times: state === 'error' ? [0, 0.25, 0.5, 0.75, 1] : undefined
+        }}
+        className={`relative w-64 h-64 md:w-80 md:h-80 ${state === 'idle' ? 'animate-breathe' : ''}`}
       >
         {animationData && (
           <Lottie
@@ -83,26 +92,25 @@ export const Mascot: React.FC<MascotProps> = ({
           />
         )}
         
-        {/* Follow Eyes Overlay */}
-        {showEyes && state === 'idle' && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <FollowEyes />
-          </div>
+        {/* Follow Eyes Overlay - Always visible */}
+        {showEyes && (
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <FollowEyes focusAnchor={focusAnchor} />
+          </motion.div>
         )}
       </motion.div>
 
-      {/* Message Bubble */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={behavior.message}
-          {...fadeIn}
-          className="mt-6 px-6 py-3 bg-card/80 backdrop-blur-sm border border-border rounded-lg max-w-xs"
-        >
-          <p className="text-center text-sm font-medium text-foreground">
-            {behavior.message}
-          </p>
-        </motion.div>
-      </AnimatePresence>
+      {/* Speech Bubble */}
+      <SpeechBubble 
+        message={behavior.message}
+        visible={true}
+        position={behavior.speechPosition || 'bottom-left'}
+      />
 
       {/* Glow Effect */}
       <div 
