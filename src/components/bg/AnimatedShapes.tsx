@@ -1,6 +1,4 @@
-
-
-export default function App() {
+export const AnimatedShapes = () => {
   return (
     <div className="min-h-screen bg-[#e5e5e5] flex items-center justify-center p-8">
       <div className="relative w-[400px] h-[300px]">
@@ -36,7 +34,7 @@ export default function App() {
           {/* Mouth */}
           <div className="absolute top-[55px] left-[62.5%] -translate-x-1/2">
             <svg width="35" height="10" viewBox="0 0 40 20">
-              <path d="M0 0 A20 20 0 0 0 40 0 Z" fill="black"/>
+              <path d="M0 0 A20 20 0 0 0 40 0 Z" fill="black" />
             </svg>
           </div>
         </div>
@@ -51,4 +49,4 @@ export default function App() {
       </div>
     </div>
   );
-}
+};
