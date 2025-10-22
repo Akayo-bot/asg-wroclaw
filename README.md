@@ -59,6 +59,23 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+- n8n (workflow automation)
+
+## n8n Workflow Automation
+
+This project includes n8n for workflow automation. To get started with n8n:
+
+```sh
+# Start n8n
+npm run n8n
+
+# Start n8n in development mode
+npm run n8n:dev
+```
+
+n8n will be available at http://localhost:5678
+
+For detailed n8n setup and usage instructions, see [N8N_README.md](./N8N_README.md).
 
 ## How can I deploy this project?
 
